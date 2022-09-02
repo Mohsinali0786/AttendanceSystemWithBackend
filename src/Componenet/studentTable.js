@@ -77,21 +77,24 @@ export default function StudentTable(props) {
         const CurrDate = mydate.getDate() + "-" + Month[(mydate.getMonth())] + "-" + mydate.getFullYear()
         const CurrTime = mydate.getHours() + ":" + mydate.getMinutes() + ":" + mydate.getSeconds()
 
-        if (C_Date !=== null) {
+        if (C_Date !== null) {
 
-            C_Date?.map((data) => {
-                console.log(data, "Map Running")
-                console.log('data.Email', data.Email)
+            C_Date?.map((mydata) => {
+                console.log(mydata, "Map Running")
+                console.log('data.Email', mydata.Email)
                 console.log('C_User.LoginUser.Email', C_User.LoginUser.Email)
-                if (data.Email !== C_User.LoginUser.Email) {
+                if (mydata.Email === C_User.LoginUser.Email) {
+                    if ((mydata.CurrDate !== CurrDate)) {
+                        
+
+                    }
+                }
+                else {
 
                     setAddDateClicked(true)
                     let CurrDay = mydate.getDay()
                     CurrDay = weekday[CurrDay]
-                    console.log(CurrDate, 'mydate.getDate()')
-                
-            })
-            setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail }])
+                    setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail }])
 
                     dispatch({
                         type: "ADDDATE",
@@ -102,61 +105,61 @@ export default function StudentTable(props) {
                     localStorage.setItem('Attedance', JSON.stringify(data))
                 }
 
-
+            })
         }
 
         else {
-        setAddDateClicked(true)
-        let CurrDay = mydate.getDay()
-        CurrDay = weekday[CurrDay]
-        setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail }])
+            setAddDateClicked(true)
+            let CurrDay = mydate.getDay()
+            CurrDay = weekday[CurrDay]
+            setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail }])
 
-        dispatch({
-            type: "ADDDATE",
-            payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present' }]
-        })
+            dispatch({
+                type: "ADDDATE",
+                payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present' }]
+            })
 
-        console.log('Data State======>=====++++', data)
-        localStorage.setItem('Attedance', JSON.stringify(data))
+            console.log('Data State======>=====++++', data)
+            localStorage.setItem('Attedance', JSON.stringify(data))
 
+        }
+
+        // }
     }
+    return (
+        <TableContainer component={Paper}>
 
-    // }
-}
-return (
-    <TableContainer component={Paper}>
-
-        <div className='addAttBtn-div'>
-            <Button onClick={() => { AddDate() }}>Add Attendance</Button>
-        </div>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-                <TableRow>
-                    <StyledTableCell align="center">Date</StyledTableCell>
-                    <StyledTableCell align="center">Time</StyledTableCell>
-                    <StyledTableCell align="center">Day</StyledTableCell>
-                    <StyledTableCell align="center">Status</StyledTableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {data.map((row, i) => {
-                    if (row.Email === props.UserEmail) {
-                        return (
-                            < StyledTableRow
-                                key={i}
-                            >
-                                <StyledTableCell align="center" component="th" scope="row">
-                                    {row.CurrDate}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">{row.CurrTime}</StyledTableCell>
-                                <StyledTableCell align="center">{row.CurrDay}</StyledTableCell>
-                                <StyledTableCell align="center">{row.Status}</StyledTableCell>
-                            </StyledTableRow>
-                        )
-                    }
-                })}
-            </TableBody>
-        </Table>
-    </TableContainer >
-);
+            <div className='addAttBtn-div'>
+                <Button onClick={() => { AddDate() }}>Add Attendance</Button>
+            </div>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                    <TableRow>
+                        <StyledTableCell align="center">Date</StyledTableCell>
+                        <StyledTableCell align="center">Time</StyledTableCell>
+                        <StyledTableCell align="center">Day</StyledTableCell>
+                        <StyledTableCell align="center">Status</StyledTableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {data.map((row, i) => {
+                        if (row.Email === props.UserEmail) {
+                            return (
+                                < StyledTableRow
+                                    key={i}
+                                >
+                                    <StyledTableCell align="center" component="th" scope="row">
+                                        {row.CurrDate}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">{row.CurrTime}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.CurrDay}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.Status}</StyledTableCell>
+                                </StyledTableRow>
+                            )
+                        }
+                    })}
+                </TableBody>
+            </Table>
+        </TableContainer >
+    );
 }
