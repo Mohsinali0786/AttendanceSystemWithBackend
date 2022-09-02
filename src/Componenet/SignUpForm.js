@@ -20,7 +20,7 @@ function SignUpForm() {
     const [Email, setEmail] = useState('')
     const [Password, setPassword] = useState('')
     let data = {
-        id: mylength + 1,
+        id: (mylength + 1) - 1,
         FirstName,
         LastName,
         Email,
@@ -31,15 +31,15 @@ function SignUpForm() {
     return (
         <div >
             <div>
-                <h1 style={{ textAlign: 'center', backgroundColor: 'green', color: 'white' }}>Attendance Management System</h1>
+                <h1 style={{ textAlign: 'center', backgroundColor: 'rgb(131 181 166)', color: 'white' }}>Attendance Management System</h1>
 
             </div>
             <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'row' }}>
 
 
                 <div className='SignUpForm-MainDiv'>
-                    <h1 >SignUp</h1>
-                    <h4>Please fill form to create account</h4>
+                    <h3>SignUp</h3>
+                    <hp>Please fill form to create account</hp>
                     <form className='signUpForm'>
                         <div className='UserIconDiv'>
                         </div>
@@ -52,10 +52,10 @@ function SignUpForm() {
 
                             </tr>
                             <tr>
-                                <td className='iconswithinputs'><EmailIcon className='icons' /><input name='Email' value={Email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' /></td>
+                                <td className='iconswithinputs'><EmailIcon className='icons' /><input name='Email' type='email' value={Email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' /></td>
                             </tr>
                             <tr>
-                                <td className='iconswithinputs'><LockOpenIcon className='icons' /><input name='Password' value={Password} onChange={(e) => setPassword(e.target.value)} placeholder='Passowrd' /></td>
+                                <td className='iconswithinputs'><LockOpenIcon className='icons' /><input name='Password' type='password' value={Password} onChange={(e) => setPassword(e.target.value)} placeholder='Passowrd' /></td>
                             </tr>
 
                             <tr>
@@ -64,7 +64,7 @@ function SignUpForm() {
                                 </td>
                             </tr>
                             <tr>
-                                <td colSpan={10}><h4>Already Have Account For Log-In ? <Link to='/'>Click Here</Link></h4></td>
+                                <td colSpan={10}><p>Already Have Account For Log-In ? <Link to='/'><b>Click Here</b></Link></p></td>
 
                             </tr>
 

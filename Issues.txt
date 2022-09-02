@@ -1,0 +1,5 @@
+1.Issue in StudentTable
+	
+	-On first time it not Add Attendance its add on 2nd click 
+	 (After Login)
+	-Data Send in LS one behind then our state

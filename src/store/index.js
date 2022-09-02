@@ -1,6 +1,14 @@
 import rootReducer from './reducers/index'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
-const store = createStore(rootReducer, applyMiddleware(thunk))
+import { composeWithDevTools } from '@redux-devtools/extension';
 
-export default store
+const initialState = {
+    AllUsers: {
+        Users: localStorage.getItem("Users") ? JSON.parse(localStorage.getItem("Users"))?.AllUsers?.Users : [],
+        // LoginUser: localStorage.getItem("Users") ? JSON.parse(localStorage.getItem("Users"))?.AllUsers.LoginUser : {}
+    }
+}
+const store = createStore(rootReducer, initialState, composeWithDevTools(applyMiddleware(thunk)))
+
+export default store    
