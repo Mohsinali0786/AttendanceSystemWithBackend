@@ -30,6 +30,7 @@ function SignUpForm() {
         LastName,
         Email,
         Password,
+        userRole: 'user'
 
     }
     const checkEmailIsValid = () => {

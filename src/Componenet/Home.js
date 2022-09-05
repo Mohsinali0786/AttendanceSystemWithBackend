@@ -59,13 +59,13 @@ function Home() {
                     <Button variant='outlined' className='signout-btn' onClick={() => dispatch(signOut())}>signOut</Button>
                 </div>
             </div>
-            <div>
+            <div style={{ textAlign: 'right' }}>
                 {/* <Button onClick={() => { Navigate('/Student') }}>Go to Attendance Section</Button> */}
                 <p style={{ marginRight: '20px' }}>{UserEmail} (logged-in)</p>
             </div >
 
             <div className='HomePageBtn-div'>
-                <Button onClick={() => { Navigate('/Student') }}>Go to Attendance Section</Button>
+                <Button onClick={() => { Navigate('/Student') }}>Your Attendance</Button>
                 {
 
                     adminRole ?

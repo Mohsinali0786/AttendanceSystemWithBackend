@@ -61,30 +61,48 @@ export default function StudentTable(props) {
         }
     }
     const AddDate = () => {
-        // console.log('C_Date', C_Date)
-        // console.log('C_User.LoginUser', C_User.LoginUser)
+ 
         const CurrDate = mydate.getDate() + "-" + Month[(mydate.getMonth())] + "-" + mydate.getFullYear()
         const CurrTime = mydate.getHours() + ":" + mydate.getMinutes() + ":" + mydate.getSeconds()
         if (C_Date !== null) {
             console.log('C-Date', C_Date)
             let filterEmail = C_Date?.filter((mydata) => mydata.Email === C_User.LoginUser.Email)
+            let findCurrDate = filterEmail.find((isCurrDate) => isCurrDate.CurrDate === CurrDate)
             console.log('filterEmail', filterEmail)
             if (filterEmail.length !== 0) {
-                filterEmail.map((fildata) => {
-                    if (fildata.CurrDate !== CurrDate) {
-                        console.log('mydata.CurrDate !== CurrDate')
-                        setAddDateClicked(true)
-                        let CurrDay = mydate.getDay()
-                        CurrDay = weekday[CurrDay]
-                        setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail }])
-                        dispatch({
-                            type: "ADDDATE",
-                            payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present' }]
-                        })
-                        console.log('Data State======>=====++++', data)
-                        localStorage.setItem('Attedance', JSON.stringify(data))
-                    }
-                })
+                if (!findCurrDate) {
+                    setAddDateClicked(true)
+                    let CurrDay = mydate.getDay()
+                    CurrDay = weekday[CurrDay]
+                    setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail }])
+                    dispatch({
+                        type: "ADDDATE",
+                        payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present' }]
+                    })
+                    console.log('Data State======>=====++++', data)
+                    localStorage.setItem('Attedance', JSON.stringify(data))
+
+                }
+
+
+                // filterEmail.map((fildata) => {
+                //     // if ((fildata.CurrDate !== CurrDate) && (CurrDate > fildata.CurrDate)) {
+
+                //     //     console.log('mydata.CurrDate !== CurrDate', fildata.CurrDate !== CurrDate)
+                //     //     console.log('CurrDate', CurrDate)
+
+                //     //     setAddDateClicked(true)
+                //     //     let CurrDay = mydate.getDay()
+                //     //     CurrDay = weekday[CurrDay]
+                //     //     setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail }])
+                //     //     dispatch({
+                //     //         type: "ADDDATE",
+                //     //         payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present' }]
+                //     //     })
+                //     //     console.log('Data State======>=====++++', data)
+                //     //     localStorage.setItem('Attedance', JSON.stringify(data))
+                //     // }
+                // })
             }
             else {
                 console.log('mydata.CurrDate !== CurrDate')
@@ -117,8 +135,9 @@ export default function StudentTable(props) {
         <TableContainer component={Paper}>
             <div className='addAttBtn-div'>
                 <Button onClick={() => { AddDate() }}>Add Attendance</Button>
+                {/* <Button onClick={()=>{AddDate()}}>Add Attendance</Button> */}
             </div>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table sx={{ minWidth: '100%' }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="center">Date</StyledTableCell>

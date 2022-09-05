@@ -69,8 +69,6 @@ function Student() {
                                 ""
                     }
                 </div>
-
-
                 <StudentTable UserEmail={UserEmail} />
             </div>
         </div>

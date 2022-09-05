@@ -38,13 +38,13 @@ function AdminPage() {
             </div>
             <div>
                 <h3>Administrator Dashboard</h3>
-                <div className='addUserBtn-div'>
+                {/* <div className='addUserBtn-div'> */}
+                <div className='HomePageBtn-div'>
+                    <Button onClick={() => { Navigate('/Student') }}>Your Attendance</Button>
+                    <Button onClick={() => { Navigate('/Home') }}>Go to Home</Button>
                     <Button onClick={() => { Navigate('/SignUpForm') }}>Add User</Button>
                 </div>
-
-
-
-
+                {/* </div> */}
                 <MyDataGrid />
             </div>
 
