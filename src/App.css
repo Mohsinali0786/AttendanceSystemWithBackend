@@ -110,9 +110,6 @@
   text-align: center;
 }
 
-
-
-
 .signUpForm {
   /* margin: 10px; */
   /* margin-left: 25%; */
@@ -138,6 +135,15 @@
 
   .signUpForm {
     margin-left: 0px;
+  }
+
+  .img-in-signup {
+    display: none;
+  }
+
+  .SignUpForm-MainDiv {
+    width: 100%;
+
   }
 }
 
@@ -258,7 +264,7 @@ td>input {
 /* Home */
 .HomePageBtn-div {
   display: flex;
-  justify-content: space-between;
+  justify-content: right;
   margin: 20px;
 }
 

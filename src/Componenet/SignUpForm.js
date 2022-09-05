@@ -1,6 +1,4 @@
-// import { FormControl, Input, InputLabel } from '@mui/material';
 import { Button } from '@mui/material';
-import UserIcon from '../Assets/Images/UserIcons.png'
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
@@ -9,17 +7,23 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useSelector, useDispatch } from "react-redux"
 import { Sign_Up } from '../store/actions/index'
-import matchers from '@testing-library/jest-dom/matchers';
+import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2';
+import { EyeInvisibleTwoTone } from '@ant-design/icons'
+
+
 
 function SignUpForm() {
-    const mystate = useSelector((state) => state.AllUsers.Users)
-    let mylength = mystate.length
-    console.log('My Len in state', mystate)
-    const dispatch = useDispatch()
     const [FirstName, setFirstName] = useState('')
     const [LastName, setLastName] = useState('')
     const [Email, setEmail] = useState('')
     const [Password, setPassword] = useState('')
+    const [passwordShown, setPasswordShown] = useState(false);
+
+    const Navigate = useNavigate()
+    const mystate = useSelector((state) => state.AllUsers.Users)
+    const dispatch = useDispatch()
+    let mylength = mystate.length
     let data = {
         id: Math.round((Math.random()) * 1000),
         FirstName,
@@ -27,6 +31,32 @@ function SignUpForm() {
         Email,
         Password,
 
+    }
+    const checkEmailIsValid = () => {
+
+        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (mailformat.test(Email)) {
+            let IsEmailExist = IsEmailPresent()
+            if (!IsEmailExist) {
+                dispatch(Sign_Up(data))
+                Navigate('/')
+            }
+            else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'This Email address is already Register Try different email ',
+                })
+            }
+        }
+    }
+    function IsEmailPresent() {
+        let IsEmailExist = mystate.find((email) => email.Email === Email)
+        console.log(IsEmailExist?.Email)
+        return IsEmailExist
+    }
+    const togglePassword = () => {
+        setPasswordShown(!passwordShown);
     }
 
     return (
@@ -46,43 +76,37 @@ function SignUpForm() {
                         </div>
                         <table className='tablestyling'>
                             <tr >
-                                <td className='iconswithinputs'><PersonIcon className='icons' /><input name='FirstName' value={FirstName} onChange={(e) => setFirstName(e.target.value)} placeholder='First Name' /></td>
+                                <td className='iconswithinputs'><PersonIcon className='icons' /><input name='FirstName' required value={FirstName} onChange={(e) => setFirstName(e.target.value)} placeholder='First Name' /></td>
                             </tr>
                             <tr>
-                                <td className='iconswithinputs'><PersonIcon className='icons' /><input name='LastName' value={LastName} onChange={(e) => setLastName(e.target.value)} placeholder='Last Name' /></td>
+                                <td className='iconswithinputs'><PersonIcon className='icons' /><input name='LastName' required value={LastName} onChange={(e) => setLastName(e.target.value)} placeholder='Last Name' /></td>
 
                             </tr>
                             <tr>
-                                <td className='iconswithinputs'><EmailIcon className='icons' /><input name='Email' type='email' value={Email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' /></td>
+                                <td className='iconswithinputs'><EmailIcon className='icons' /><input name='Email' type='email' required value={Email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' /></td>
                             </tr>
                             <tr>
-                                <td className='iconswithinputs'><LockOpenIcon className='icons' /><input name='Password' type='password' value={Password} onChange={(e) => setPassword(e.target.value)} placeholder='Passowrd' /></td>
+                                <td className='iconswithinputs'><LockOpenIcon className='icons' />
+                                    <input name='Password' type={passwordShown ? "text" : "password"} value={Password} onChange={(e) => { setPassword(e.target.value) }} placeholder='Passoword' required />
+                                    <EyeInvisibleTwoTone onClick={() => { togglePassword() }} className='VisibleIcon' />
+                                </td>
+                                {/* <td className='iconswithinputs'><LockOpenIcon className='icons' /><input name='Password' type='password' value={Password} onChange={(e) => setPassword(e.target.value)} placeholder='Passowrd' /></td> */}
                             </tr>
 
                             <tr>
                                 <td colSpan={2} style={{ textAlign: 'center', padding: '30px 0px 20px 0px' }}>
-                                    <Button variant='contained' className='loginBtn' onClick={() => dispatch(Sign_Up(data))}>SignUp</Button>
+                                    <Button variant='contained' className='loginBtn' onClick={() => checkEmailIsValid()}>SignUp</Button>
                                 </td>
                             </tr>
                             <tr>
                                 <td colSpan={10}><p>Already Have Account For Log-In ? <Link to='/'><b>Click Here</b></Link></p></td>
-
                             </tr>
-
-
                         </table>
-
                     </form >
-
                 </div>
                 <img src={formimg} className='img-in-signup' />
-
-
             </div>
-
         </div >
-
-
     )
 }
 export default SignUpForm;

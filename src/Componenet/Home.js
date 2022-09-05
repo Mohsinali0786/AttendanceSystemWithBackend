@@ -32,7 +32,6 @@ function Home() {
     }, [])
 
     useEffect(() => {
-        // console.log('IsLoggedIn', IsLoggedIn)
 
         if (!IsLoggedIn) {
             Navigate('/')
@@ -41,8 +40,6 @@ function Home() {
     const CheckAdminOrUser = () => {
         mystate.Users.map((user, index) => {
             if (user.Email === UserEmail) {
-                console.log('user.UserRole ', user.userRole)
-
                 if ((user?.userRole)?.toLowerCase() === 'admin') {
                     console.log('user.UserRole === admin')
                     setAdminRole(true)
@@ -62,13 +59,26 @@ function Home() {
                     <Button variant='outlined' className='signout-btn' onClick={() => dispatch(signOut())}>signOut</Button>
                 </div>
             </div>
-            <div className='HomePageBtn-div'>
-                <Button onClick={() => { Navigate('/Student') }}>Go to Attendance Section</Button>
+            <div>
+                {/* <Button onClick={() => { Navigate('/Student') }}>Go to Attendance Section</Button> */}
                 <p style={{ marginRight: '20px' }}>{UserEmail} (logged-in)</p>
             </div >
-            {/* <div style={{ textAlign: 'right', margin: '30px' }}>
-                <input type='text' onChange={(e) => setSearchVal(e.target.value)} />
-            </div> */}
+
+            <div className='HomePageBtn-div'>
+                <Button onClick={() => { Navigate('/Student') }}>Go to Attendance Section</Button>
+                {
+
+                    adminRole ?
+                        <Button onClick={() => { Navigate('/AdminPage') }}>Go to AdminPage</Button>
+                        :
+                        UserEmail === 'mohsin@gmail.com' ?
+                            <Button onClick={() => { Navigate('/AdminPage') }}>Go to AdminPage</Button>
+                            :
+                            ""
+                }
+            </div>
+
+
             <AllStudentTable AllStudents={AllAttendance} />
         </div >
 

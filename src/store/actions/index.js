@@ -13,7 +13,11 @@
 
 // }
 
+
 export const Sign_Up = (data) => async (dispatch, getState) => {
+
+
+
 
     dispatch({
         type: "REGISTER",
