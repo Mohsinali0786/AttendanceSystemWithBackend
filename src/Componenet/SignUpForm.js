@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useSelector, useDispatch } from "react-redux"
 import { Sign_Up } from '../store/actions/index'
+import matchers from '@testing-library/jest-dom/matchers';
 
 function SignUpForm() {
     const mystate = useSelector((state) => state.AllUsers.Users)
@@ -20,7 +21,7 @@ function SignUpForm() {
     const [Email, setEmail] = useState('')
     const [Password, setPassword] = useState('')
     let data = {
-        id: (mylength + 1) - 1,
+        id: Math.round((Math.random()) * 1000),
         FirstName,
         LastName,
         Email,

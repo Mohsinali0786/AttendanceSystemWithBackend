@@ -63,7 +63,11 @@ export default function StudentTable(props) {
     useEffect(() => {
         console.log('Reducer State===>', MyState.AllUsers.Attendance)
         setAddDateClicked(false)
-    }, [addDateClicked])
+        if (data.length !== 0) {
+
+            localStorage.setItem('Attedance', JSON.stringify(data))
+        }
+    }, [addDateClicked === true])
     const GetDataFromLS = () => {
         if (localStorage.getItem("Attedance") !== null) {
             DataFromLS = JSON.parse(localStorage.getItem("Attedance"))
@@ -78,37 +82,53 @@ export default function StudentTable(props) {
         const CurrTime = mydate.getHours() + ":" + mydate.getMinutes() + ":" + mydate.getSeconds()
 
         if (C_Date !== null) {
+            console.log('C-Date', C_Date)
 
-            C_Date?.map((mydata) => {
-                console.log(mydata, "Map Running")
-                console.log('data.Email', mydata.Email)
-                console.log('C_User.LoginUser.Email', C_User.LoginUser.Email)
-                if (mydata.Email === C_User.LoginUser.Email) {
-                    if ((mydata.CurrDate !== CurrDate)) {
-                        
+            let filterEmail = C_Date?.filter((mydata) => mydata.Email === C_User.LoginUser.Email)
+            console.log('filterEmail', filterEmail)
+            if (filterEmail.length !== 0) {
+                filterEmail.map((data) => {
+                    if (data.CurrDate !== CurrDate) {
+                        console.log('mydata.CurrDate !== CurrDate')
+                        setAddDateClicked(true)
+                        let CurrDay = mydate.getDay()
+                        CurrDay = weekday[CurrDay]
+                        setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail }])
 
+                        dispatch({
+                            type: "ADDDATE",
+                            payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present' }]
+                        })
+
+                        console.log('Data State======>=====++++', data)
+                        localStorage.setItem('Attedance', JSON.stringify(data))
                     }
-                }
-                else {
+                })
 
-                    setAddDateClicked(true)
-                    let CurrDay = mydate.getDay()
-                    CurrDay = weekday[CurrDay]
-                    setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail }])
+            }
+            else {
+                console.log('mydata.CurrDate !== CurrDate')
+                setAddDateClicked(true)
+                let CurrDay = mydate.getDay()
+                CurrDay = weekday[CurrDay]
+                setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail }])
 
-                    dispatch({
-                        type: "ADDDATE",
-                        payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present' }]
-                    })
+                dispatch({
+                    type: "ADDDATE",
+                    payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present' }]
+                })
 
-                    console.log('Data State======>=====++++', data)
-                    localStorage.setItem('Attedance', JSON.stringify(data))
-                }
+                console.log('Data State======>=====++++', data)
+                localStorage.setItem('Attedance', JSON.stringify(data))
 
-            })
+
+            }
+
         }
 
+
         else {
+            console.log('Else=====> C_Date !== null')
             setAddDateClicked(true)
             let CurrDay = mydate.getDay()
             CurrDay = weekday[CurrDay]
@@ -120,7 +140,7 @@ export default function StudentTable(props) {
             })
 
             console.log('Data State======>=====++++', data)
-            localStorage.setItem('Attedance', JSON.stringify(data))
+
 
         }
 

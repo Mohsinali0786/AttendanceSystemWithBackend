@@ -1,6 +1,5 @@
-import { Navigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
-// const Navigate = useNavigate()
+
 const initialState = {
 
     Users: [],
@@ -18,7 +17,14 @@ const AllUsers = (state = initialState, action) => {
     // console.log('AllUsers State====>', state)
 
     switch (action.type) {
+
+
         case "REGISTER":
+            Swal.fire({
+                icon: 'success',
+                text: 'Congratulation You Successfully SignUp Please Login Now !',
+
+            })
             return {
                 ...state,
                 Users: [...state.Users, action.payload],
@@ -86,7 +92,7 @@ const AllUsers = (state = initialState, action) => {
                 //     UserRole: action.payload.userRole,
                 //     ...filteredData,
                 // }
-                console.log('After Edited====>', filteredData)
+                // console.log('After Edited====>', filteredData)
                 state.Users.map((v) => {
                     if (v.id === action.payload.id) {
 
@@ -109,8 +115,8 @@ const AllUsers = (state = initialState, action) => {
             }
 
         case "ADDDATE": {
-            console.log('Add Date Function Running')
-            console.log('state.Attendance', action.payload)
+            // console.log('Add Date Function Running')
+            // console.log('state.Attendance', action.payload)
             return {
                 ...state,
                 Attendance: action.payload
