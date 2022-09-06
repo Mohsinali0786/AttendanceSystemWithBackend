@@ -80,7 +80,7 @@ export default function MyDataGrid() {
                         color="primary"
                         className='EditDelBtn'
                         onClick={(event) => {
-                            dispatch(deleteData(event, cellValues));
+                            dispatch(deleteData(cellValues, role));
                         }}
                     >
                         Delete
@@ -108,10 +108,14 @@ export default function MyDataGrid() {
     console.log('State UPDATED====>', mystate)
 
     mystate.map((user, id) => {
-        rows.push(
-            { id: user.id, firstName: user.FirstName, lastName: user.LastName, email: user.Email, key: id }
+        // console.log('user in dataGrid', user?.isDeleted)
+        if (!user?.isDeleted) {
 
-        )
+            rows.push(
+                { id: user.id, firstName: user.FirstName, lastName: user.LastName, email: user.Email, key: id }
+
+            )
+        }
     })
     // const deleteData = (v) => {
     // setDeleteBtnClicked(true)

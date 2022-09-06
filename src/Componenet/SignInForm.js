@@ -9,6 +9,7 @@ import { Sign_In } from '../store/actions/index'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EyeInvisibleTwoTone } from '@ant-design/icons'
+import Swal from 'sweetalert2';
 
 function SignInForm() {
     const Navigate = useNavigate()
@@ -37,9 +38,27 @@ function SignInForm() {
         // console.log('IsLoggedIn', IsLoggedIn)
 
         if (IsLoggedIn) {
-            // Navigate('/Student')
-            Navigate('/Home')
+            mystate.Users.map((v, index) => {
+                // console.log('v.Email === ', v.Email)
 
+                // console.log('v.Email === mystate.LoginUser', mystate.LoginUser)
+                // console.log('!v.isDeleted', !v.isDeleted)
+
+                if (v.Email === mystate.LoginUser.Email) {
+                    console.log('Outer If')
+
+                    if (!v.isDeleted) {
+
+                        Swal.fire({
+                            icon: 'success',
+                            text: 'Congratulation You Successfully Logged In!',
+
+                        })
+                        Navigate('/Home')
+                    }
+                }
+
+            })
         }
     }, [IsLoggedIn === true])
 

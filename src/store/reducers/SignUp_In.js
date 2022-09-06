@@ -2,7 +2,17 @@ import Swal from 'sweetalert2'
 
 const initialState = {
 
-    Users: [],
+    Users: [
+        // {
+        //     Email: "mohsin@gmail.com",
+        //     FirstName: "Mohsin",
+        //     LastName: "Ali",
+        //     Password: "12345",
+        //     id: '0000',
+        //     isDeleted: false,
+        //     userRole: "admin",
+        // }
+    ],
     LoginUser: {},
     IsLoggedIn: null,
     // AllAttendancesUser:[{'Name':[]},{'Name':[]},{'Name':[]}]
@@ -31,34 +41,42 @@ const AllUsers = (state = initialState, action) => {
 
             }
         case "LOGININ":
-            console.log('state.AllUsers Reducer', state.Users)
+            // console.log('state.AllUsers Reducer', state.Users)
             const data = action.payload
             const filtereddata = state.Users.find((i) => i.Email === data.Email && i.Password === data.Password)
-
+            // console.log('Filtered data reducer', filtereddata)
             if (filtereddata) {
-                Swal.fire({
-                    icon: 'success',
-                    text: 'Congratulation You Successfully Logged In!',
+                if (!filtereddata.isDeleted) {
+                    // console.log('filtereddata in Reducer')
 
-                })
-                return {
-                    ...state,
-                    LoginUser: action.payload,
-                    IsLoggedIn: true
+                    return {
+                        ...state,
+                        LoginUser: action.payload,
+                        IsLoggedIn: true
 
+                    }
+                } else {
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Please Provide Correct Email or Password!',
+                    })
+
+                    return {
+                        ...state,
+                        message: "You Are Not Registered",
+                        IsLoggedIn: false
+                    }
                 }
-            } else {
+            }
+            else {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Please Provide Correct Email or Password!',
                 })
 
-                return {
-                    ...state,
-                    message: "You Are Not Registered",
-                    IsLoggedIn: false
-                }
             }
         case "LOGOUT": {
             console.log('state.AllUsers Reducer LogOut', state.Users)
@@ -72,14 +90,59 @@ const AllUsers = (state = initialState, action) => {
 
         case "DELETE":
             {
+                let updatedArr = []
+                // console.log('Edit in Reducer')
+                let filteredData = state.Users.find((user) => user.id === action.payload.id)
 
-                let filteredData = state.Users.filter((user) => user.id !== action.id)
-                // console.log('filteredData====>', filteredData)
+                state.Users.map((v) => {
+                    if (v.id === action.payload.id) {
+                        console.log('action.payload.userRole', action.payload.userRole)
+                        if (v.userRole === 'admin') {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Admins are not deletable !',
+                            })
+                            v.id = v.id;
+                            v.FirstName = filteredData.FirstName;
+                            v.LastName = filteredData.LastName;
+                            v.Email = filteredData.Email;
+                            v.Password = filteredData.Password;
+                            v.isDeleted = false
+
+                        }
+                        else {
+                            v.userRole = action.payload.userRole;
+                            v.id = v.id;
+                            v.FirstName = filteredData.FirstName;
+                            v.LastName = filteredData.LastName;
+                            v.Email = filteredData.Email;
+                            v.Password = filteredData.Password;
+                            v.isDeleted = action.payload.isDeleted
+                        }
+
+
+                    }
+                    updatedArr.push(v)
+                })
 
                 return {
                     ...state,
-                    Users: filteredData
+                    Users: updatedArr
                 }
+
+
+
+
+
+                // For deleted from redux+localstorage
+
+                // let filteredData = state.Users.filter((user) => user.id !== action.id)
+                // console.log('filteredData====>', filteredData)
+                // return {
+                //     ...state,
+                //     Users: filteredData
+                // }
             }
 
         case "EDIT":

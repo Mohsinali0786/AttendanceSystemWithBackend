@@ -1,23 +1,5 @@
-
-// import store from '../../store'
-// export const incNum = () => {
-//     return {
-//         type: "INCREMENT"
-//     }
-// }
-// export const decNum = () => {
-//     return {
-//         type: "DECREMENT"
-//     }
-
-
-// }
-
-
 export const Sign_Up = (data) => async (dispatch, getState) => {
-
-
-
+    console.log("SignU Data", data)
 
     dispatch({
         type: "REGISTER",
@@ -38,10 +20,11 @@ export const signOut = () => async (dispatch) => {
     })
 }
 
-export const deleteData = (e, cell) => async (dispatch, getState) => {
+export const deleteData = (cell, role) => async (dispatch, getState) => {
+    // console.log('Del Function Cell and row===>', role)
     dispatch({
         type: 'DELETE',
-        id: cell.row.id
+        payload: { userRole: role, id: cell.row.id, isDeleted: true },
     })
     localStorage.setItem('Users', JSON.stringify(getState()))
 }

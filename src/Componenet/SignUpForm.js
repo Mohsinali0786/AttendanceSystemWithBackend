@@ -34,27 +34,55 @@ function SignUpForm() {
 
     }
     const checkEmailIsValid = () => {
+        if (localStorage.getItem('Users') !== null) {
 
-        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (mailformat.test(Email)) {
-            let IsEmailExist = IsEmailPresent()
-            if (!IsEmailExist) {
-                dispatch(Sign_Up(data))
-                Navigate('/')
+            var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (mailformat.test(Email)) {
+                let IsEmailExist = IsEmailPresent()
+                console.log('IsEmailExist===+++', IsEmailExist)
+                if (IsEmailExist) {
+
+                    if (IsEmailExist.isDeleted) {
+                        dispatch(Sign_Up(data))
+                        Navigate('/')
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'This Email address is already Register Try different email ',
+                        })
+                    }
+                }
+                else {
+                    dispatch(Sign_Up(data))
+                    Navigate('/')
+
+                }
             }
-            else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'This Email address is already Register Try different email ',
-                })
-            }
+        }
+        else {
+
+            dispatch(Sign_Up(data))
+            Navigate('/')
         }
     }
     function IsEmailPresent() {
-        let IsEmailExist = mystate.find((email) => email.Email === Email)
-        console.log(IsEmailExist?.Email)
-        return IsEmailExist
+        if (localStorage.getItem('Users') !== null) {
+
+            let UserFromLS = JSON.parse(localStorage.getItem('Users'))
+            let MyUserFromLS = UserFromLS.AllUsers.Users
+
+
+
+            let IsEmailExist = MyUserFromLS.find((email) => email.Email === Email)
+
+            console.log(MyUserFromLS, "hhh")
+            console.log(IsEmailExist, "hhh")
+            return IsEmailExist
+
+            // console.log(IsEmailExist.Email)
+        }
     }
     const togglePassword = () => {
         setPasswordShown(!passwordShown);
