@@ -15,7 +15,6 @@ const initialState = {
     ],
     LoginUser: {},
     IsLoggedIn: null,
-    // AllAttendancesUser:[{'Name':[]},{'Name':[]},{'Name':[]}]
     Attendance: []
 
 
@@ -24,30 +23,58 @@ const initialState = {
 
 const AllUsers = (state = initialState, action) => {
 
-    // console.log('AllUsers State====>', state)
 
     switch (action.type) {
 
-
         case "REGISTER":
-            Swal.fire({
-                icon: 'success',
-                text: 'Congratulation You Successfully SignUp Please Login Now !',
+            let updatedArr = []
+            let filteredData = state.Users.find((user) => user.Email === action.payload.Email)
+            console.log('filteredData', filteredData)
+            if (filteredData) {
 
-            })
-            return {
-                ...state,
-                Users: [...state.Users, action.payload],
+                state.Users.map((v) => {
 
+                    if (v.Email === action.payload.Email && v.isDeleted === true) {
+                        console.log('Now If running', filteredData)
+                        v.id = filteredData.id;
+                        v.FirstName = filteredData.FirstName;
+                        v.LastName = filteredData.LastName;
+                        v.Email = filteredData.Email;
+                        v.Password = filteredData.Password;
+                        v.isDeleted = false
+
+                        Swal.fire({
+                            icon: 'success',
+                            text: 'Congratulation You Successfully SignUp Please Login Now !',
+
+                        })
+                    }
+                    updatedArr.push(v)
+                    return {
+                        ...state,
+                        Users: updatedArr,
+
+                    }
+                })
+            }
+            else {
+                Swal.fire({
+                    icon: 'success',
+                    text: 'Congratulation You Successfully SignUp Please Login Now !',
+
+                })
+
+                return {
+                    ...state,
+                    Users: [...state.Users, action.payload],
+
+                }
             }
         case "LOGININ":
-            // console.log('state.AllUsers Reducer', state.Users)
             const data = action.payload
             const filtereddata = state.Users.find((i) => i.Email === data.Email && i.Password === data.Password)
-            // console.log('Filtered data reducer', filtereddata)
             if (filtereddata) {
                 if (!filtereddata.isDeleted) {
-                    // console.log('filtereddata in Reducer')
 
                     return {
                         ...state,
@@ -91,7 +118,6 @@ const AllUsers = (state = initialState, action) => {
         case "DELETE":
             {
                 let updatedArr = []
-                // console.log('Edit in Reducer')
                 let filteredData = state.Users.find((user) => user.id === action.payload.id)
 
                 state.Users.map((v) => {
@@ -130,32 +156,14 @@ const AllUsers = (state = initialState, action) => {
                     ...state,
                     Users: updatedArr
                 }
-
-
-
-
-
-                // For deleted from redux+localstorage
-
-                // let filteredData = state.Users.filter((user) => user.id !== action.id)
-                // console.log('filteredData====>', filteredData)
-                // return {
-                //     ...state,
-                //     Users: filteredData
-                // }
             }
 
         case "EDIT":
             {
                 let updatedArr = []
                 console.log('Edit in Reducer')
+                console.log(action.payload)
                 let filteredData = state.Users.find((user) => user.id === action.payload.id)
-                // console.log('filteredData Data in Edit====>', filteredData)
-                // filteredData = {
-                //     UserRole: action.payload.userRole,
-                //     ...filteredData,
-                // }
-                // console.log('After Edited====>', filteredData)
                 state.Users.map((v) => {
                     if (v.id === action.payload.id) {
 
@@ -163,7 +171,7 @@ const AllUsers = (state = initialState, action) => {
                         v.id = v.id;
                         v.FirstName = filteredData.FirstName;
                         v.LastName = filteredData.LastName;
-                        v.Email = filteredData.Email;
+                        v.Email = action.payload.Email;
                         v.Password = filteredData.Password;
 
                     }
@@ -178,8 +186,6 @@ const AllUsers = (state = initialState, action) => {
             }
 
         case "ADDDATE": {
-            // console.log('Add Date Function Running')
-            // console.log('state.Attendance', action.payload)
             return {
                 ...state,
                 Attendance: action.payload

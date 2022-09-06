@@ -15,6 +15,8 @@ export default function MyDataGrid() {
     const [editBtnClicked, setEditBtnClicked] = useState(false)
     const [role, setRole] = useState('')
     const dispatch = useDispatch()
+    const mystate = useSelector((state) => state.AllUsers.Users)
+
 
 
     const columns = [
@@ -37,7 +39,6 @@ export default function MyDataGrid() {
             type: 'email',
             width: 170,
             editable: true,
-            // flex: 1,
         },
         {
             field: "role",
@@ -46,9 +47,11 @@ export default function MyDataGrid() {
             type: 'role',
             editable: true,
             // flex: 1,
+
             renderCell: (cellValues) => {
+                const filter = mystate.find((v) => v.Email === cellValues.row.email)
                 return (
-                    <BasicSelect role={role} changeRole={setRole} />
+                    <BasicSelect option={filter.userRole} role={role} changeRole={setRole} />
                 );
             }
         },
@@ -56,6 +59,8 @@ export default function MyDataGrid() {
             field: "Edit",
             width: 120,
             // flex: 1,
+            editable: true,
+
             renderCell: (cellValues) => {
                 return (
                     <Button
@@ -104,7 +109,7 @@ export default function MyDataGrid() {
 
     let rows = [];
 
-    const mystate = useSelector((state) => state.AllUsers.Users)
+    // const mystate = useSelector((state) => state.AllUsers.Users)
     console.log('State UPDATED====>', mystate)
 
     mystate.map((user, id) => {

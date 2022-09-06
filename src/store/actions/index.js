@@ -1,6 +1,5 @@
 export const Sign_Up = (data) => async (dispatch, getState) => {
-    console.log("SignU Data", data)
-
+    // console.log("SignU Data", data)
     dispatch({
         type: "REGISTER",
         payload: data
@@ -21,7 +20,6 @@ export const signOut = () => async (dispatch) => {
 }
 
 export const deleteData = (cell, role) => async (dispatch, getState) => {
-    // console.log('Del Function Cell and row===>', role)
     dispatch({
         type: 'DELETE',
         payload: { userRole: role, id: cell.row.id, isDeleted: true },
@@ -29,9 +27,10 @@ export const deleteData = (cell, role) => async (dispatch, getState) => {
     localStorage.setItem('Users', JSON.stringify(getState()))
 }
 export const editData = (cell, role) => async (dispatch, getState) => {
+    console.log('Cell=====>', cell)
     dispatch({
         type: 'EDIT',
-        payload: { userRole: role, id: cell.row.id },
+        payload: { userRole: role, id: cell.row.id, Email: cell.row.email },
 
     })
     localStorage.setItem('Users', JSON.stringify(getState()))

@@ -63,17 +63,6 @@ function SignInForm() {
     }, [IsLoggedIn === true])
 
 
-    // let conditionalUser = () => {
-
-    //     if (isCondition) {
-    //         setIsCondition(false)
-    //         console.log('running')
-    //     } else {
-    //         console.log('running1')
-
-    //         setIsCondition(true)
-    //     }
-    // }
 
     const togglePassword = () => {
         setPasswordShown(!passwordShown);

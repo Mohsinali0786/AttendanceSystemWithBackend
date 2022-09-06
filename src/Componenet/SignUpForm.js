@@ -76,9 +76,6 @@ function SignUpForm() {
 
 
             let IsEmailExist = MyUserFromLS.find((email) => email.Email === Email)
-
-            console.log(MyUserFromLS, "hhh")
-            console.log(IsEmailExist, "hhh")
             return IsEmailExist
 
             // console.log(IsEmailExist.Email)
