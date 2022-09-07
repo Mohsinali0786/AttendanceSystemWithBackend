@@ -1,6 +1,7 @@
 // import { FormControl, Input, InputLabel } from '@mui/material';
 import { Button } from '@mui/material';
 import UserIcon from '../Assets/Images/UserIcons.png'
+import CompanyIcon from '../Assets/Images/companyicon.png'
 import { Link, Navigate } from 'react-router-dom';
 import EmailIcon from '@mui/icons-material/Email';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
@@ -11,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { EyeInvisibleTwoTone } from '@ant-design/icons'
 import Swal from 'sweetalert2';
 
-function SignInForm() {
+function SignInForm({ handleLoginForm, sethandleLoginForm }) {
     const Navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -21,6 +22,8 @@ function SignInForm() {
     const [IsLogin, setIsLogin] = useState(false)
     const [isCondition, setIsCondition] = useState(false)
     const [passwordShown, setPasswordShown] = useState(false);
+    // const [handleLoginForm, sethandleLoginForm] = useState()
+
 
     const mystate = useSelector((state) => state.AllUsers)
     // console.log('My state===>', mystate)
@@ -70,13 +73,33 @@ function SignInForm() {
 
     return (
         <form className='mainForm'>
-            <h2>Login To Your Account</h2>
+            <div className='User-Company-btn-div'>
+
+                <Button className='UserLogin-btn' value='User' onClick={(e) => { sethandleLoginForm(e.target.value) }}>User</Button>
+                <Button className='CompanyLogin-btn' value='Company' onClick={(e) => { sethandleLoginForm(e.target.value) }}>Company</Button>
+            </div>
+            {
+                handleLoginForm === 'Company' ?
+
+                    <h2>Company Login</h2>
+                    :
+                    <h2>User Login</h2>
+
+            }
 
             <table className='tablestyling'>
-                <div className='UserIconDiv'>
+                {
+                    handleLoginForm === 'Company' ?
+                        <div className='UserIconDiv'>
 
-                    <img src={UserIcon} id='usericon-img' />
-                </div>
+                            <img src={CompanyIcon} id='usericon-img' />
+                        </div>
+                        :
+                        <div className='UserIconDiv'>
+
+                            <img src={UserIcon} id='usericon-img' />
+                        </div>
+                }
                 <tr>
 
                     <td className='iconswithinputs'><EmailIcon className='icons' /><input type='email' onChange={(e) => { setEmail(e.target.value) }} placeholder='Email' /></td>
@@ -94,10 +117,16 @@ function SignInForm() {
                     </td>
 
                 </tr>
-                <tr id='signUp-mobile'>
-                    <td colSpan={10}><p>New Registration? <Link to='/SignUpForm'><b></b>Click Here</Link></p></td>
-                </tr>
+                {
+                    handleLoginForm === 'Company' ?
+                        < tr id='signUp-mobile'>
+                            <td colSpan={10}><p>New Registration? <Link to='/comapanysignup'><b></b>Click Here</Link></p></td>
+                        </tr>
+                        :
+                        ""
+                }
             </table>
+
 
         </form >
 

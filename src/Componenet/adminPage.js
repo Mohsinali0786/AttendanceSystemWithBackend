@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { Button } from '@mui/material'
 import MyDataGrid from './dataGrid'
 import { Link } from 'react-router-dom';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 
 
@@ -27,7 +28,9 @@ function AdminPage() {
                     <h1 className='Header-heading' >Attendance Management System</h1>
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                    <Button variant='outlined' className='signout-btn' onClick={() => dispatch(signOut())}>signOut</Button>
+                    {/* <Button variant='outlined' className='signout-btn' onClick={() => dispatch(signOut())}>
+                    </Button> */}
+                    <LogoutIcon style={{ cursor: 'pointer', color: 'white', fontSize: '25px', marginRight: '20px' }} onClick={() => dispatch(signOut())} />
                 </div>
             </div>
             <div>

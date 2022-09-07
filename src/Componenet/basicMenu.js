@@ -31,8 +31,15 @@ export default function NativeSelectDemo({ role, changeRole, option }) {
                 >
 
                     <option value={option}>{option}</option>
+                    {
+                        option !== 'admin' ?
+                            <option value='admin'>admin</option>
+                            :
+                            <option value='user'>user</option>
 
-                    <option value='admin'>Admin</option>
+
+                    }
+
                     {/* <option value='user'>User</option> */}
                 </NativeSelect>
             </FormControl>

@@ -70,6 +70,31 @@
   color: black;
 }
 
+.sideGradient p {
+  padding: 20px;
+}
+
+.CompanyLogin-btn,
+.UserLogin-btn {
+  border: 1px solid black !important;
+  background-color: white !important;
+  color: black !important;
+  border-radius: 4px;
+  width: 25% !important;
+
+}
+
+.User-Company-btn-div {
+  background: #3aaca4;
+  background: linear-gradient(270deg, rgba(57, 168, 171, 1) 0%, rgba(57, 177, 155, 1), rgba(72, 179, 168, 1));
+  display: flex;
+  justify-content: space-evenly;
+  padding: 15px;
+  width: 100%;
+  margin-top: -5px;
+
+}
+
 
 @media screen and (max-width: 1300px) {
   #signUp-mobile {
