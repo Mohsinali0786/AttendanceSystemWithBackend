@@ -32,7 +32,8 @@ function CompanySignUpForm() {
         Address,
         Email,
         Password,
-        // userRole: 'user'
+        type: 'company',
+        userRole: 'admin'
 
     }
     const checkEmailIsValid = () => {
@@ -111,7 +112,7 @@ function CompanySignUpForm() {
 
                             </tr>
                             <tr>
-                                <td className='iconswithinputs'><EmailIcon className='icons' /><input name='Address' required value={Address} onChange={(e) => Address(e.target.value)} placeholder='Address' /></td>
+                                <td className='iconswithinputs'><EmailIcon className='icons' /><input name='Address' required value={Address} onChange={(e) => setAddress(e.target.value)} placeholder='Address' /></td>
                             </tr>
                             <tr>
                                 <td className='iconswithinputs'><EmailIcon className='icons' /><input name='Email' type='email' required value={Email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' /></td>

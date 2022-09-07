@@ -114,12 +114,14 @@ export default function MyDataGrid() {
 
     mystate.map((user, id) => {
         // console.log('user in dataGrid', user?.isDeleted)
-        if (!user?.isDeleted) {
+        if (user.type !== 'company') {
+            if (!user?.isDeleted) {
+                rows.push(
+                    { id: user.id, firstName: user.FirstName, lastName: user.LastName, email: user.Email, key: id }
 
-            rows.push(
-                { id: user.id, firstName: user.FirstName, lastName: user.LastName, email: user.Email, key: id }
+                )
+            }
 
-            )
         }
     })
     // const deleteData = (v) => {

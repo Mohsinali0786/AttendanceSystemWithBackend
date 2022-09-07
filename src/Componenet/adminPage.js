@@ -13,6 +13,7 @@ function AdminPage() {
     const dispatch = useDispatch()
     const Navigate = useNavigate()
     const mystate = useSelector((state) => state.AllUsers)
+    const findUser = mystate.Users.find((v) => v.Email === mystate.LoginUser.Email)
     console.log('My State=====>', mystate)
     let IsLoggedIn = mystate.IsLoggedIn
     useEffect(() => {

@@ -72,7 +72,8 @@ const AllUsers = (state = initialState, action) => {
             }
         case "LOGININ":
             const data = action.payload
-            const filtereddata = state.Users.find((i) => i.Email === data.Email && i.Password === data.Password)
+            console.log('data reducer', data.type)
+            const filtereddata = state.Users.find((i) => i.Email === data.Email && i.Password === data.Password && i.type === data.type)
             if (filtereddata) {
                 if (!filtereddata.isDeleted) {
 
@@ -184,6 +185,37 @@ const AllUsers = (state = initialState, action) => {
                 }
 
             }
+
+
+        case "EDITCOMPANY":
+            {
+                let updatedArr = []
+                console.log(action.payload)
+                let filteredData = state.Users.find((user) => user.id === action.payload.id)
+                state.Users.map((v) => {
+                    if (v.id === action.payload.id) {
+
+                        console.log('Edit in Reducer')
+                        v.userRole = action.payload.userRole;
+                        v.CompanyName = action.payload.CompanyName;
+                        v.id = v.id;
+                        v.Email = filteredData.Email;
+                        v.ContactNo = filteredData.ContactNo;
+                        v.Address = action.payload.Address;
+                        v.Password = filteredData.Password;
+
+                    }
+                    updatedArr.push(v)
+                })
+
+                return {
+                    ...state,
+                    Users: updatedArr
+                }
+
+            }
+
+
 
         case "ADDDATE": {
             return {

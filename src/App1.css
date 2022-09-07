@@ -298,3 +298,21 @@ td>input {
   color: rgb(131 181 166) !important;
   margin: 20px 10px;
 }
+
+
+
+/* # Company Profile */
+
+
+.Editform-company-prof {
+  width: 100%;
+  /* margin-left: 15%; */
+  border: 3px solid rgb(131 181 166);
+  border-radius: 25px;
+  margin: 30px;
+  text-align: center;
+}
+
+.UserProfile {
+  text-align: center;
+}

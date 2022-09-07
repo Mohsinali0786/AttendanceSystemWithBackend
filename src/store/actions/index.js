@@ -1,5 +1,5 @@
 export const Sign_Up = (data) => async (dispatch, getState) => {
-    // console.log("SignU Data", data)
+    console.log("SignU Data", data)
     dispatch({
         type: "REGISTER",
         payload: data
@@ -31,6 +31,15 @@ export const editData = (cell, role) => async (dispatch, getState) => {
     dispatch({
         type: 'EDIT',
         payload: { userRole: role, id: cell.row.id, Email: cell.row.email },
+
+    })
+    localStorage.setItem('Users', JSON.stringify(getState()))
+}
+export const editCompanyData = (data) => async (dispatch, getState) => {
+    console.log('Updated Data=====>', data)
+    dispatch({
+        type: 'EDITCOMPANY',
+        payload: data,
 
     })
     localStorage.setItem('Users', JSON.stringify(getState()))

@@ -5,6 +5,7 @@ import AdminPage from '../Componenet/adminPage'
 import Student from '../Componenet/Student'
 import Home from '../Componenet/Home'
 import CompanySignUpForm from '../Componenet/CompanySignUp'
+import CompanyProfile from '../Componenet/companyProfile'
 
 // import {
 //     SignInForm,
@@ -40,6 +41,8 @@ function AppRouter() {
                 <Route path='/student' element={<Student />} />
                 <Route path='/home' element={<Home />} />
                 <Route path='/comapanysignup' element={<CompanySignUpForm />} />
+                <Route path='/profile' element={<CompanyProfile />} />
+
 
 
 

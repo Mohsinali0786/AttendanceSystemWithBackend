@@ -19,10 +19,7 @@ function SignInForm({ handleLoginForm, sethandleLoginForm }) {
 
     const [Email, setEmail] = useState('')
     const [Password, setPassword] = useState('')
-    const [IsLogin, setIsLogin] = useState(false)
-    const [isCondition, setIsCondition] = useState(false)
     const [passwordShown, setPasswordShown] = useState(false);
-    // const [handleLoginForm, sethandleLoginForm] = useState()
 
 
     const mystate = useSelector((state) => state.AllUsers)
@@ -30,22 +27,22 @@ function SignInForm({ handleLoginForm, sethandleLoginForm }) {
     let IsLoggedIn = mystate.IsLoggedIn
     var isfirst = true
 
-    let loginInfo = {
+    let UserloginInfo = {
         Email,
         Password,
+        type: 'user'
+    }
+    let CompanyloginInfo = {
+        Email,
+        Password,
+        type: 'company'
     }
 
 
-    // console.log('isfirstisfirst', isfirst)
     useEffect(() => {
-        // console.log('IsLoggedIn', IsLoggedIn)
 
         if (IsLoggedIn) {
             mystate.Users.map((v, index) => {
-                // console.log('v.Email === ', v.Email)
-
-                // console.log('v.Email === mystate.LoginUser', mystate.LoginUser)
-                // console.log('!v.isDeleted', !v.isDeleted)
 
                 if (v.Email === mystate.LoginUser.Email) {
                     console.log('Outer If')
@@ -111,12 +108,20 @@ function SignInForm({ handleLoginForm, sethandleLoginForm }) {
                         <EyeInvisibleTwoTone onClick={() => { togglePassword() }} className='VisibleIcon' />
                     </td>
                 </tr>
-                <tr>
-                    <td colSpan={2} style={{ textAlign: 'center', padding: '30px 0px 20px 0px' }}>
-                        <Button variant='contained' className='loginBtn' onClick={() => dispatch(Sign_In(loginInfo))}>Login</Button>
-                    </td>
-
-                </tr>
+                {
+                    handleLoginForm === 'Company' ?
+                        <tr>
+                            <td colSpan={2} style={{ textAlign: 'center', padding: '30px 0px 20px 0px' }}>
+                                <Button variant='contained' className='loginBtn' onClick={() => dispatch(Sign_In(CompanyloginInfo))}>Login</Button>
+                            </td>
+                        </tr>
+                        :
+                        <tr>
+                            <td colSpan={2} style={{ textAlign: 'center', padding: '30px 0px 20px 0px' }}>
+                                <Button variant='contained' className='loginBtn' onClick={() => dispatch(Sign_In(UserloginInfo))}>Login</Button>
+                            </td>
+                        </tr>
+                }
                 {
                     handleLoginForm === 'Company' ?
                         < tr id='signUp-mobile'>

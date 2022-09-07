@@ -5,6 +5,9 @@ import { useEffect, useState } from 'react';
 import { Button } from '@mui/material'
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import SideDrawer from './sideDrawer'
+import LogoutIcon from '@mui/icons-material/Logout';
+
 function Home() {
     const [AllAttendance, setAllAttendance] = useState()
     const [UserEmail, setUserEmail] = useState()
@@ -13,14 +16,14 @@ function Home() {
 
     const dispatch = useDispatch()
     const mystate = useSelector((state) => state.AllUsers)
+
+    const filteruser = mystate.Users.find((v) => v.Email === UserEmail)
+    console.log('Filter User', filteruser)
     const Navigate = useNavigate()
     let IsLoggedIn = mystate.IsLoggedIn
-
-    // console.log('Admin mystate', mystate)
     useEffect(() => {
         setUserEmail(mystate?.LoginUser?.Email)
-        // UserEmail = mystate.LoginUser.Email
-        // console.log('UserEmail Effect', UserEmail)
+
         CheckAdminOrUser()
 
     })
@@ -52,26 +55,33 @@ function Home() {
     return (
         <div>
             <div className='admin-header'>
+                <SideDrawer />
                 <div>
                     <h1 className='Header-heading' >Attendance Management System</h1>
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                    <Button variant='outlined' className='signout-btn' onClick={() => dispatch(signOut())}>signOut</Button>
+                    <LogoutIcon style={{ cursor: 'pointer', color: 'white', fontSize: '25px', marginRight: '20px' }} onClick={() => dispatch(signOut())} />
+
                 </div>
             </div>
             <div style={{ textAlign: 'right' }}>
-                {/* <Button onClick={() => { Navigate('/Student') }}>Go to Attendance Section</Button> */}
                 <p style={{ marginRight: '20px' }}>{UserEmail} (logged-in)</p>
             </div >
 
             <div className='HomePageBtn-div'>
-                <Button onClick={() => { Navigate('/Student') }}>Your Attendance</Button>
+                {
+                    filteruser?.type !== 'company' ?
+                        <Button onClick={() => { Navigate('/Student') }}>Your Attendance</Button>
+                        :
+                        ""
+
+                }
                 {
 
                     adminRole ?
                         <Button onClick={() => { Navigate('/AdminPage') }}>Go to AdminPage</Button>
                         :
-                        UserEmail === 'mohsin@gmail.com' ?
+                        UserEmail === 'nocodeai@gmail.com' ?
                             <Button onClick={() => { Navigate('/AdminPage') }}>Go to AdminPage</Button>
                             :
                             ""
