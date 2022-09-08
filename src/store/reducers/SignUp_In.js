@@ -3,16 +3,9 @@ import Swal from 'sweetalert2'
 const initialState = {
 
     Users: [
-        // {
-        //     Email: "mohsin@gmail.com",
-        //     FirstName: "Mohsin",
-        //     LastName: "Ali",
-        //     Password: "12345",
-        //     id: '0000',
-        //     isDeleted: false,
-        //     userRole: "admin",
-        // }
+
     ],
+    Company: [],
     LoginUser: {},
     IsLoggedIn: null,
     Attendance: []
@@ -22,10 +15,7 @@ const initialState = {
 }
 
 const AllUsers = (state = initialState, action) => {
-
-
     switch (action.type) {
-
         case "REGISTER":
             let updatedArr = []
             let filteredData = state.Users.find((user) => user.Email === action.payload.Email)
@@ -45,7 +35,7 @@ const AllUsers = (state = initialState, action) => {
 
                         Swal.fire({
                             icon: 'success',
-                            text: 'Congratulation You Successfully SignUp Please Login Now !',
+                            text: 'Congratulation You Successfully Added!',
 
                         })
                     }
@@ -70,10 +60,79 @@ const AllUsers = (state = initialState, action) => {
 
                 }
             }
+        case "REGISTERCOMPANY":
+
+
+            // let MyupdatedArr = []
+            // console.log('state in RegCom action.payload===>', action.payload)
+            // console.log('state in RegCom==>', AllUsers)
+            // let MyfilteredData = state?.Company.find((user) => user.Email === action.payload.Email)
+            // console.log('filteredData', MyfilteredData)
+            // if (filteredData) {
+
+            //     state.Company.map((v) => {
+
+            //         if (v.Email === action.payload.Email && v.isDeleted === true) {
+            //             console.log('Now If running', filteredData)
+            //             v.id = MyfilteredData.id;
+            //             v.CompanyName = MyfilteredData.CompanyName;
+            //             v.ContactNo = MyfilteredData.ContactNo;
+            //             v.Email = MyfilteredData.Email;
+            //             v.Password = MyfilteredData.Password;
+            //             v.Address = MyfilteredData.Address;
+            //             v.isDeleted = false
+
+            //             Swal.fire({
+            //                 icon: 'success',
+            //                 text: 'Congratulation You Successfully SignUp Please Login Now !',
+
+            //             })
+            //         }
+            //         MyupdatedArr.push(v)
+            //         return {
+            //             ...state,
+            //             Company: MyupdatedArr,
+
+            //         }
+            //     })
+            // }
+            // else {
+            //     Swal.fire({
+            //         icon: 'success',
+            //         text: 'Congratulation You Successfully SignUp Please Login Now !',
+
+            //     })
+            Swal.fire({
+                icon: 'success',
+                text: 'Congratulation You Successfully SignUp Please Login Now !',
+
+            })
+            return {
+                ...state,
+                Company: [...state.Company, action.payload],
+
+            }
+        // }
+
+
+
         case "LOGININ":
+            var filtereddata = ''
             const data = action.payload
-            console.log('data reducer', data.type)
-            const filtereddata = state.Users.find((i) => i.Email === data.Email && i.Password === data.Password && i.type === data.type)
+            console.log('data reducer', data)
+            if (data.type === 'company') {
+
+                filtereddata = state.Company.find((i) => i.Email === data.Email && i.Password === data.Password && i.type === data.type)
+                console.log('Companyfiltereddata====>', state)
+
+            }
+            else {
+                filtereddata = state.Users.find((i) => i.Email === data.Email && i.Password === data.Password && i.type === data.type)
+                console.log('Userfiltereddata====>', filtereddata)
+
+
+            }
+
             if (filtereddata) {
                 if (!filtereddata.isDeleted) {
 
@@ -84,6 +143,7 @@ const AllUsers = (state = initialState, action) => {
 
                     }
                 } else {
+                    // console.log('ELse RRRRR')
 
                     Swal.fire({
                         icon: 'error',
@@ -99,6 +159,7 @@ const AllUsers = (state = initialState, action) => {
                 }
             }
             else {
+                console.log('ELse RRRRR')
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -107,7 +168,7 @@ const AllUsers = (state = initialState, action) => {
 
             }
         case "LOGOUT": {
-            console.log('state.AllUsers Reducer LogOut', state.Users)
+            // console.log('state.AllUsers Reducer LogOut', state.Users)
 
             return {
                 ...state,

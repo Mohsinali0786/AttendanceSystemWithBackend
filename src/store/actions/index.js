@@ -6,12 +6,21 @@ export const Sign_Up = (data) => async (dispatch, getState) => {
     })
     localStorage.setItem('Users', JSON.stringify(getState()))
 }
+export const CompanySign_Up = (data) => async (dispatch, getState) => {
+    console.log("SignU Data", getState())
+    dispatch({
+        type: "REGISTERCOMPANY",
+        payload: data
+    })
+    localStorage.setItem('Users', JSON.stringify(getState()))
+}
 export const Sign_In = (LoginInfo) => async (dispatch) => {
     dispatch({
         type: 'LOGININ',
         payload: LoginInfo,
     })
 }
+
 export const signOut = () => async (dispatch) => {
     console.log('Run')
     dispatch({

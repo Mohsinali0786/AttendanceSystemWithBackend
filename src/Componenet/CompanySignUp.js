@@ -6,7 +6,7 @@ import formimg from '../Assets/Images/draw1.png'
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useSelector, useDispatch } from "react-redux"
-import { Sign_Up } from '../store/actions/index'
+import { Sign_Up, CompanySign_Up } from '../store/actions/index'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2';
 import { EyeInvisibleTwoTone } from '@ant-design/icons'
@@ -22,9 +22,9 @@ function CompanySignUpForm() {
     const [passwordShown, setPasswordShown] = useState(false);
 
     const Navigate = useNavigate()
-    const mystate = useSelector((state) => state.AllUsers.Users)
+    const mystate = useSelector((state) => state.AllUsers.Company)
     const dispatch = useDispatch()
-    let mylength = mystate.length
+    // let mylength = mystate.length
     let data = {
         id: Math.round((Math.random()) * 1000),
         CompanyName,
@@ -46,7 +46,7 @@ function CompanySignUpForm() {
                 if (IsEmailExist) {
 
                     if (IsEmailExist.isDeleted) {
-                        dispatch(Sign_Up(data))
+                        dispatch(CompanySign_Up(data))
                         Navigate('/')
                     }
                     else {
@@ -58,7 +58,7 @@ function CompanySignUpForm() {
                     }
                 }
                 else {
-                    dispatch(Sign_Up(data))
+                    dispatch(CompanySign_Up(data))
                     Navigate('/')
 
                 }
@@ -66,15 +66,15 @@ function CompanySignUpForm() {
         }
         else {
 
-            dispatch(Sign_Up(data))
+            dispatch(CompanySign_Up(data))
             Navigate('/')
         }
     }
     function IsEmailPresent() {
-        if (localStorage.getItem('Users') !== null) {
+        if (localStorage.getItem('Company') !== null) {
 
             let UserFromLS = JSON.parse(localStorage.getItem('Users'))
-            let MyUserFromLS = UserFromLS.AllUsers.Users
+            let MyUserFromLS = UserFromLS.AllUsers.Company
 
 
 

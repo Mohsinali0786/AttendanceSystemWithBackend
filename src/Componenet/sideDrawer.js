@@ -9,6 +9,7 @@ import ListIcon from '@mui/icons-material/List';
 import { useState } from "react";
 import CoPresentTwoToneIcon from '@mui/icons-material/CoPresentTwoTone';
 import PersonAddAltTwoToneIcon from '@mui/icons-material/PersonAddAltTwoTone';
+import HomeIcon from '@mui/icons-material/Home';
 import { Link } from 'react-router-dom'
 
 
@@ -21,8 +22,8 @@ const data = [
     },
 
     {
-        name: "User Attendance",
-        icon: <CoPresentTwoToneIcon />,
+        name: "Home",
+        icon: <HomeIcon />,
         path: 'Home'
     },
     {
@@ -33,21 +34,33 @@ const data = [
 
 ];
 
-export default function TemporaryDrawer() {
+export default function TemporaryDrawer({ UserName, filteruser }) {
 
     const [open, setOpen] = useState(false);
 
     const getList = () => (
         <div style={{ width: 250 }} onClick={() => setOpen(false)}>
-            <h1>Company</h1>
+            <h1>{UserName}</h1>
             <Divider style={{ marginBottom: '30px' }} />
             {data.map((item, index) => (
                 <tr style={{ display: 'flex' }}>
 
-                    <td style={{ paddingLeft: '20px', textAlign: 'center', paddingBottom: '20px' }}>{item.icon}</td>
-                    <td><Link to={`/${item.path}`} style={{ color: 'black', textDecoration: 'none', marginLeft: '30px' }} > {item.name}</Link></td>
+                    {filteruser?.type === 'company' && item.path !== 'Student' ?
+                        <>
+                            <td style={{ paddingLeft: '20px', textAlign: 'center', paddingBottom: '20px' }}>{item.icon}</td>
 
-                    <td />
+                            <td><Link to={`/${item.path}`} style={{ color: 'black', textDecoration: 'none', marginLeft: '30px' }} > {item.name}</Link></td>
+                        </> :
+                        filteruser?.type !== 'company' ?
+                            <>
+                                <td style={{ paddingLeft: '20px', textAlign: 'center', paddingBottom: '20px' }}>{item.icon}</td>
+
+                                <td><Link to={`/${item.path}`} style={{ color: 'black', textDecoration: 'none', marginLeft: '30px' }} > {item.name}</Link></td>
+                            </> :
+                            ""
+
+                    }
+
                 </tr>
             ))
             }

@@ -22,6 +22,13 @@ function SignUpForm() {
 
     const Navigate = useNavigate()
     const mystate = useSelector((state) => state.AllUsers.Users)
+    let filterdata = useSelector((state) => state.AllUsers)
+
+
+    const currLoginUser = useSelector((state) => state.AllUsers.LoginUser)
+    console.log('Curre Login User===>', currLoginUser)
+    filterdata = filterdata.Company.find((v) => v.Email === currLoginUser.Email)
+    console.log('Filter Data----+++', filterdata)
     const dispatch = useDispatch()
     let mylength = mystate.length
     let data = {
@@ -31,7 +38,8 @@ function SignUpForm() {
         Email,
         Password,
         userRole: 'user',
-        type: 'user'
+        type: 'user',
+        CompanyName: filterdata.CompanyName,
 
     }
     const checkEmailIsValid = () => {
@@ -57,7 +65,7 @@ function SignUpForm() {
                 }
                 else {
                     dispatch(Sign_Up(data))
-                    Navigate('/')
+                    Navigate('/home')
 
                 }
             }
@@ -65,7 +73,7 @@ function SignUpForm() {
         else {
 
             dispatch(Sign_Up(data))
-            Navigate('/')
+            Navigate('/home')
         }
     }
     function IsEmailPresent() {

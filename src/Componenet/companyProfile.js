@@ -12,7 +12,7 @@ import { EyeInvisibleTwoTone } from '@ant-design/icons'
 function CompanyProfile() {
 
     let dataFromLS = JSON.parse(localStorage.getItem('Users'))
-    dataFromLS = dataFromLS.AllUsers.Users
+    dataFromLS = dataFromLS.AllUsers.Company
     console.log('dataFromLS Company Profile', dataFromLS)
     const [CompanyName, setCompanyName] = useState('')
     const [ContactNo, setContactNo] = useState('')
@@ -26,12 +26,12 @@ function CompanyProfile() {
 
 
     const Navigate = useNavigate()
-    const mystate = useSelector((state) => state.AllUsers)
-    console.log('mystate.LoginUser.Email', mystate?.LoginUser?.Email)
-    const currLoginUser = mystate?.LoginUser?.Email
-    console.log('currLoginUser', currLoginUser)
-    const filterdata = mystate.Users.find((v) => v.Email === currLoginUser)
-    console.log('Ffffff', filterdata)
+    const mystate = useSelector((state) => state)
+    // console.log('mystateeeeeeeeeee', mystate.AllUsers?.Company)
+    const currLoginUser = mystate?.AllUsers.LoginUser?.Email
+    // console.log('currLoginUser', currLoginUser)
+    const filterdata = mystate?.AllUsers?.Company.find((v) => v.Email === currLoginUser)
+    // console.log('Ffffff', filterdata)
     const dispatch = useDispatch()
     let data = {
         id: filterdata?.id,
@@ -54,9 +54,6 @@ function CompanyProfile() {
         checkEmailIsValid()
     }
 
-    const handleEdit = (e) => {
-        setCompanyName(e.target.value)
-    }
     const checkEmailIsValid = () => {
         if (localStorage.getItem('Users') !== null) {
 
@@ -95,7 +92,7 @@ function CompanyProfile() {
         if (localStorage.getItem('Users') !== null) {
 
             let UserFromLS = JSON.parse(localStorage.getItem('Users'))
-            let MyUserFromLS = UserFromLS.AllUsers.Users
+            let MyUserFromLS = UserFromLS.AllUsers.Company
 
 
 

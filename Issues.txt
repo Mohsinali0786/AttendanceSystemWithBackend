@@ -10,3 +10,11 @@ and logout icon
 admin create company
 addmin add user
 check admin user button 
+
+
+Issues
+
+Not Edit users
+Data show on every company name not specific
+
+

@@ -16,9 +16,21 @@ function Home() {
 
     const dispatch = useDispatch()
     const mystate = useSelector((state) => state.AllUsers)
+    console.log('mystate Home', mystate)
+    let filteruser;
+    let UserName;
+    if (mystate?.LoginUser?.type === 'company') {
 
-    const filteruser = mystate.Users.find((v) => v.Email === UserEmail)
-    console.log('Filter User', filteruser)
+        filteruser = mystate.Company.find((v) => v.Email === UserEmail)
+        UserName = filteruser?.CompanyName
+        // console.log('filterUssrrrrr', filteruser)
+    }
+    else {
+        filteruser = mystate.Users.find((v) => v.Email === UserEmail)
+        UserName = filteruser?.FirstName + " " + filteruser?.LastName
+
+    }
+    // console.log('Filter User', filteruser)
     const Navigate = useNavigate()
     let IsLoggedIn = mystate.IsLoggedIn
     useEffect(() => {
@@ -30,7 +42,7 @@ function Home() {
     useEffect(() => {
 
         let DataFromLS = JSON.parse(localStorage.getItem("Attedance"))
-        console.log('DataFromLS', DataFromLS)
+        // console.log('DataFromLS', DataFromLS)
         setAllAttendance(DataFromLS)
     }, [])
 
@@ -44,7 +56,7 @@ function Home() {
         mystate.Users.map((user, index) => {
             if (user.Email === UserEmail) {
                 if ((user?.userRole)?.toLowerCase() === 'admin') {
-                    console.log('user.UserRole === admin')
+                    // console.log('user.UserRole === admin')
                     setAdminRole(true)
                 }
             }
@@ -55,7 +67,7 @@ function Home() {
     return (
         <div>
             <div className='admin-header'>
-                <SideDrawer />
+                <SideDrawer UserName={UserName} filteruser={filteruser} />
                 <div>
                     <h1 className='Header-heading' >Attendance Management System</h1>
                 </div>
@@ -64,12 +76,17 @@ function Home() {
 
                 </div>
             </div>
-            <div style={{ textAlign: 'right' }}>
-                <p style={{ marginRight: '20px' }}>{UserEmail} (logged-in)</p>
+            <div style={{}}>
+
+
+                <p style={{ marginRight: '20px', textAlign: 'right' }}>{UserEmail} (logged-in)</p>
             </div >
+
+            <h3>{filteruser?.CompanyName} Attendance System</h3>
 
             <div className='HomePageBtn-div'>
                 {
+
                     filteruser?.type !== 'company' ?
                         <Button onClick={() => { Navigate('/Student') }}>Your Attendance</Button>
                         :
@@ -81,7 +98,8 @@ function Home() {
                     adminRole ?
                         <Button onClick={() => { Navigate('/AdminPage') }}>Go to AdminPage</Button>
                         :
-                        UserEmail === 'nocodeai@gmail.com' ?
+                        // UserEmail === 'nocodeai@gmail.com' && 
+                        filteruser?.type === 'company' ?
                             <Button onClick={() => { Navigate('/AdminPage') }}>Go to AdminPage</Button>
                             :
                             ""

@@ -23,7 +23,7 @@ function SignInForm({ handleLoginForm, sethandleLoginForm }) {
 
 
     const mystate = useSelector((state) => state.AllUsers)
-    // console.log('My state===>', mystate)
+    console.log('My state Login===>', mystate)
     let IsLoggedIn = mystate.IsLoggedIn
     var isfirst = true
 
@@ -42,23 +42,41 @@ function SignInForm({ handleLoginForm, sethandleLoginForm }) {
     useEffect(() => {
 
         if (IsLoggedIn) {
-            mystate.Users.map((v, index) => {
+            handleLoginForm === 'Company' ?
+                mystate.Company.map((v, index) => {
 
-                if (v.Email === mystate.LoginUser.Email) {
-                    console.log('Outer If')
+                    if (v.Email === mystate.LoginUser.Email) {
+                        // console.log('Outer If')
 
-                    if (!v.isDeleted) {
+                        if (!v.isDeleted) {
 
-                        Swal.fire({
-                            icon: 'success',
-                            text: 'Congratulation You Successfully Logged In!',
+                            Swal.fire({
+                                icon: 'success',
+                                text: 'Congratulation You Successfully Logged In!',
 
-                        })
-                        Navigate('/Home')
+                            })
+                            Navigate('/Home')
+                        }
                     }
-                }
 
-            })
+                }) :
+                mystate.Users.map((v, index) => {
+
+                    if (v.Email === mystate.LoginUser.Email) {
+                        // console.log('Outer If')
+
+                        if (!v.isDeleted) {
+
+                            Swal.fire({
+                                icon: 'success',
+                                text: 'Congratulation You Successfully Logged In!',
+
+                            })
+                            Navigate('/Home')
+                        }
+                    }
+
+                })
         }
     }, [IsLoggedIn === true])
 

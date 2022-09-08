@@ -63,10 +63,10 @@ function Student() {
                         adminRole ?
                             <Button onClick={() => { Navigate('/AdminPage') }}>Go to AdminPage</Button>
                             :
-                            UserEmail === 'mohsin@gmail.com' ?
-                                <Button onClick={() => { Navigate('/AdminPage') }}>Go to AdminPage</Button>
-                                :
-                                ""
+                            // // UserEmail === 'mohsin@gmail.com' ?
+                            // //     <Button onClick={() => { Navigate('/AdminPage') }}>Go to AdminPage</Button>
+                            //     :
+                            ""
                     }
                 </div>
                 <StudentTable UserEmail={UserEmail} />

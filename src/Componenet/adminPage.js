@@ -14,7 +14,17 @@ function AdminPage() {
     const Navigate = useNavigate()
     const mystate = useSelector((state) => state.AllUsers)
     const findUser = mystate.Users.find((v) => v.Email === mystate.LoginUser.Email)
-    console.log('My State=====>', mystate)
+    let filteruser;
+    let CompanyName;
+    if (mystate.LoginUser.type === 'company') {
+
+        filteruser = mystate.Company.find((v) => v.Email === mystate.LoginUser.Email)
+        CompanyName = filteruser.CompanyName
+    }
+    else {
+        filteruser = mystate.Users.find((v) => v.Email === mystate.LoginUser.Email)
+
+    }
     let IsLoggedIn = mystate.IsLoggedIn
     useEffect(() => {
         if (!IsLoggedIn) {
@@ -35,12 +45,20 @@ function AdminPage() {
                 </div>
             </div>
             <div>
-                <h3>Administrator Dashboard</h3>
+
                 <div className='HomePageBtn-div'>
-                    <Button onClick={() => { Navigate('/Student') }}>Your Attendance</Button>
+                    {
+                        filteruser?.type !== 'company' ?
+
+                            <Button onClick={() => { Navigate('/Student') }}>Your Attendance</Button>
+                            :
+                            ""
+                    }
                     <Button onClick={() => { Navigate('/Home') }}>Go to Home</Button>
                     <Button onClick={() => { Navigate('/SignUpForm') }}>Add User</Button>
                 </div>
+                <h2>{CompanyName}</h2>
+                <h3>Administrator Dashboard</h3>
                 <MyDataGrid />
             </div>
 
