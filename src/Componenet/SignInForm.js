@@ -90,8 +90,8 @@ function SignInForm({ handleLoginForm, sethandleLoginForm }) {
         <form className='mainForm'>
             <div className='User-Company-btn-div'>
 
-                <Button className='UserLogin-btn' value='User' onClick={(e) => { sethandleLoginForm(e.target.value) }}>User</Button>
-                <Button className='CompanyLogin-btn' value='Company' onClick={(e) => { sethandleLoginForm(e.target.value) }}>Company</Button>
+                <Button variant='outlined' className='UserLogin-btn' value='User' onClick={(e) => { sethandleLoginForm(e.target.value) }}>User</Button>
+                <Button variant='outlined' className='CompanyLogin-btn' value='Company' onClick={(e) => { sethandleLoginForm(e.target.value) }}>Company</Button>
             </div>
             {
                 handleLoginForm === 'Company' ?

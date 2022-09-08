@@ -50,7 +50,7 @@ const AllUsers = (state = initialState, action) => {
             else {
                 Swal.fire({
                     icon: 'success',
-                    text: 'Congratulation You Successfully SignUp Please Login Now !',
+                    text: 'Congratulation You Successfully Added!',
 
                 })
 

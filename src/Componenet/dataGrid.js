@@ -15,7 +15,12 @@ export default function MyDataGrid() {
     const [editBtnClicked, setEditBtnClicked] = useState(false)
     const [role, setRole] = useState('')
     const dispatch = useDispatch()
+    const wholestate = useSelector((state) => state.AllUsers)
     const mystate = useSelector((state) => state.AllUsers.Users)
+    const checkCurrLogin = wholestate.LoginUser.Email
+    let findUserByCompany = wholestate.Company.find((v) => v.Email === checkCurrLogin)
+    findUserByCompany = findUserByCompany?.CompanyName
+    console.log('findUserByCompany', findUserByCompany)
 
 
 
@@ -115,11 +120,14 @@ export default function MyDataGrid() {
     mystate.map((user, id) => {
         // console.log('user in dataGrid', user?.isDeleted)
         if (user.type !== 'company') {
-            if (!user?.isDeleted) {
-                rows.push(
-                    { id: user.id, firstName: user.FirstName, lastName: user.LastName, email: user.Email, key: id }
+            if (user.CompanyName === findUserByCompany) {
 
-                )
+                if (!user?.isDeleted) {
+                    rows.push(
+                        { id: user.id, firstName: user.FirstName, lastName: user.LastName, email: user.Email, key: id }
+
+                    )
+                }
             }
 
         }

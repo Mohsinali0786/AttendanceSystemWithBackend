@@ -35,6 +35,11 @@ export default function StudentTable(props) {
     const [addDateClicked, setAddDateClicked] = useState(false);
     const MyState = useSelector((state) => state)
     const dispatch = useDispatch()
+    const mystate = useSelector((state) => state)
+    const currLoginUser = mystate?.AllUsers.LoginUser?.Email
+    const filterdata = mystate?.AllUsers?.Company.find((v) => v.Email === currLoginUser)
+    // console.log('filtered data====>', filterdata)
+
 
     const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const Month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -61,7 +66,7 @@ export default function StudentTable(props) {
         }
     }
     const AddDate = () => {
- 
+
         const CurrDate = mydate.getDate() + "-" + Month[(mydate.getMonth())] + "-" + mydate.getFullYear()
         const CurrTime = mydate.getHours() + ":" + mydate.getMinutes() + ":" + mydate.getSeconds()
         if (C_Date !== null) {
@@ -74,10 +79,10 @@ export default function StudentTable(props) {
                     setAddDateClicked(true)
                     let CurrDay = mydate.getDay()
                     CurrDay = weekday[CurrDay]
-                    setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail }])
+                    setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail, CompanyName: filterdata.CompanyName }])
                     dispatch({
                         type: "ADDDATE",
-                        payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present' }]
+                        payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', CompanyName: filterdata.CompanyName }]
                     })
                     console.log('Data State======>=====++++', data)
                     localStorage.setItem('Attedance', JSON.stringify(data))
@@ -91,10 +96,10 @@ export default function StudentTable(props) {
                 setAddDateClicked(true)
                 let CurrDay = mydate.getDay()
                 CurrDay = weekday[CurrDay]
-                setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail }])
+                setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail, CompanyName: filterdata.CompanyName }])
                 dispatch({
                     type: "ADDDATE",
-                    payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present' }]
+                    payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', CompanyName: filterdata.CompanyName }]
                 })
                 console.log('Data State======>=====++++', data)
                 localStorage.setItem('Attedance', JSON.stringify(data))
@@ -105,10 +110,10 @@ export default function StudentTable(props) {
             setAddDateClicked(true)
             let CurrDay = mydate.getDay()
             CurrDay = weekday[CurrDay]
-            setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail }])
+            setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail, CompanyName: filterdata?.CompanyName }])
             dispatch({
                 type: "ADDDATE",
-                payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present' }]
+                payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', CompanyName: filterdata?.CompanyName }]
             })
             console.log('Data State======>=====++++', data)
         }

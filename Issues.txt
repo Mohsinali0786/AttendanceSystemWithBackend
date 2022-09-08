@@ -14,7 +14,8 @@ check admin user button
 
 Issues
 
-Not Edit users
-Data show on every company name not specific
+Data show on every company name not specific (resolved)
+Attendance show on every company not specific
+Student Profile not showing
 
 
