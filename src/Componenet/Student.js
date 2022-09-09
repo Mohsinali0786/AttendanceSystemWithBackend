@@ -29,10 +29,10 @@ function Student() {
     const CheckAdminOrUser = () => {
         mystate.Users.map((user, index) => {
             if (user.Email === UserEmail) {
-                console.log('user.UserRole ', user.userRole)
+                // console.log('user.UserRole ', user.userRole)
 
                 if ((user?.userRole)?.toLowerCase() === 'admin') {
-                    console.log('user.UserRole === admin')
+                    // console.log('user.UserRole === admin')
                     setAdminRole(true)
                 }
             }

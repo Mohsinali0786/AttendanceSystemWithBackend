@@ -36,8 +36,9 @@ export default function StudentTable(props) {
     const MyState = useSelector((state) => state)
     const dispatch = useDispatch()
     const mystate = useSelector((state) => state)
-    const currLoginUser = mystate?.AllUsers.LoginUser?.Email
-    const filterdata = mystate?.AllUsers?.Company.find((v) => v.Email === currLoginUser)
+    const currLoginUser = mystate?.AllUsers.LoginUser
+    console.log('currLoginUser', currLoginUser)
+    const filterdata = mystate?.AllUsers?.Users.find((v) => v.Email === currLoginUser.Email)
     // console.log('filtered data====>', filterdata)
 
 
@@ -52,7 +53,7 @@ export default function StudentTable(props) {
         GetDataFromLS()
     }, [])
     useEffect(() => {
-        console.log('Reducer State===>', MyState.AllUsers.Attendance)
+        // console.log('Reducer State===>', MyState.AllUsers.Attendance)
         setAddDateClicked(false)
         if (data.length !== 0) {
             localStorage.setItem('Attedance', JSON.stringify(data))
@@ -70,10 +71,10 @@ export default function StudentTable(props) {
         const CurrDate = mydate.getDate() + "-" + Month[(mydate.getMonth())] + "-" + mydate.getFullYear()
         const CurrTime = mydate.getHours() + ":" + mydate.getMinutes() + ":" + mydate.getSeconds()
         if (C_Date !== null) {
-            console.log('C-Date', C_Date)
+            // console.log('C-Date', C_Date)
             let filterEmail = C_Date?.filter((mydata) => mydata.Email === C_User.LoginUser.Email)
             let findCurrDate = filterEmail.find((isCurrDate) => isCurrDate.CurrDate === CurrDate)
-            console.log('filterEmail', filterEmail)
+            // console.log('filterEmail', filterEmail)
             if (filterEmail.length !== 0) {
                 if (!findCurrDate) {
                     setAddDateClicked(true)
@@ -84,7 +85,7 @@ export default function StudentTable(props) {
                         type: "ADDDATE",
                         payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', CompanyName: filterdata.CompanyName }]
                     })
-                    console.log('Data State======>=====++++', data)
+                    // console.log('Data State======>=====++++', data)
                     localStorage.setItem('Attedance', JSON.stringify(data))
 
                 }
@@ -92,7 +93,7 @@ export default function StudentTable(props) {
 
             }
             else {
-                console.log('mydata.CurrDate !== CurrDate')
+                // console.log('mydata.CurrDate !== CurrDate')
                 setAddDateClicked(true)
                 let CurrDay = mydate.getDay()
                 CurrDay = weekday[CurrDay]
@@ -101,12 +102,12 @@ export default function StudentTable(props) {
                     type: "ADDDATE",
                     payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', CompanyName: filterdata.CompanyName }]
                 })
-                console.log('Data State======>=====++++', data)
+                // console.log('Data State======>=====++++', data)
                 localStorage.setItem('Attedance', JSON.stringify(data))
             }
         }
         else {
-            console.log('Else=====> C_Date !== null')
+            // console.log('Else=====> C_Date !== null')
             setAddDateClicked(true)
             let CurrDay = mydate.getDay()
             CurrDay = weekday[CurrDay]
@@ -115,7 +116,7 @@ export default function StudentTable(props) {
                 type: "ADDDATE",
                 payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', CompanyName: filterdata?.CompanyName }]
             })
-            console.log('Data State======>=====++++', data)
+            // console.log('Data State======>=====++++', data)
         }
     }
     return (
@@ -135,6 +136,11 @@ export default function StudentTable(props) {
                 </TableHead>
                 <TableBody>
                     {data.map((row, i) => {
+                        // console.log('Row.companyName====>', row?.CompanyName)
+                        // console.log('filterdata.CompanyName====>', filterdata?.CompanyName)
+
+                        // if (filterdata?.CompanyName === row?.CompanyName) {
+
                         if (row.Email === props.UserEmail) {
                             return (
                                 < StyledTableRow
@@ -149,6 +155,7 @@ export default function StudentTable(props) {
                                 </StyledTableRow>
                             )
                         }
+                        // }
                     })}
                 </TableBody>
             </Table>

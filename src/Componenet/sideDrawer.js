@@ -43,7 +43,7 @@ export default function TemporaryDrawer({ UserName, filteruser }) {
             <h1>{UserName}</h1>
             <Divider style={{ marginBottom: '30px' }} />
             {data.map((item, index) => (
-                <tr style={{ display: 'flex' }}>
+                <tr style={{ display: 'flex' }} key={index}>
 
                     {filteruser?.type === 'company' && item.path !== 'Student' ?
                         <>

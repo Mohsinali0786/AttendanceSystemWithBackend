@@ -5,17 +5,14 @@ Not delete data only pass isdeleted key true or false (Resolved)
 Admin not delete yourself	(Resolved)
 
 
-user profile 
-and logout icon
-admin create company
-addmin add user
-check admin user button 
+
+Data show on every company name not specific (resolved)
+Attendance show on every company not specific resolved
+
 
 
 Issues
 
-Data show on every company name not specific (resolved)
-Attendance show on every company not specific
 Student Profile not showing
 
 

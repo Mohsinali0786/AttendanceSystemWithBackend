@@ -17,10 +17,35 @@ export default function MyDataGrid() {
     const dispatch = useDispatch()
     const wholestate = useSelector((state) => state.AllUsers)
     const mystate = useSelector((state) => state.AllUsers.Users)
-    const checkCurrLogin = wholestate.LoginUser.Email
-    let findUserByCompany = wholestate.Company.find((v) => v.Email === checkCurrLogin)
-    findUserByCompany = findUserByCompany?.CompanyName
-    console.log('findUserByCompany', findUserByCompany)
+    const currLoginUser = wholestate.LoginUser
+
+    let filteruser;
+    let filterCompany
+    let CompanyName;
+
+
+    if (currLoginUser?.type !== 'company') {
+        console.log('currLoginUser====>', currLoginUser)
+
+
+        filteruser = wholestate.Users?.find((v) => v.Email === currLoginUser.Email)
+        console.log('filtered User data from table comp====>', filteruser)
+
+        CompanyName = filteruser?.CompanyName
+        console.log('CompanyName====>', CompanyName)
+
+        filterCompany = wholestate.Company?.find((v) => v.CompanyName === CompanyName)
+        console.log('filtered Company data from table comp====>', filterCompany)
+
+    }
+    else {
+        filterCompany = wholestate?.Company?.find((v) => v.Email === currLoginUser.Email)
+        console.log('Else filterCompany===>', filterCompany)
+
+    }
+    // let findUserByCompany = wholestate.Company.find((v) => v.Email === checkCurrLogin)
+    // findUserByCompany = findUserByCompany?.CompanyName
+    // console.log('findUserByCompany', findUserByCompany)
 
 
 
@@ -118,9 +143,9 @@ export default function MyDataGrid() {
     console.log('State UPDATED====>', mystate)
 
     mystate.map((user, id) => {
-        // console.log('user in dataGrid', user?.isDeleted)
+        console.log('user.type !== company', user.type)
         if (user.type !== 'company') {
-            if (user.CompanyName === findUserByCompany) {
+            if (user.CompanyName === filterCompany?.CompanyName) {
 
                 if (!user?.isDeleted) {
                     rows.push(
@@ -168,7 +193,7 @@ export default function MyDataGrid() {
     //     console.log('Updated State ', mystate)
     // }
 
-    console.log('Role====>', role)
+    // console.log('Role====>', role)
 
     const handleGetRowId = (e) => {
         // console.log('handleGetRowId===>', e)

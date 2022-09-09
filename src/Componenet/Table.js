@@ -7,6 +7,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { useSelector, useDispatch } from "react-redux"
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -28,47 +30,65 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
 export default function CustomizedTables(props) {
+    const mystate = useSelector((state) => state)
+    console.log('state from table comp====>', mystate)
+
+    const currLoginUser = mystate?.AllUsers.LoginUser
+
+    let filteruser;
+    let filterCompany
+    let CompanyName;
+    if (currLoginUser?.type === 'company') {
+
+        filterCompany = mystate.AllUsers.Company?.find((v) => v.Email === currLoginUser.Email)
+        CompanyName = filterCompany?.CompanyName
+        // console.log('filtered data from table comp====>', filterCompany)
+
+        filteruser = mystate.AllUsers.Users?.find((v) => v.CompanyName === CompanyName)
+        // console.log('filtered users data from table comp====>', filteruser)
+
+    }
+    else {
+        filteruser = mystate.AllUsers?.Users?.find((v) => v.Email === currLoginUser.Email)
+
+    }
+
+    console.log('currLoginUser', currLoginUser)
+    // const filterdata = mystate?.AllUsers?.Users.find((v) => v.Email === currLoginUser.Email)
 
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                     <TableRow>
+                        <StyledTableCell >Company</StyledTableCell>
+
                         <StyledTableCell>Email</StyledTableCell>
-                        <StyledTableCell align="right">Current Date</StyledTableCell>
-                        <StyledTableCell align="right">Current Time</StyledTableCell>
-                        <StyledTableCell align="right">Current Day</StyledTableCell>
-                        <StyledTableCell align="right">Status</StyledTableCell>
+                        <StyledTableCell >Current Date</StyledTableCell>
+                        <StyledTableCell >Current Time</StyledTableCell>
+                        <StyledTableCell >Current Day</StyledTableCell>
+                        <StyledTableCell >Status</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {props.AllStudents?.map((row, index) => {
-                        
+                        if (filteruser?.CompanyName === row?.CompanyName) {
 
                             return (
                                 <StyledTableRow key={index}>
+                                    <StyledTableCell >{row.CompanyName}</StyledTableCell>
                                     <StyledTableCell component="th" scope="row">
                                         {row.Email}
                                     </StyledTableCell>
-                                    <StyledTableCell align="right">{row.CurrDate}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.CurrTime}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.CurrDay}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.Status}</StyledTableCell>
+                                    <StyledTableCell >{row.CurrDate}</StyledTableCell>
+                                    <StyledTableCell >{row.CurrTime}</StyledTableCell>
+                                    <StyledTableCell >{row.CurrDay}</StyledTableCell>
+                                    <StyledTableCell >{row.Status}</StyledTableCell>
                                 </StyledTableRow>
                             )
+                        }
+
                     })}
                 </TableBody>
             </Table>

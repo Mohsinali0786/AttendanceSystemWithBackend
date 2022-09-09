@@ -19,13 +19,13 @@ const AllUsers = (state = initialState, action) => {
         case "REGISTER":
             let updatedArr = []
             let filteredData = state.Users.find((user) => user.Email === action.payload.Email)
-            console.log('filteredData', filteredData)
+            // console.log('filteredData', filteredData)
             if (filteredData) {
 
                 state.Users.map((v) => {
 
                     if (v.Email === action.payload.Email && v.isDeleted === true) {
-                        console.log('Now If running', filteredData)
+                        // console.log('Now If running', filteredData)
                         v.id = filteredData.id;
                         v.FirstName = filteredData.FirstName;
                         v.LastName = filteredData.LastName;
@@ -123,12 +123,12 @@ const AllUsers = (state = initialState, action) => {
             if (data.type === 'company') {
 
                 filtereddata = state.Company.find((i) => i.Email === data.Email && i.Password === data.Password && i.type === data.type)
-                console.log('Companyfiltereddata====>', state)
+                // console.log('Companyfiltereddata====>', state)
 
             }
             else {
                 filtereddata = state.Users.find((i) => i.Email === data.Email && i.Password === data.Password && i.type === data.type)
-                console.log('Userfiltereddata====>', filtereddata)
+                // console.log('Userfiltereddata====>', filtereddata)
 
 
             }
@@ -159,7 +159,7 @@ const AllUsers = (state = initialState, action) => {
                 }
             }
             else {
-                console.log('ELse RRRRR')
+                // console.log('ELse RRRRR')
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -184,7 +184,7 @@ const AllUsers = (state = initialState, action) => {
 
                 state.Users.map((v) => {
                     if (v.id === action.payload.id) {
-                        console.log('action.payload.userRole', action.payload.userRole)
+                        // console.log('action.payload.userRole', action.payload.userRole)
                         if (v.userRole === 'admin') {
                             Swal.fire({
                                 icon: 'error',
@@ -223,8 +223,8 @@ const AllUsers = (state = initialState, action) => {
         case "EDIT":
             {
                 let updatedArr = []
-                console.log('Edit in Reducer')
-                console.log(action.payload)
+                // console.log('Edit in Reducer')
+                // console.log(action.payload)
                 let filteredData = state.Users.find((user) => user.id === action.payload.id)
                 state.Users.map((v) => {
                     if (v.id === action.payload.id) {
@@ -251,12 +251,12 @@ const AllUsers = (state = initialState, action) => {
         case "EDITCOMPANY":
             {
                 let updatedArr = []
-                console.log(action.payload)
+                // console.log(action.payload)
                 let filteredData = state.Users.find((user) => user.id === action.payload.id)
                 state.Users.map((v) => {
                     if (v.id === action.payload.id) {
 
-                        console.log('Edit in Reducer')
+                        // console.log('Edit in Reducer')
                         v.userRole = action.payload.userRole;
                         v.CompanyName = action.payload.CompanyName;
                         v.id = v.id;

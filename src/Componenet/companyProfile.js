@@ -60,7 +60,7 @@ function CompanyProfile() {
             var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2, 3})+$/;
             if (mailformat.test(Email)) {
                 let IsEmailExist = IsEmailPresent()
-                console.log('IsEmailExist===+++', IsEmailExist)
+                // console.log('IsEmailExist===+++', IsEmailExist)
                 if (IsEmailExist) {
 
                     // if (IsEmailExist.isDeleted) {
