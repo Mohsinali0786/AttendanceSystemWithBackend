@@ -23,31 +23,23 @@ function Home() {
 
         filteruser = mystate.Company.find((v) => v.Email === UserEmail)
         UserName = filteruser?.CompanyName
-        // console.log('filterUssrrrrr', filteruser)
     }
     else {
         filteruser = mystate.Users.find((v) => v.Email === UserEmail)
         UserName = filteruser?.FirstName + " " + filteruser?.LastName
 
     }
-    // console.log('Filter User', filteruser)
     const Navigate = useNavigate()
     let IsLoggedIn = mystate.IsLoggedIn
     useEffect(() => {
         setUserEmail(mystate?.LoginUser?.Email)
-
         CheckAdminOrUser()
-
     })
     useEffect(() => {
-
         let DataFromLS = JSON.parse(localStorage.getItem("Attedance"))
-        // console.log('DataFromLS', DataFromLS)
         setAllAttendance(DataFromLS)
     }, [])
-
     useEffect(() => {
-
         if (!IsLoggedIn) {
             Navigate('/')
         }
@@ -56,14 +48,11 @@ function Home() {
         mystate.Users.map((user, index) => {
             if (user.Email === UserEmail) {
                 if ((user?.userRole)?.toLowerCase() === 'admin') {
-                    // console.log('user.UserRole === admin')
                     setAdminRole(true)
                 }
             }
         })
     }
-
-
     return (
         <div>
             <div className='admin-header'>
@@ -73,28 +62,21 @@ function Home() {
                 </div>
                 <div style={{ textAlign: 'center' }}>
                     <LogoutIcon style={{ cursor: 'pointer', color: 'white', fontSize: '25px', marginRight: '20px' }} onClick={() => dispatch(signOut())} />
-
                 </div>
             </div>
             <div style={{}}>
-
-
                 <p style={{ marginRight: '20px', textAlign: 'right' }}>{UserEmail} (logged-in)</p>
             </div >
-
             <h3>{filteruser?.CompanyName} Attendance System</h3>
 
             <div className='HomePageBtn-div'>
                 {
-
                     filteruser?.type !== 'company' ?
                         <Button onClick={() => { Navigate('/Student') }}>Your Attendance</Button>
                         :
                         ""
-
                 }
                 {
-
                     adminRole ?
                         <Button onClick={() => { Navigate('/AdminPage') }}>Go to AdminPage</Button>
                         :
@@ -105,8 +87,6 @@ function Home() {
                             ""
                 }
             </div>
-
-
             <AllStudentTable AllStudents={AllAttendance} />
         </div >
 

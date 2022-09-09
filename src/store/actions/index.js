@@ -53,5 +53,15 @@ export const editCompanyData = (data) => async (dispatch, getState) => {
     })
     localStorage.setItem('Users', JSON.stringify(getState()))
 }
+export const editUserData = (data) => async (dispatch, getState) => {
+    console.log('Updated Data=====>', data)
+    dispatch({
+        type: 'EDITUSER',
+        payload: data,
+
+    })
+    localStorage.setItem('Users', JSON.stringify(getState()))
+}
+
 
 

@@ -11,8 +11,6 @@ import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2';
 import { EyeInvisibleTwoTone } from '@ant-design/icons'
 
-
-
 function CompanySignUpForm() {
     const [CompanyName, setCompanyName] = useState('')
     const [ContactNo, setContactNo] = useState('')
@@ -20,11 +18,9 @@ function CompanySignUpForm() {
     const [Email, setEmail] = useState('')
     const [Password, setPassword] = useState('')
     const [passwordShown, setPasswordShown] = useState(false);
-
     const Navigate = useNavigate()
     const mystate = useSelector((state) => state.AllUsers.Company)
     const dispatch = useDispatch()
-    // let mylength = mystate.length
     let data = {
         id: Math.round((Math.random()) * 1000),
         CompanyName,
@@ -34,17 +30,13 @@ function CompanySignUpForm() {
         Password,
         type: 'company',
         userRole: 'admin'
-
     }
     const checkEmailIsValid = () => {
         if (localStorage.getItem('Users') !== null) {
-
             var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
             if (mailformat.test(Email)) {
                 let IsEmailExist = IsEmailPresent()
-                // console.log('IsEmailExist===+++', IsEmailExist)
                 if (IsEmailExist) {
-
                     if (IsEmailExist.isDeleted) {
                         dispatch(CompanySign_Up(data))
                         Navigate('/')
@@ -60,12 +52,10 @@ function CompanySignUpForm() {
                 else {
                     dispatch(CompanySign_Up(data))
                     Navigate('/')
-
                 }
             }
         }
         else {
-
             dispatch(CompanySign_Up(data))
             Navigate('/')
         }
@@ -75,28 +65,19 @@ function CompanySignUpForm() {
 
             let UserFromLS = JSON.parse(localStorage.getItem('Users'))
             let MyUserFromLS = UserFromLS.AllUsers.Company
-
-
-
             let IsEmailExist = MyUserFromLS.find((email) => email.Email === Email)
             return IsEmailExist
-
-            // console.log(IsEmailExist.Email)
         }
     }
     const togglePassword = () => {
         setPasswordShown(!passwordShown);
     }
-
     return (
         <div >
             <div>
                 <h1 style={{ textAlign: 'center', backgroundColor: 'rgb(131 181 166)', color: 'white' }}>Attendance Management System</h1>
-
             </div>
             <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'row' }}>
-
-
                 <div className='SignUpForm-MainDiv'>
                     <h3>Company SignUp</h3>
                     <p>Please fill form to create account</p>
@@ -109,7 +90,6 @@ function CompanySignUpForm() {
                             </tr>
                             <tr>
                                 <td className='iconswithinputs'><PersonIcon className='icons' /><input name='ContactNo' required value={ContactNo} onChange={(e) => setContactNo(e.target.value)} placeholder='ContactNo' /></td>
-
                             </tr>
                             <tr>
                                 <td className='iconswithinputs'><EmailIcon className='icons' /><input name='Address' required value={Address} onChange={(e) => setAddress(e.target.value)} placeholder='Address' /></td>
@@ -120,11 +100,9 @@ function CompanySignUpForm() {
                             <tr>
                                 <td className='iconswithinputs'><LockOpenIcon className='icons' />
                                     <input name='Password' type={passwordShown ? "text" : "password"} value={Password} onChange={(e) => { setPassword(e.target.value) }} placeholder='Passoword' required />
-                                    <EyeInvisibleTwoTone onClick={() => { togglePassword() }} className='VisibleIcon' />
+                                    <EyeInvisibleTwoTone style={{ position: 'relative', left: '-20px' }} onClick={() => { togglePassword() }} className='VisibleIcon' />
                                 </td>
-                                {/* <td className='iconswithinputs'><LockOpenIcon className='icons' /><input name='Password' type='password' value={Password} onChange={(e) => setPassword(e.target.value)} placeholder='Passowrd' /></td> */}
                             </tr>
-
                             <tr>
                                 <td colSpan={2} style={{ textAlign: 'center', padding: '30px 0px 20px 0px' }}>
                                     <Button variant='contained' className='loginBtn' onClick={() => checkEmailIsValid()}>SignUp</Button>

@@ -7,10 +7,7 @@ import { useEffect, useState } from 'react';
 import BasicSelect from './basicMenu'
 import { deleteData, editData } from '../store/actions/index'
 
-
-
 export default function MyDataGrid() {
-
     const [deleteBtnClicked, setDeleteBtnClicked] = useState(false)
     const [editBtnClicked, setEditBtnClicked] = useState(false)
     const [role, setRole] = useState('')
@@ -18,37 +15,18 @@ export default function MyDataGrid() {
     const wholestate = useSelector((state) => state.AllUsers)
     const mystate = useSelector((state) => state.AllUsers.Users)
     const currLoginUser = wholestate.LoginUser
-
     let filteruser;
     let filterCompany
     let CompanyName;
-
-
     if (currLoginUser?.type !== 'company') {
-        console.log('currLoginUser====>', currLoginUser)
-
-
         filteruser = wholestate.Users?.find((v) => v.Email === currLoginUser.Email)
-        console.log('filtered User data from table comp====>', filteruser)
-
         CompanyName = filteruser?.CompanyName
-        console.log('CompanyName====>', CompanyName)
-
         filterCompany = wholestate.Company?.find((v) => v.CompanyName === CompanyName)
-        console.log('filtered Company data from table comp====>', filterCompany)
-
     }
     else {
         filterCompany = wholestate?.Company?.find((v) => v.Email === currLoginUser.Email)
-        console.log('Else filterCompany===>', filterCompany)
 
     }
-    // let findUserByCompany = wholestate.Company.find((v) => v.Email === checkCurrLogin)
-    // findUserByCompany = findUserByCompany?.CompanyName
-    // console.log('findUserByCompany', findUserByCompany)
-
-
-
     const columns = [
         { field: 'id', headerName: 'ID', width: 90 },
         {
@@ -134,19 +112,11 @@ export default function MyDataGrid() {
 
     }, [deleteBtnClicked === true])
 
-
-
-
     let rows = [];
 
-    // const mystate = useSelector((state) => state.AllUsers.Users)
-    console.log('State UPDATED====>', mystate)
-
     mystate.map((user, id) => {
-        console.log('user.type !== company', user.type)
         if (user.type !== 'company') {
             if (user.CompanyName === filterCompany?.CompanyName) {
-
                 if (!user?.isDeleted) {
                     rows.push(
                         { id: user.id, firstName: user.FirstName, lastName: user.LastName, email: user.Email, key: id }

@@ -32,10 +32,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function CustomizedTables(props) {
     const mystate = useSelector((state) => state)
-    console.log('state from table comp====>', mystate)
-
     const currLoginUser = mystate?.AllUsers.LoginUser
-
     let filteruser;
     let filterCompany
     let CompanyName;
@@ -43,27 +40,19 @@ export default function CustomizedTables(props) {
 
         filterCompany = mystate.AllUsers.Company?.find((v) => v.Email === currLoginUser.Email)
         CompanyName = filterCompany?.CompanyName
-        // console.log('filtered data from table comp====>', filterCompany)
-
         filteruser = mystate.AllUsers.Users?.find((v) => v.CompanyName === CompanyName)
-        // console.log('filtered users data from table comp====>', filteruser)
-
     }
     else {
-        filteruser = mystate.AllUsers?.Users?.find((v) => v.Email === currLoginUser.Email)
-
+        filteruser = mystate.AllUsers?.Users?.find((v) => v.Email === currLoginUser?.Email)
     }
 
     console.log('currLoginUser', currLoginUser)
-    // const filterdata = mystate?.AllUsers?.Users.find((v) => v.Email === currLoginUser.Email)
-
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                     <TableRow>
                         <StyledTableCell >Company</StyledTableCell>
-
                         <StyledTableCell>Email</StyledTableCell>
                         <StyledTableCell >Current Date</StyledTableCell>
                         <StyledTableCell >Current Time</StyledTableCell>
@@ -74,7 +63,6 @@ export default function CustomizedTables(props) {
                 <TableBody>
                     {props.AllStudents?.map((row, index) => {
                         if (filteruser?.CompanyName === row?.CompanyName) {
-
                             return (
                                 <StyledTableRow key={index}>
                                     <StyledTableCell >{row.CompanyName}</StyledTableCell>

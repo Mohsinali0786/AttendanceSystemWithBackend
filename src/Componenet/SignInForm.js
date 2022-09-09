@@ -1,4 +1,3 @@
-// import { FormControl, Input, InputLabel } from '@mui/material';
 import { Button } from '@mui/material';
 import UserIcon from '../Assets/Images/UserIcons.png'
 import CompanyIcon from '../Assets/Images/companyicon.png'
@@ -15,17 +14,12 @@ import Swal from 'sweetalert2';
 function SignInForm({ handleLoginForm, sethandleLoginForm }) {
     const Navigate = useNavigate()
     const dispatch = useDispatch()
-
-
     const [Email, setEmail] = useState('')
     const [Password, setPassword] = useState('')
     const [passwordShown, setPasswordShown] = useState(false);
-
-
     const mystate = useSelector((state) => state.AllUsers)
     console.log('My state Login===>', mystate)
     let IsLoggedIn = mystate.IsLoggedIn
-
     let UserloginInfo = {
         Email,
         Password,
@@ -37,22 +31,15 @@ function SignInForm({ handleLoginForm, sethandleLoginForm }) {
         type: 'company'
     }
 
-
     useEffect(() => {
-
         if (IsLoggedIn) {
             handleLoginForm === 'Company' ?
                 mystate.Company.map((v, index) => {
-
                     if (v.Email === mystate.LoginUser.Email) {
-                        // console.log('Outer If')
-
                         if (!v.isDeleted) {
-
                             Swal.fire({
                                 icon: 'success',
                                 text: 'Congratulation You Successfully Logged In!',
-
                             })
                             Navigate('/Home')
                         }
@@ -60,12 +47,8 @@ function SignInForm({ handleLoginForm, sethandleLoginForm }) {
 
                 }) :
                 mystate.Users.map((v, index) => {
-
                     if (v.Email === mystate.LoginUser.Email) {
-                        // console.log('Outer If')
-
                         if (!v.isDeleted) {
-
                             Swal.fire({
                                 icon: 'success',
                                 text: 'Congratulation You Successfully Logged In!',
@@ -122,7 +105,7 @@ function SignInForm({ handleLoginForm, sethandleLoginForm }) {
 
                     <td className='iconswithinputs'><LockOpenIcon className='icons' />
                         <input type={passwordShown ? "text" : "password"} onChange={(e) => { setPassword(e.target.value) }} placeholder='Passoword' />
-                        <EyeInvisibleTwoTone onClick={() => { togglePassword() }} className='VisibleIcon' />
+                        <EyeInvisibleTwoTone style={{ position: 'relative', left: '-20px' }} onClick={() => { togglePassword() }} className='VisibleIcon' />
                     </td>
                 </tr>
                 {

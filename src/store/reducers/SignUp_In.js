@@ -13,25 +13,26 @@ const initialState = {
 
 
 }
-
 const AllUsers = (state = initialState, action) => {
     switch (action.type) {
         case "REGISTER":
+            console.log('Action .payload====>', action.payload.data)
             let updatedArr = []
             let filteredData = state.Users.find((user) => user.Email === action.payload.Email)
-            // console.log('filteredData', filteredData)
+            console.log('filteredData', filteredData)
             if (filteredData) {
 
                 state.Users.map((v) => {
 
                     if (v.Email === action.payload.Email && v.isDeleted === true) {
-                        // console.log('Now If running', filteredData)
+                        console.log('Now If running')
                         v.id = filteredData.id;
                         v.FirstName = filteredData.FirstName;
                         v.LastName = filteredData.LastName;
                         v.Email = filteredData.Email;
                         v.Password = filteredData.Password;
                         v.isDeleted = false
+                        v.userRole = 'user'
 
                         Swal.fire({
                             icon: 'success',
@@ -60,9 +61,10 @@ const AllUsers = (state = initialState, action) => {
 
                 }
             }
+            return state
         case "REGISTERCOMPANY":
 
-
+            console.log('REGISTERCOMPANY')
             // let MyupdatedArr = []
             // console.log('state in RegCom action.payload===>', action.payload)
             // console.log('state in RegCom==>', AllUsers)
@@ -114,8 +116,6 @@ const AllUsers = (state = initialState, action) => {
             }
         // }
 
-
-
         case "LOGININ":
             var filtereddata = ''
             const data = action.payload
@@ -148,7 +148,7 @@ const AllUsers = (state = initialState, action) => {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Please Provide Correct Email or Password!',
+                        text: 'This Email is not registered Please SignUp first then try again!',
                     })
 
                     return {
@@ -251,19 +251,46 @@ const AllUsers = (state = initialState, action) => {
         case "EDITCOMPANY":
             {
                 let updatedArr = []
-                // console.log(action.payload)
+                console.log('action.payload', action.payload)
+                // let filteredData = state.Users.find((user) => user.id === action.payload.id)
+                state.Company.map((v) => {
+                    if (v.id === action.payload.id) {
+
+                        console.log('Edit in Reducer')
+                        v.userRole = action.payload.userRole;
+                        v.CompanyName = action.payload.CompanyName;
+                        v.id = v.id;
+                        v.Email = action.payload.Email;
+                        v.ContactNo = action.payload.ContactNo;
+                        v.Address = action.payload.Address;
+                        v.Password = action.payload.Password;
+
+                    }
+                    updatedArr.push(v)
+                })
+
+                return {
+                    ...state,
+                    Company: updatedArr
+                }
+
+            }
+
+        case "EDITUSER":
+            {
+                let updatedArr = []
+                console.log('action.payload', action.payload)
                 let filteredData = state.Users.find((user) => user.id === action.payload.id)
                 state.Users.map((v) => {
                     if (v.id === action.payload.id) {
 
                         // console.log('Edit in Reducer')
                         v.userRole = action.payload.userRole;
-                        v.CompanyName = action.payload.CompanyName;
+                        v.FirstName = action.payload.FirstName;
+                        v.LastName = action.payload.LastName;
                         v.id = v.id;
-                        v.Email = filteredData.Email;
-                        v.ContactNo = filteredData.ContactNo;
-                        v.Address = action.payload.Address;
-                        v.Password = filteredData.Password;
+                        v.Email = action.payload.Email;
+                        v.Password = action.payload.Password;
 
                     }
                     updatedArr.push(v)
@@ -275,6 +302,8 @@ const AllUsers = (state = initialState, action) => {
                 }
 
             }
+
+
 
 
 

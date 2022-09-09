@@ -37,11 +37,7 @@ export default function StudentTable(props) {
     const dispatch = useDispatch()
     const mystate = useSelector((state) => state)
     const currLoginUser = mystate?.AllUsers.LoginUser
-    console.log('currLoginUser', currLoginUser)
     const filterdata = mystate?.AllUsers?.Users.find((v) => v.Email === currLoginUser.Email)
-    // console.log('filtered data====>', filterdata)
-
-
     const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const Month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const mydate = new Date()
@@ -53,7 +49,6 @@ export default function StudentTable(props) {
         GetDataFromLS()
     }, [])
     useEffect(() => {
-        // console.log('Reducer State===>', MyState.AllUsers.Attendance)
         setAddDateClicked(false)
         if (data.length !== 0) {
             localStorage.setItem('Attedance', JSON.stringify(data))
@@ -71,10 +66,8 @@ export default function StudentTable(props) {
         const CurrDate = mydate.getDate() + "-" + Month[(mydate.getMonth())] + "-" + mydate.getFullYear()
         const CurrTime = mydate.getHours() + ":" + mydate.getMinutes() + ":" + mydate.getSeconds()
         if (C_Date !== null) {
-            // console.log('C-Date', C_Date)
             let filterEmail = C_Date?.filter((mydata) => mydata.Email === C_User.LoginUser.Email)
             let findCurrDate = filterEmail.find((isCurrDate) => isCurrDate.CurrDate === CurrDate)
-            // console.log('filterEmail', filterEmail)
             if (filterEmail.length !== 0) {
                 if (!findCurrDate) {
                     setAddDateClicked(true)
@@ -85,7 +78,6 @@ export default function StudentTable(props) {
                         type: "ADDDATE",
                         payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', CompanyName: filterdata.CompanyName }]
                     })
-                    // console.log('Data State======>=====++++', data)
                     localStorage.setItem('Attedance', JSON.stringify(data))
 
                 }
@@ -93,7 +85,6 @@ export default function StudentTable(props) {
 
             }
             else {
-                // console.log('mydata.CurrDate !== CurrDate')
                 setAddDateClicked(true)
                 let CurrDay = mydate.getDay()
                 CurrDay = weekday[CurrDay]
@@ -102,12 +93,10 @@ export default function StudentTable(props) {
                     type: "ADDDATE",
                     payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', CompanyName: filterdata.CompanyName }]
                 })
-                // console.log('Data State======>=====++++', data)
                 localStorage.setItem('Attedance', JSON.stringify(data))
             }
         }
         else {
-            // console.log('Else=====> C_Date !== null')
             setAddDateClicked(true)
             let CurrDay = mydate.getDay()
             CurrDay = weekday[CurrDay]
@@ -116,14 +105,12 @@ export default function StudentTable(props) {
                 type: "ADDDATE",
                 payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', CompanyName: filterdata?.CompanyName }]
             })
-            // console.log('Data State======>=====++++', data)
         }
     }
     return (
         <TableContainer component={Paper}>
             <div className='addAttBtn-div'>
                 <Button onClick={() => { AddDate() }}>Add Attendance</Button>
-                {/* <Button onClick={()=>{AddDate()}}>Add Attendance</Button> */}
             </div>
             <Table sx={{ minWidth: '100%' }} aria-label="simple table">
                 <TableHead>

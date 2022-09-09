@@ -13,7 +13,6 @@ function DashBoard() {
                     <Form handleLoginForm={handleLoginForm} sethandleLoginForm={sethandleLoginForm} />
                 </div>
                 {
-
                     handleLoginForm === 'Company' ?
                         < div className="sideGradient">
                             <h2>New Here?</h2>
@@ -24,7 +23,6 @@ function DashBoard() {
                         < div className="sideGradient">
                             <h2>Welcome !!</h2>
                             <p>Please Login if you are user or admin if Company then you can also SignUp </p>
-                            {/* <Link to='/SignUpForm'><Button> Sign Up</Button></Link> */}
                         </div>
                 }
             </div>

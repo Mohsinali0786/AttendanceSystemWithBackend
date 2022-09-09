@@ -12,35 +12,43 @@ import PersonAddAltTwoToneIcon from '@mui/icons-material/PersonAddAltTwoTone';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link } from 'react-router-dom'
 
-
-
-const data = [
-    {
-        name: "Profile",
-        icon: <PersonAddAltTwoToneIcon />,
-        path: 'profile'
-    },
-
-    {
-        name: "Home",
-        icon: <HomeIcon />,
-        path: 'Home'
-    },
-    {
-        name: "Your Attendance",
-        icon: <CoPresentTwoToneIcon />,
-        path: 'Student'
-    },
-
-];
-
 export default function TemporaryDrawer({ UserName, filteruser }) {
-
+    console.log('Filter User+++===>', filteruser)
     const [open, setOpen] = useState(false);
+    const [path, setPath] = useState('')
+    
+    React.useEffect(() => {
+        filteruser?.type === 'company' ?
+            setPath('profile')
+            :
+            setPath('userprofile')
+
+    })
+
+    const data = [
+        {
+            name: "Profile",
+            icon: <PersonAddAltTwoToneIcon />,
+            path: path
+        },
+
+        {
+            name: "Home",
+            icon: <HomeIcon />,
+            path: 'Home'
+        },
+        {
+            name: "Your Attendance",
+            icon: <CoPresentTwoToneIcon />,
+            path: 'Student'
+        },
+
+    ];
+
 
     const getList = () => (
         <div style={{ width: 250 }} onClick={() => setOpen(false)}>
-            <h1>{UserName}</h1>
+            <h3 style={{ textAlign: 'center' }}>{UserName}</h3>
             <Divider style={{ marginBottom: '30px' }} />
             {data.map((item, index) => (
                 <tr style={{ display: 'flex' }} key={index}>
@@ -48,13 +56,11 @@ export default function TemporaryDrawer({ UserName, filteruser }) {
                     {filteruser?.type === 'company' && item.path !== 'Student' ?
                         <>
                             <td style={{ paddingLeft: '20px', textAlign: 'center', paddingBottom: '20px' }}>{item.icon}</td>
-
                             <td><Link to={`/${item.path}`} style={{ color: 'black', textDecoration: 'none', marginLeft: '30px' }} > {item.name}</Link></td>
                         </> :
                         filteruser?.type !== 'company' ?
                             <>
                                 <td style={{ paddingLeft: '20px', textAlign: 'center', paddingBottom: '20px' }}>{item.icon}</td>
-
                                 <td><Link to={`/${item.path}`} style={{ color: 'black', textDecoration: 'none', marginLeft: '30px' }} > {item.name}</Link></td>
                             </> :
                             ""
