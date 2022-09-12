@@ -87,6 +87,7 @@
 //                     })
 //                     localStorage.setItem('Attedance', JSON.stringify(data))
 
+<<<<<<< Updated upstream
 //                 }
 //             }
 //             else {
@@ -118,6 +119,39 @@
 //             <div className='addAttBtn-div'>
 //                 <Button onClick={() => { AddDate() }}>Add Attendance</Button>
 //             </div>
+=======
+                }
+            }
+            else {
+                console.log('ELse running')
+                setAddDateClicked(true)
+                let CurrDay = mydate.getDay()
+                CurrDay = weekday[CurrDay]
+                setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail, CompanyName: C_User.LoginUser.Company }])
+                dispatch({
+                    type: "ADDDATE",
+                    payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', CompanyName: C_User.LoginUser.Company }]
+                })
+                localStorage.setItem('Attedance', JSON.stringify(data))
+            }
+        }
+        else {
+            setAddDateClicked(true)
+            let CurrDay = mydate.getDay()
+            CurrDay = weekday[CurrDay]
+            setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail, CompanyName: C_User.LoginUser?.Company }])
+            dispatch({
+                type: "ADDDATE",
+                payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', CompanyName: C_User.LoginUser?.Company }]
+            })
+        }
+    }
+    return (
+        <TableContainer component={Paper}>
+            {/* <div className='addAttBtn-div'>
+                <Button onClick={() => { AddDate() }}>Add Attendance</Button>
+            </div> */}
+>>>>>>> Stashed changes
 
 //         </TableContainer >
 //     );
