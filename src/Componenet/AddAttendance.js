@@ -43,7 +43,10 @@ export default function StudentTable(props) {
     const mydate = new Date()
     let DataFromLS = []
     let C_Date = JSON.parse(localStorage.getItem("Attedance"))
+    console.log('C_Date===>', C_Date)
+
     let C_User = useSelector((state) => state.AllUsers)
+    console.log('C_User===>', C_User)
 
     useEffect(() => {
         GetDataFromLS()
@@ -63,35 +66,38 @@ export default function StudentTable(props) {
     }
     const AddDate = () => {
 
+        // console.log('C_User', C_User.Users)
+
+
         const CurrDate = mydate.getDate() + "-" + Month[(mydate.getMonth())] + "-" + mydate.getFullYear()
         const CurrTime = mydate.getHours() + ":" + mydate.getMinutes() + ":" + mydate.getSeconds()
         if (C_Date !== null) {
-            let filterEmail = C_Date?.filter((mydata) => mydata.Email === C_User.LoginUser.Email)
+            let filterEmail = C_Date?.filter((mydata) => mydata.Email === C_User.LoginUser.Email && mydata.CompanyName === C_User.LoginUser.Company)
+
             let findCurrDate = filterEmail.find((isCurrDate) => isCurrDate.CurrDate === CurrDate)
             if (filterEmail.length !== 0) {
                 if (!findCurrDate) {
                     setAddDateClicked(true)
                     let CurrDay = mydate.getDay()
                     CurrDay = weekday[CurrDay]
-                    setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail, CompanyName: filterdata.CompanyName }])
+                    setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail, CompanyName: C_User.LoginUser.Company }])
                     dispatch({
                         type: "ADDDATE",
-                        payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', CompanyName: filterdata.CompanyName }]
+                        payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', CompanyName: C_User.LoginUser.Company }]
                     })
                     localStorage.setItem('Attedance', JSON.stringify(data))
 
                 }
-
-
             }
             else {
+                console.log('ELse running')
                 setAddDateClicked(true)
                 let CurrDay = mydate.getDay()
                 CurrDay = weekday[CurrDay]
-                setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail, CompanyName: filterdata.CompanyName }])
+                setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail, CompanyName: C_User.LoginUser.Company }])
                 dispatch({
                     type: "ADDDATE",
-                    payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', CompanyName: filterdata.CompanyName }]
+                    payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', CompanyName: C_User.LoginUser.Company }]
                 })
                 localStorage.setItem('Attedance', JSON.stringify(data))
             }
@@ -100,10 +106,10 @@ export default function StudentTable(props) {
             setAddDateClicked(true)
             let CurrDay = mydate.getDay()
             CurrDay = weekday[CurrDay]
-            setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail, CompanyName: filterdata?.CompanyName }])
+            setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', Email: props.UserEmail, CompanyName: C_User.LoginUser?.Company }])
             dispatch({
                 type: "ADDDATE",
-                payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', CompanyName: filterdata?.CompanyName }]
+                payload: [...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Present', CompanyName: C_User.LoginUser?.Company }]
             })
         }
     }
@@ -112,40 +118,7 @@ export default function StudentTable(props) {
             <div className='addAttBtn-div'>
                 <Button onClick={() => { AddDate() }}>Add Attendance</Button>
             </div>
-            <Table sx={{ minWidth: '100%' }} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <StyledTableCell align="center">Date</StyledTableCell>
-                        <StyledTableCell align="center">Time</StyledTableCell>
-                        <StyledTableCell align="center">Day</StyledTableCell>
-                        <StyledTableCell align="center">Status</StyledTableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {data.map((row, i) => {
-                        // console.log('Row.companyName====>', row?.CompanyName)
-                        // console.log('filterdata.CompanyName====>', filterdata?.CompanyName)
 
-                        // if (filterdata?.CompanyName === row?.CompanyName) {
-
-                        if (row.Email === props.UserEmail) {
-                            return (
-                                < StyledTableRow
-                                    key={i}
-                                >
-                                    <StyledTableCell align="center" component="th" scope="row">
-                                        {row.CurrDate}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">{row.CurrTime}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.CurrDay}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.Status}</StyledTableCell>
-                                </StyledTableRow>
-                            )
-                        }
-                        // }
-                    })}
-                </TableBody>
-            </Table>
         </TableContainer >
     );
 }

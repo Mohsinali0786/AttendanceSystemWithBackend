@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Button } from '@mui/material'
-import MyDataGrid from './dataGrid'
+import MyDataGrid from '../Componenet/dataGrid'
 import { Link } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 

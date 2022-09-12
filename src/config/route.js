@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import MainPage from '../Componenet/SignInComponent'
-import SignUpForm from '../Componenet/SignUpForm'
-import AdminPage from '../Componenet/adminPage'
-import Student from '../Componenet/Student'
-import Home from '../Componenet/Home'
-import CompanySignUpForm from '../Componenet/CompanySignUp'
-import CompanyProfile from '../Componenet/companyProfile'
-import UserProfile from '../Componenet/userProfile'
+import SignUpForm from '../Screen/SignUpForm'
+import AdminPage from '../Screen/adminPage'
+import Student from '../Screen/Student'
+import Home from '../Screen/Home'
+import CompanySignUpForm from '../Screen/CompanySignUp'
+import CompanyProfile from '../Screen/companyProfile'
+import UserProfile from '../Screen/userProfile'
 
 
 // import {

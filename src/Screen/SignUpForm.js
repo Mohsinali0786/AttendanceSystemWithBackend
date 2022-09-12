@@ -21,7 +21,7 @@ function SignUpForm() {
     const mystate = useSelector((state) => state.AllUsers.Users)
     let filterdata = useSelector((state) => state.AllUsers)
     const currLoginUser = useSelector((state) => state.AllUsers.LoginUser)
-    filterdata = filterdata.Company.find((v) => v.Email === currLoginUser.Email)
+    filterdata = filterdata.Company.find((v) => v.Email === currLoginUser?.Email)
     const dispatch = useDispatch()
     let mylength = mystate.length
     let data = {
@@ -39,19 +39,30 @@ function SignUpForm() {
             var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
             if (mailformat.test(Email)) {
                 let IsEmailExist = IsEmailPresent()
+                // console.log('IsEmailExist', IsEmailExist)
                 if (IsEmailExist) {
+                    // console.log('currLoginUser.CompanyName', filterdata)
+                    const findCompanyExist = mystate.find((data) => data.CompanyName === IsEmailExist.CompanyName && data.Email === IsEmailExist)
+                    // console.log('findCompanyExist', findCompanyExist)
+                    if (findCompanyExist) {
 
-                    if (IsEmailExist.isDeleted) {
+                        if (IsEmailExist.isDeleted) {
+                            dispatch(Sign_Up(data))
+                            Navigate('/home')
+                        }
+                        else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'This Email address is already Register Try different email ',
+                            })
+                        }
+                    }
+                    else {
                         dispatch(Sign_Up(data))
                         Navigate('/home')
                     }
-                    else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'This Email address is already Register Try different email ',
-                        })
-                    }
+
                 }
                 else {
                     dispatch(Sign_Up(data))
@@ -95,7 +106,7 @@ function SignUpForm() {
 
                 <div className='SignUpForm-MainDiv'>
                     <h3>SignUp</h3>
-                    <hp>Please fill form to create account</hp>
+                    <p>Please fill form to create account</p>
                     <form className='signUpForm'>
                         <div className='UserIconDiv'>
                         </div>

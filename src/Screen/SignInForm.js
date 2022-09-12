@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 function SignInForm({ handleLoginForm, sethandleLoginForm }) {
     const Navigate = useNavigate()
     const dispatch = useDispatch()
+    const [Company, setCompany] = useState('')
     const [Email, setEmail] = useState('')
     const [Password, setPassword] = useState('')
     const [passwordShown, setPasswordShown] = useState(false);
@@ -23,6 +24,7 @@ function SignInForm({ handleLoginForm, sethandleLoginForm }) {
     let UserloginInfo = {
         Email,
         Password,
+        Company,
         type: 'user'
     }
     let CompanyloginInfo = {
@@ -47,6 +49,9 @@ function SignInForm({ handleLoginForm, sethandleLoginForm }) {
 
                 }) :
                 mystate.Users.map((v, index) => {
+                    // console.log('v.CompanyName', v.CompanyName)
+                    // console.log('CompanyName', Company)
+
                     if (v.Email === mystate.LoginUser.Email) {
                         if (!v.isDeleted) {
                             Swal.fire({
@@ -92,11 +97,17 @@ function SignInForm({ handleLoginForm, sethandleLoginForm }) {
                             <img src={CompanyIcon} id='usericon-img' />
                         </div>
                         :
-                        <div className='UserIconDiv'>
+                        <>
+                            <div className='UserIconDiv'>
 
-                            <img src={UserIcon} id='usericon-img' />
-                        </div>
+                                <img src={UserIcon} id='usericon-img' />
+                            </div>
+                            <tr>
+                                <td className='iconswithinputs'><EmailIcon className='icons' /><input type='company' onChange={(e) => { setCompany(e.target.value) }} placeholder='your Company' /></td>
+                            </tr>
+                        </>
                 }
+
                 <tr>
 
                     <td className='iconswithinputs'><EmailIcon className='icons' /><input type='email' onChange={(e) => { setEmail(e.target.value) }} placeholder='Email' /></td>

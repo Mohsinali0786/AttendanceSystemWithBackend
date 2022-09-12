@@ -15,8 +15,9 @@ Issues
 
 
 Student Profile not showing
-Company name same email different  show data 
-Same email added in different company issue
+Company name same email different  show data  (Not resolved)
+Same email added in different company issue  (Email is always unique)
 signup form error line 34
+When company signup it goes to company login
 
 

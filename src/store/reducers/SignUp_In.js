@@ -16,9 +16,9 @@ const initialState = {
 const AllUsers = (state = initialState, action) => {
     switch (action.type) {
         case "REGISTER":
-            console.log('Action .payload====>', action.payload.data)
+            console.log('Action .payload====>', action.payload)
             let updatedArr = []
-            let filteredData = state.Users.find((user) => user.Email === action.payload.Email)
+            let filteredData = state.Users.find((user) => user.Email === action.payload.Email && user.CompanyName === action.payload.CompanyName)
             console.log('filteredData', filteredData)
             if (filteredData) {
 
@@ -127,8 +127,9 @@ const AllUsers = (state = initialState, action) => {
 
             }
             else {
-                filtereddata = state.Users.find((i) => i.Email === data.Email && i.Password === data.Password && i.type === data.type)
-                // console.log('Userfiltereddata====>', filtereddata)
+
+                filtereddata = state.Users.find((i) => i.Email === data.Email && i.Password === data.Password && i.type === data.type && data.Company === i.CompanyName)
+                console.log('Userfiltereddata====>', data.Company)
 
 
             }

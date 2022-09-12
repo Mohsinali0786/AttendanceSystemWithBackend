@@ -1,18 +1,25 @@
 import { signOut } from '../store/actions'
 import { useSelector, useDispatch } from "react-redux"
 import { Button } from '@mui/material'
-import StudentTable from './studentTable'
+import AllStudentTable from '../Componenet/Table'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import StudentTable from '../Componenet/AddAttendance'
 
 function Student() {
     // let UserEmail;
     const [UserEmail, setUserEmail] = useState()
     const [adminRole, setAdminRole] = useState(false)
+    const [AllAttendance, setAllAttendance] = useState()
+
     const Navigate = useNavigate()
     const mystate = useSelector((state) => state.AllUsers)
 
     let IsLoggedIn = mystate.IsLoggedIn
+    useEffect(() => {
+        let DataFromLS = JSON.parse(localStorage.getItem("Attedance"))
+        setAllAttendance(DataFromLS)
+    }, [])
     useEffect(() => {
         setUserEmail(mystate?.LoginUser?.Email)
         // UserEmail = mystate.LoginUser.Email
@@ -40,6 +47,7 @@ function Student() {
     }
 
     const dispatch = useDispatch()
+    console.log('Al Attendance', AllAttendance)
     return (
         <div>
             <div className='admin-header'>
@@ -63,13 +71,20 @@ function Student() {
                         adminRole ?
                             <Button onClick={() => { Navigate('/AdminPage') }}>Go to AdminPage</Button>
                             :
-                            // // UserEmail === 'mohsin@gmail.com' ?
-                            // //     <Button onClick={() => { Navigate('/AdminPage') }}>Go to AdminPage</Button>
-                            //     :
-                            ""
+                            UserEmail === 'mohsin@gmail.com' ?
+                                <Button onClick={() => { Navigate('/AdminPage') }}>Go to AdminPage</Button>
+                                :
+                                ""
                     }
                 </div>
+                {/* <StudentTable UserEmail={UserEmail} /> */}
                 <StudentTable UserEmail={UserEmail} />
+                <AllStudentTable AllStudents={AllAttendance} UserEmail={UserEmail} />
+
+
+
+
+
             </div>
         </div>
     )

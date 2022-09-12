@@ -1,22 +1,21 @@
-import AllStudentTable from './Table'
+import AllStudentTable from '../Componenet/Table'
+// import Students from '../Componenet/Student'
 import { signOut } from '../store/actions'
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Button } from '@mui/material'
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import SideDrawer from './sideDrawer'
+import SideDrawer from '../Componenet/sideDrawer'
 import LogoutIcon from '@mui/icons-material/Logout';
 
 function Home() {
     const [AllAttendance, setAllAttendance] = useState()
     const [UserEmail, setUserEmail] = useState()
     const [adminRole, setAdminRole] = useState(false)
-    const [LoginUser, setLoginUser] = useState()
-
     const dispatch = useDispatch()
     const mystate = useSelector((state) => state.AllUsers)
-    console.log('mystate Home', mystate)
+    // console.log('mystate Home', mystate)
     let filteruser;
     let UserName;
     if (mystate?.LoginUser?.type === 'company') {
@@ -53,6 +52,7 @@ function Home() {
             }
         })
     }
+    console.log('All Attendance====>', AllAttendance)
     return (
         <div>
             <div className='admin-header'>
@@ -67,12 +67,14 @@ function Home() {
             <div style={{}}>
                 <p style={{ marginRight: '20px', textAlign: 'right' }}>{UserEmail} (logged-in)</p>
             </div >
-            <h3>{filteruser?.CompanyName} Attendance System</h3>
+            {/* <h3>{mystate?.LoginUser?.Company} Attendance System</h3> */}
 
             <div className='HomePageBtn-div'>
                 {
                     filteruser?.type !== 'company' ?
                         <Button onClick={() => { Navigate('/Student') }}>Your Attendance</Button>
+                        // <Button onClick={() => { setNavStudent('true') }}>Your Attendance</Button>
+
                         :
                         ""
                 }
@@ -87,7 +89,19 @@ function Home() {
                             ""
                 }
             </div>
-            <AllStudentTable AllStudents={AllAttendance} />
+            {
+                // !NavStudent ?
+
+                <AllStudentTable AllStudents={AllAttendance} />
+                // :
+                // <>
+                //     <Students />
+                //     <AllStudentTable AllStudents={AllAttendance.filter((v) => v.Email === filteruser.Email)} />
+                // </>
+
+
+
+            }
         </div >
 
     )
