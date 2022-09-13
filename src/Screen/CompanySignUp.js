@@ -35,7 +35,9 @@ function CompanySignUpForm() {
         if (localStorage.getItem('Users') !== null) {
             var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
             if (mailformat.test(Email)) {
+                // console.log('mailformat.test(Email)')
                 let IsEmailExist = IsEmailPresent()
+                // console.log('IsEmailExist', IsEmailExist)
                 if (IsEmailExist) {
                     if (IsEmailExist.isDeleted) {
                         dispatch(CompanySign_Up(data))
@@ -61,11 +63,13 @@ function CompanySignUpForm() {
         }
     }
     function IsEmailPresent() {
-        if (localStorage.getItem('Company') !== null) {
+        if (localStorage.getItem('Users').AllUsers?.Company !== null) {
+            // console.log('localStorage.getItem(Company) !== null')
 
             let UserFromLS = JSON.parse(localStorage.getItem('Users'))
             let MyUserFromLS = UserFromLS.AllUsers.Company
-            let IsEmailExist = MyUserFromLS.find((email) => email.Email === Email)
+            // console.log('MyUserFromLS', MyUserFromLS)
+            let IsEmailExist = MyUserFromLS.find((email) => email.Email === Email || email.CompanyName === CompanyName)
             return IsEmailExist
         }
     }

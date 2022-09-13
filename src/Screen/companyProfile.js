@@ -12,7 +12,7 @@ function CompanyProfile() {
 
     let dataFromLS = JSON.parse(localStorage.getItem('Users'))
     dataFromLS = dataFromLS.AllUsers.Company
-    console.log('dataFromLS Company Profile', dataFromLS)
+    // console.log('dataFromLS Company Profile', dataFromLS)
     const [CompanyName, setCompanyName] = useState('')
     const [ContactNo, setContactNo] = useState('')
     const [Address, setAddress] = useState('')

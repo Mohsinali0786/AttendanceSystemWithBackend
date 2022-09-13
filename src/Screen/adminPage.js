@@ -6,6 +6,8 @@ import { Button } from '@mui/material'
 import MyDataGrid from '../Componenet/dataGrid'
 import { Link } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
+import SideDrawer from '../Componenet/sideDrawer'
+
 
 
 
@@ -16,13 +18,18 @@ function AdminPage() {
     const findUser = mystate.Users.find((v) => v.Email === mystate.LoginUser.Email)
     let filteruser;
     let CompanyName;
+    let UserName;
     if (mystate.LoginUser.type === 'company') {
 
         filteruser = mystate.Company.find((v) => v.Email === mystate.LoginUser.Email)
-        CompanyName = filteruser.CompanyName
+        UserName = filteruser.CompanyName
+        console.log('Admin Com Name', UserName)
     }
     else {
         filteruser = mystate.Users.find((v) => v.Email === mystate.LoginUser.Email)
+        // caches.log('filterusers======>', filteruser)
+        UserName = filteruser?.FirstName + " " + filteruser?.LastName
+
 
     }
     let IsLoggedIn = mystate.IsLoggedIn
@@ -35,6 +42,8 @@ function AdminPage() {
     return (
         <div>
             <div className='admin-header'>
+                <SideDrawer UserName={UserName} filteruser={filteruser} />
+
                 <div>
                     <h1 className='Header-heading' >Attendance Management System</h1>
                 </div>

@@ -32,7 +32,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function CustomizedTables(props) {
     // console.log(props?.UserEmail, "=======-----------==>")
-    console.log(props?.AllStudents, "All Students=======-----------==>")
+    // console.log(props?.AllStudents, "All Students=======-----------==>")
+
+    const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const Month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const mydate = new Date()
+
     const mystate = useSelector((state) => state)
     const filteredData = props.AllStudents?.filter(data => data.Email === props.UserEmail)
 
@@ -43,9 +48,9 @@ export default function CustomizedTables(props) {
     if (currLoginUser?.type === 'company') {
         filterCompany = mystate.AllUsers.Company?.find((v) => v.Email === currLoginUser.Email)
         CompanyName = filterCompany?.CompanyName
-        console.log('CompanyNAme===>', CompanyName)
+        // console.log('CompanyNAme===>', CompanyName)
         filteruser = mystate.AllUsers.Users?.find((v) => v.CompanyName === CompanyName)
-        console.log('currLoginUser?.Type', currLoginUser)
+        // console.log('currLoginUser?.Type', currLoginUser)
 
     }
     else {
@@ -108,6 +113,10 @@ export default function CustomizedTables(props) {
                                 </TableHead>
                                 <TableBody>
                                     {props.AllStudents?.map((row, index) => {
+                                        // if(row.CurrDate!==CurrDate)
+                                        // {
+
+                                        // }
                                         if (currLoginUser.Company === row?.CompanyName) {
                                             return (
                                                 <StyledTableRow key={index}>
@@ -143,11 +152,11 @@ export default function CustomizedTables(props) {
                                     <TableBody>
                                         {
                                             filteredData?.map((row, index) => {
-                                                console.log('row====>', row)
+                                                // console.log('row====>', row)
                                                 // console.log('props.UserEmail', props.UserEmail)
-                                                console.log('currLoginUser.Email', currLoginUser.Company)
+                                                // console.log('currLoginUser.Email', currLoginUser.Company)
                                                 if (row.CompanyName === currLoginUser.Company) {
-                                                    console.log('ifffffff')
+                                                    // console.log('ifffffff')
 
                                                     return (
                                                         <StyledTableRow key={index}>

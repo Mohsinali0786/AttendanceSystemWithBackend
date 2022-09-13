@@ -115,6 +115,8 @@ export default function MyDataGrid() {
     let rows = [];
 
     mystate.map((user, id) => {
+        // console.log('userEmail', user.Email)
+        // console.log('currLoginUser.Email', currLoginUser.Email)
         if (user.type !== 'company') {
             if (user.CompanyName === filterCompany?.CompanyName) {
                 if (!user?.isDeleted) {

@@ -1,23 +1,7 @@
 
-Task :
 
-Not delete data only pass isdeleted key true or false (Resolved)
-Admin not delete yourself	(Resolved)
-
-
-
-Data show on every company name not specific (resolved)
-Attendance show on every company not specific resolved
-
-
-
-Issues
-
-
-Student Profile not showing
-Company name same email different  show data  (Not resolved)
-Same email added in different company issue  (Email is always unique)
 signup form error line 34
 When company signup it goes to company login
+
 
 

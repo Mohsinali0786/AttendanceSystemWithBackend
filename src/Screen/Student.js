@@ -4,7 +4,8 @@ import { Button } from '@mui/material'
 import AllStudentTable from '../Componenet/Table'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import StudentTable from '../Componenet/AddAttendance'
+import LogoutIcon from '@mui/icons-material/Logout';
+
 
 function Student() {
     // let UserEmail;
@@ -16,6 +17,20 @@ function Student() {
     const mystate = useSelector((state) => state.AllUsers)
 
     let IsLoggedIn = mystate.IsLoggedIn
+
+    let filteruser;
+    let UserName;
+    if (mystate?.LoginUser?.type === 'company') {
+
+        filteruser = mystate.Company.find((v) => v.Email === UserEmail)
+        UserName = filteruser?.CompanyName
+    }
+    else {
+        filteruser = mystate.Users.find((v) => v.Email === UserEmail && v.CompanyName === mystate.LoginUser.Company)
+        // console.log('filterUser=====', filteruser)
+        UserName = filteruser?.FirstName + " " + filteruser?.LastName
+
+    }
     useEffect(() => {
         let DataFromLS = JSON.parse(localStorage.getItem("Attedance"))
         setAllAttendance(DataFromLS)
@@ -38,10 +53,13 @@ function Student() {
             if (user.Email === UserEmail) {
                 // console.log('user.UserRole ', user.userRole)
 
-                if ((user?.userRole)?.toLowerCase() === 'admin') {
-                    // console.log('user.UserRole === admin')
-                    setAdminRole(true)
+                if (filteruser?.userRole === 'admin') {
+                    if ((user?.userRole)?.toLowerCase() === 'admin') {
+                        // console.log('user.UserRole === admin')
+                        setAdminRole(true)
+                    }
                 }
+
             }
         })
     }
@@ -69,36 +87,18 @@ function Student() {
     const mydate = new Date()
     let DataFromLS = []
     let C_Date = JSON.parse(localStorage.getItem("Attedance"))
-    console.log('C_Date===>', C_Date)
+    // console.log('C_Date===>', C_Date)
 
     let C_User = useSelector((state) => state.AllUsers)
-    console.log('C_User===>', C_User)
+    // console.log('C_User===>', C_User)
 
     useEffect(() => {
-        console.log('Use Effect GetData From LS')
+        // console.log('Use Effect GetData From LS')
         GetDataFromLS()
-
-        // const CurrDate = mydate.getDate() + "-" + Month[(mydate.getMonth())] + "-" + mydate.getFullYear()
-        // const CurrTime = mydate.getHours() + ":" + mydate.getMinutes() + ":" + mydate.getSeconds()
-        // if (C_Date !== null) {
-        //     let filterEmail = C_Date?.filter((mydata) => mydata.Email === C_User.LoginUser.Email && mydata.CompanyName === C_User.LoginUser.Company)
-
-        //     let findCurrDate = filterEmail.find((isCurrDate) => isCurrDate.CurrDate === CurrDate)
-        //     console.log('findCurrDate', findCurrDate)
-        //     if (filterEmail.length !== 0) {
-        //         if (!findCurrDate) {
-        //             setAddDateClicked(true)
-        //             let CurrDay = mydate.getDay()
-        //             CurrDay = weekday[CurrDay]
-        //             setData([...data, { CurrDate: CurrDate, CurrTime: CurrTime, CurrDay: CurrDay, Status: 'Absent', Email: UserEmail, CompanyName: C_User.LoginUser.Company }])
-        //             localStorage.setItem('Attedance', JSON.stringify(data))
-
-        //         }
-        //     }
-        // }
-
-
     }, [])
+
+
+
     useEffect(() => {
         setAddDateClicked(false)
         if (data.length !== 0) {
@@ -123,7 +123,7 @@ function Student() {
             let filterEmail = C_Date?.filter((mydata) => mydata.Email === C_User.LoginUser.Email && mydata.CompanyName === C_User.LoginUser.Company)
 
             let findCurrDate = filterEmail.find((isCurrDate) => isCurrDate.CurrDate === CurrDate)
-            console.log('findCurrDate', findCurrDate)
+            // console.log('findCurrDate', findCurrDate)
             if (filterEmail.length !== 0) {
                 if (!findCurrDate) {
                     setAddDateClicked(true)
@@ -139,7 +139,7 @@ function Student() {
                 }
             }
             else {
-                console.log('ELse running')
+                // console.log('ELse running')
                 setAddDateClicked(true)
                 let CurrDay = mydate.getDay()
                 CurrDay = weekday[CurrDay]
@@ -170,7 +170,7 @@ function Student() {
 
 
     const dispatch = useDispatch()
-    console.log('Al Attendance', AllAttendance)
+    // console.log('Al Attendance', AllAttendance)
     return (
         <div>
             <div className='admin-header'>
@@ -178,7 +178,9 @@ function Student() {
                     <h1 className='Header-heading' >Attendance Management System</h1>
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                    <Button variant='outlined' className='signout-btn' onClick={() => dispatch(signOut())}>signOut</Button>
+                    <LogoutIcon style={{ cursor: 'pointer', color: 'white', fontSize: '25px', marginRight: '20px' }} onClick={() => dispatch(signOut())} />
+
+                    {/* <Button variant='outlined' className='signout-btn' onClick={() => dispatch(signOut())}>signOut</Button> */}
                 </div>
             </div>
             <div>
@@ -194,23 +196,18 @@ function Student() {
                         adminRole ?
                             <Button onClick={() => { Navigate('/AdminPage') }}>Go to AdminPage</Button>
                             :
-                            UserEmail === 'mohsin@gmail.com' ?
-                                <Button onClick={() => { Navigate('/AdminPage') }}>Go to AdminPage</Button>
-                                :
-                                ""
+                            // UserEmail === 'mohsin@gmail.com' ?
+                            //     <Button onClick={() => { Navigate('/AdminPage') }}>Go to AdminPage</Button>
+                            //     :
+                            ""
                     }
                 </div>
                 {/* <StudentTable UserEmail={UserEmail} /> */}
-                <StudentTable UserEmail={UserEmail} />
+                {/* <StudentTable UserEmail={UserEmail} /> */}
                 <div className='addAttBtn-div'>
                     <Button onClick={() => { AddDate() }}>Add Attendance</Button>
                 </div>
                 <AllStudentTable AllStudents={C_Date} UserEmail={UserEmail} />
-
-
-
-
-
             </div>
         </div>
     )

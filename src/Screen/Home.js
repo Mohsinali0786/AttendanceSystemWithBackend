@@ -24,7 +24,8 @@ function Home() {
         UserName = filteruser?.CompanyName
     }
     else {
-        filteruser = mystate.Users.find((v) => v.Email === UserEmail)
+        filteruser = mystate.Users.find((v) => v.Email === UserEmail && v.CompanyName === mystate.LoginUser.Company)
+        // console.log('filterUser=====', filteruser)
         UserName = filteruser?.FirstName + " " + filteruser?.LastName
 
     }
@@ -46,13 +47,17 @@ function Home() {
     const CheckAdminOrUser = () => {
         mystate.Users.map((user, index) => {
             if (user.Email === UserEmail) {
-                if ((user?.userRole)?.toLowerCase() === 'admin') {
-                    setAdminRole(true)
+
+                if (filteruser?.userRole === 'admin') {
+
+                    if ((user?.userRole)?.toLowerCase() === 'admin') {
+                        setAdminRole(true)
+                    }
                 }
             }
         })
     }
-    console.log('All Attendance====>', AllAttendance)
+    // console.log('All Attendance====>', AllAttendance)
     return (
         <div>
             <div className='admin-header'>
@@ -74,7 +79,6 @@ function Home() {
                     filteruser?.type !== 'company' ?
                         <Button onClick={() => { Navigate('/Student') }}>Your Attendance</Button>
                         // <Button onClick={() => { setNavStudent('true') }}>Your Attendance</Button>
-
                         :
                         ""
                 }

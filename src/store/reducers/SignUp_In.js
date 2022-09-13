@@ -119,17 +119,17 @@ const AllUsers = (state = initialState, action) => {
         case "LOGININ":
             var filtereddata = ''
             const data = action.payload
-            console.log('data reducer', data)
+            // console.log('data reducer', data)
             if (data.type === 'company') {
 
                 filtereddata = state.Company.find((i) => i.Email === data.Email && i.Password === data.Password && i.type === data.type)
-                // console.log('Companyfiltereddata====>', state)
+                console.log('Companyfiltereddata====>', state)
 
             }
             else {
 
                 filtereddata = state.Users.find((i) => i.Email === data.Email && i.Password === data.Password && i.type === data.type && data.Company === i.CompanyName)
-                console.log('Userfiltereddata====>', data.Company)
+                console.log('Userfiltereddata====>', filtereddata)
 
 
             }
@@ -160,12 +160,23 @@ const AllUsers = (state = initialState, action) => {
                 }
             }
             else {
+                filtereddata = state.Users.find((i) => i.Email === data.Email)
                 // console.log('ELse RRRRR')
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Please Provide Correct Email or Password!',
-                })
+                if (filtereddata) {
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'InCorrect Email or Passowrd!',
+                    })
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Email not Found in that company!',
+                    })
+                }
 
             }
         case "LOGOUT": {
