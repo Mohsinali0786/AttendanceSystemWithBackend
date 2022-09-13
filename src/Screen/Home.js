@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import SideDrawer from '../Componenet/sideDrawer'
 import LogoutIcon from '@mui/icons-material/Logout';
+import LottieControl from '../Componenet/lottie'
+
 
 function Home() {
     const [AllAttendance, setAllAttendance] = useState()
@@ -74,6 +76,7 @@ function Home() {
             </div >
             {/* <h3>{mystate?.LoginUser?.Company} Attendance System</h3> */}
 
+            <LottieControl />
             <div className='HomePageBtn-div'>
                 {
                     filteruser?.type !== 'company' ?
