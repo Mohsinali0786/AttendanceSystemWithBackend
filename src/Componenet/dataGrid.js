@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import BasicSelect from './basicMenu'
 import { deleteData, editData } from '../store/actions/index'
+import LottieControl from '../Componenet/lottie'
+
 
 export default function MyDataGrid() {
     const [deleteBtnClicked, setDeleteBtnClicked] = useState(false)
@@ -172,17 +174,22 @@ export default function MyDataGrid() {
         return e.id
     }
     return (
+
         <Box sx={{ height: 400, width: '100%' }}>
-            <DataGrid
-                rows={rows}
-                getRowId={handleGetRowId}
-                columns={columns}
-                pageSize={5}
-                rowsPerPageOptions={[5]}
-                checkboxSelection
-                disableSelectionOnClick
-                experimentalFeatures={{ newEditingApi: true }}
-            />
+            {
+                rows.length !== 0 ?
+                    <DataGrid
+                        rows={rows}
+                        getRowId={handleGetRowId}
+                        columns={columns}
+                        pageSize={5}
+                        rowsPerPageOptions={[5]}
+                        checkboxSelection
+                        disableSelectionOnClick
+                        experimentalFeatures={{ newEditingApi: true }}
+                    /> :
+                    <LottieControl />
+            }
         </Box>
     );
 }

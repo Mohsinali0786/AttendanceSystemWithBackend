@@ -1,6 +1,6 @@
 import React from 'react'
 import Lottie from 'react-lottie';
-import NODATA from "../Assets/jsons/ball.json"
+import NODATA from "../Assets/jsons/nodata2.json"
 const LottieControl = () => {
     return (
 

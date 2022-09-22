@@ -9,6 +9,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useSelector, useDispatch } from "react-redux"
 import { useState, useEffect } from 'react';
+import LottieControl from '../Componenet/lottie'
+
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -32,7 +34,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function CustomizedTables(props) {
     // console.log(props?.UserEmail, "=======-----------==>")
-    // console.log(props?.AllStudents, "All Students=======-----------==>")
+    console.log(props?.AllStudents, "All Students=======-----------==>")
 
     const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const Month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -40,6 +42,7 @@ export default function CustomizedTables(props) {
 
     const mystate = useSelector((state) => state)
     const filteredData = props.AllStudents?.filter(data => data.Email === props.UserEmail)
+    console.log('My Datataaaa', filteredData)
 
     const currLoginUser = mystate?.AllUsers.LoginUser
     let filteruser;
@@ -63,81 +66,8 @@ export default function CustomizedTables(props) {
 
                 currLoginUser?.type === 'company' ?
                     < TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                            <TableHead>
-                                <TableRow>
-                                    <StyledTableCell >Company</StyledTableCell>
-                                    <StyledTableCell>Email</StyledTableCell>
-                                    <StyledTableCell >Current Date</StyledTableCell>
-                                    <StyledTableCell >Current Time</StyledTableCell>
-                                    <StyledTableCell >Current Day</StyledTableCell>
-                                    <StyledTableCell >Status</StyledTableCell>
-
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {props?.AllStudents?.map((row, index) => {
-                                    if (CompanyName === row.CompanyName) {
-                                        return (
-                                            <StyledTableRow key={index}>
-                                                <StyledTableCell >{row.CompanyName}</StyledTableCell>
-                                                <StyledTableCell component="th" scope="row">
-                                                    {row.Email}
-                                                </StyledTableCell>
-                                                <StyledTableCell >{row.CurrDate}</StyledTableCell>
-                                                <StyledTableCell >{row.CurrTime}</StyledTableCell>
-                                                <StyledTableCell >{row.CurrDay}</StyledTableCell>
-                                                <StyledTableCell >{row.Status}</StyledTableCell>
-                                            </StyledTableRow>
-                                        )
-                                    }
-
-                                })}
-                            </TableBody>
-                        </Table>
-                    </TableContainer> :
-
-
-                    props.AllStudents && !props.UserEmail ?
-                        <TableContainer component={Paper}>
-                            <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                                <TableHead>
-                                    <TableRow>
-                                        <StyledTableCell >Company</StyledTableCell>
-                                        <StyledTableCell>Email</StyledTableCell>
-                                        <StyledTableCell >Current Date</StyledTableCell>
-                                        <StyledTableCell >Current Time</StyledTableCell>
-                                        <StyledTableCell >Current Day</StyledTableCell>
-                                        <StyledTableCell >Status</StyledTableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {props.AllStudents?.map((row, index) => {
-                                        // if(row.CurrDate!==CurrDate)
-                                        // {
-
-                                        // }
-                                        if (currLoginUser.Company === row?.CompanyName) {
-                                            return (
-                                                <StyledTableRow key={index}>
-                                                    <StyledTableCell >{row.CompanyName}</StyledTableCell>
-                                                    <StyledTableCell component="th" scope="row">
-                                                        {row.Email}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell >{row.CurrDate}</StyledTableCell>
-                                                    <StyledTableCell >{row.CurrTime}</StyledTableCell>
-                                                    <StyledTableCell >{row.CurrDay}</StyledTableCell>
-                                                    <StyledTableCell >{row.Status}</StyledTableCell>
-                                                </StyledTableRow>
-                                            )
-                                        }
-
-                                    })}
-                                </TableBody>
-                            </Table>
-                        </TableContainer> :
-                        props.AllStudents && props.UserEmail ?
-                            <TableContainer component={Paper}>
+                        {
+                            props?.AllStudents !== null && props.AllStudents?.find((v) => v.CompanyName === CompanyName) ?
                                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                                     <TableHead>
                                         <TableRow>
@@ -147,17 +77,60 @@ export default function CustomizedTables(props) {
                                             <StyledTableCell >Current Time</StyledTableCell>
                                             <StyledTableCell >Current Day</StyledTableCell>
                                             <StyledTableCell >Status</StyledTableCell>
+
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {
-                                            filteredData?.map((row, index) => {
-                                                // console.log('row====>', row)
-                                                // console.log('props.UserEmail', props.UserEmail)
-                                                // console.log('currLoginUser.Email', currLoginUser.Company)
-                                                if (row.CompanyName === currLoginUser.Company) {
-                                                    // console.log('ifffffff')
+                                        {props?.AllStudents?.map((row, index) => {
+                                            if (CompanyName === row.CompanyName) {
+                                                return (
+                                                    <StyledTableRow key={index}>
+                                                        <StyledTableCell >{row.CompanyName}</StyledTableCell>
+                                                        <StyledTableCell component="th" scope="row">
+                                                            {row.Email}
+                                                        </StyledTableCell>
+                                                        <StyledTableCell >{row.CurrDate}</StyledTableCell>
+                                                        <StyledTableCell >{row.CurrTime}</StyledTableCell>
+                                                        <StyledTableCell >{row.CurrDay}</StyledTableCell>
+                                                        <StyledTableCell >{row.Status}</StyledTableCell>
+                                                    </StyledTableRow>
+                                                )
+                                            }
 
+                                        })}
+                                    </TableBody>
+                                </Table> :
+                                <>
+
+                                    <LottieControl />
+                                </>
+                        }
+                    </TableContainer> :
+
+
+                    props.AllStudents && !props.UserEmail ?
+                        <TableContainer component={Paper}>
+                            {
+                                props.AllStudents !== null && props.AllStudents.find((v) => v.CompanyName === currLoginUser.Company) ?
+
+                                    <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <StyledTableCell >Company</StyledTableCell>
+                                                <StyledTableCell>Email</StyledTableCell>
+                                                <StyledTableCell >Current Date</StyledTableCell>
+                                                <StyledTableCell >Current Time</StyledTableCell>
+                                                <StyledTableCell >Current Day</StyledTableCell>
+                                                <StyledTableCell >Status</StyledTableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {props.AllStudents?.map((row, index) => {
+                                                // if(row.CurrDate!==CurrDate)
+                                                // {
+
+                                                // }
+                                                if (currLoginUser.Company === row?.CompanyName) {
                                                     return (
                                                         <StyledTableRow key={index}>
                                                             <StyledTableCell >{row.CompanyName}</StyledTableCell>
@@ -172,14 +145,60 @@ export default function CustomizedTables(props) {
                                                     )
                                                 }
 
-                                            })
-                                        }
-                                    </TableBody>
-                                </Table>
+                                            })}
+                                        </TableBody>
+                                    </Table> :
+                                    <LottieControl />
+                            }
+                        </TableContainer> :
+                        props.AllStudents && props.UserEmail ?
+                            <TableContainer component={Paper}>
+                                {
+                                    filteredData.length !== 0 && filteredData.find((v) => v.CompanyName === currLoginUser.Company) ?
+                                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <StyledTableCell >Company</StyledTableCell>
+                                                    <StyledTableCell>Email</StyledTableCell>
+                                                    <StyledTableCell >Current Date</StyledTableCell>
+                                                    <StyledTableCell >Current Time</StyledTableCell>
+                                                    <StyledTableCell >Current Day</StyledTableCell>
+                                                    <StyledTableCell >Status</StyledTableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {
+                                                    filteredData?.map((row, index) => {
+                                                        // console.log('row====>', row)
+                                                        // console.log('props.UserEmail', props.UserEmail)
+                                                        // console.log('currLoginUser.Email', currLoginUser.Company)
+                                                        if (row.CompanyName === currLoginUser.Company) {
+                                                            // console.log('ifffffff')
+
+                                                            return (
+                                                                <StyledTableRow key={index}>
+                                                                    <StyledTableCell >{row.CompanyName}</StyledTableCell>
+                                                                    <StyledTableCell component="th" scope="row">
+                                                                        {row.Email}
+                                                                    </StyledTableCell>
+                                                                    <StyledTableCell >{row.CurrDate}</StyledTableCell>
+                                                                    <StyledTableCell >{row.CurrTime}</StyledTableCell>
+                                                                    <StyledTableCell >{row.CurrDay}</StyledTableCell>
+                                                                    <StyledTableCell >{row.Status}</StyledTableCell>
+                                                                </StyledTableRow>
+                                                            )
+                                                        }
+
+                                                    })
+                                                }
+                                            </TableBody>
+                                        </Table> :
+                                        <LottieControl />
+                                }
                             </TableContainer>
                             :
 
-                            "No Record Found"
+                            <LottieControl />
             }
         </>
     );

@@ -36,7 +36,7 @@ export const deleteData = (cell, role) => async (dispatch, getState) => {
     localStorage.setItem('Users', JSON.stringify(getState()))
 }
 export const editData = (cell, role) => async (dispatch, getState) => {
-    console.log('Cell=====>', cell)
+    console.log('Cell=====>', role)
     dispatch({
         type: 'EDIT',
         payload: { userRole: role, id: cell.row.id, Email: cell.row.email },

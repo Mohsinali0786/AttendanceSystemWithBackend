@@ -123,15 +123,17 @@ function SignUpForm() {
                             </tr>
                             <tr>
                                 <td className='iconswithinputs'><LockOpenIcon className='icons' />
-                                    <input name='Password' type={passwordShown ? "text" : "password"} value={Password} onChange={(e) => { setPassword(e.target.value) }} placeholder='Passoword' required />
+                                    <input name='Password' type={passwordShown ? "text" : "password"} value={Password} onChange={(e) => { e.target.value.length > 5 ? setPassword(e.target.value) : setPassword(null) }} placeholder='Passoword' required />
                                     <EyeInvisibleTwoTone style={{ position: 'relative', left: '-20px' }} onClick={() => { togglePassword() }} className='VisibleIcon' />
                                 </td>
+                                <p style={{ fontSize: '12px' }}>(Password should be greater then 5 digit)</p>
+
                                 {/* <td className='iconswithinputs'><LockOpenIcon className='icons' /><input name='Password' type='password' value={Password} onChange={(e) => setPassword(e.target.value)} placeholder='Passowrd' /></td> */}
                             </tr>
 
                             <tr>
                                 <td colSpan={2} style={{ textAlign: 'center', padding: '30px 0px 20px 0px' }}>
-                                    <Button variant='contained' className='loginBtn' onClick={() => checkEmailIsValid()}>SignUp</Button>
+                                    <Button disabled={Password === null ? true : false} variant='contained' className='loginBtn' onClick={() => checkEmailIsValid()}>SignUp</Button>
                                 </td>
                             </tr>
                             <tr>

@@ -5,6 +5,8 @@ import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
 import { useSelector } from 'react-redux';
 export default function NativeSelectDemo({ role, changeRole, option }) {
+
+    console.log('Options')
     const mystate = useSelector((state) => state.AllUsers)
     const handleInputChange = (event) => {
         changeRole(event.target.value)

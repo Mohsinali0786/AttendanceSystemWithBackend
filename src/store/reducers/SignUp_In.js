@@ -10,8 +10,6 @@ const initialState = {
     IsLoggedIn: null,
     Attendance: []
 
-
-
 }
 const AllUsers = (state = initialState, action) => {
     switch (action.type) {
@@ -167,7 +165,7 @@ const AllUsers = (state = initialState, action) => {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'InCorrect Email or Passowrd!',
+                        text: 'Email not found!',
                     })
                 }
                 else {

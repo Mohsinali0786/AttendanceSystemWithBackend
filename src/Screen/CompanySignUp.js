@@ -10,6 +10,7 @@ import { Sign_Up, CompanySign_Up } from '../store/actions/index'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2';
 import { EyeInvisibleTwoTone } from '@ant-design/icons'
+import axios from 'axios';
 
 function CompanySignUpForm() {
     const [CompanyName, setCompanyName] = useState('')
@@ -52,7 +53,21 @@ function CompanySignUpForm() {
                     }
                 }
                 else {
+
                     dispatch(CompanySign_Up(data))
+                    // axios.post('http://localhost:4000/api/user/registration',{
+                    //     "name": "mohsin",
+                    //     "email": "mohsinali@gmail.com",
+                    //     "userName": "mohsin786",
+                    //     "password": "999ggghhh"
+                    // })
+                    // .then((res)=>{
+                    //     console.log(res,"=res=")
+                    // })
+                    // .catch((error)=>{
+                    //     console.log(error,"=error=")
+                    // })
+
                     Navigate('/')
                 }
             }
@@ -103,13 +118,16 @@ function CompanySignUpForm() {
                             </tr>
                             <tr>
                                 <td className='iconswithinputs'><LockOpenIcon className='icons' />
-                                    <input name='Password' type={passwordShown ? "text" : "password"} value={Password} onChange={(e) => { setPassword(e.target.value) }} placeholder='Passoword' required />
+                                    <input name='Password' type={passwordShown ? "text" : "password"} value={Password} onChange={(e) => { e.target.value.length > 5 ? setPassword(e.target.value) : setPassword(null) }} placeholder='Passoword' required />
                                     <EyeInvisibleTwoTone style={{ position: 'relative', left: '-20px' }} onClick={() => { togglePassword() }} className='VisibleIcon' />
                                 </td>
+                                <p style={{ fontSize: '12px' }}>(Password should be greater then 5 digit)</p>
                             </tr>
                             <tr>
                                 <td colSpan={2} style={{ textAlign: 'center', padding: '30px 0px 20px 0px' }}>
-                                    <Button variant='contained' className='loginBtn' onClick={() => checkEmailIsValid()}>SignUp</Button>
+
+                                    <Button disabled={Password === null ? true : false} variant='contained' className='loginBtn' onClick={() => checkEmailIsValid()}>SignUp</Button>
+
                                 </td>
                             </tr>
                             <tr>

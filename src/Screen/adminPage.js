@@ -8,16 +8,11 @@ import { Link } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SideDrawer from '../Componenet/sideDrawer'
 
-
-
-
-
-
 function AdminPage() {
     const dispatch = useDispatch()
     const Navigate = useNavigate()
     const mystate = useSelector((state) => state.AllUsers)
-    const findUser = mystate.Users.find((v) => v.Email === mystate.LoginUser.Email)
+    const findUser = mystate.Users.find((v) => v?.Email === mystate.LoginUser?.Email)
     let filteruser;
     let CompanyName;
     let UserName;
@@ -70,6 +65,7 @@ function AdminPage() {
                 </div>
                 <h2>{CompanyName}</h2>
                 <h3>Administrator Dashboard</h3>
+
                 <MyDataGrid />
             </div>
 
