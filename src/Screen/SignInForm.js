@@ -10,44 +10,48 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EyeInvisibleTwoTone } from '@ant-design/icons'
 import Swal from 'sweetalert2';
+import axios from 'axios';
+
 
 function SignInForm({ handleLoginForm, sethandleLoginForm }) {
     const Navigate = useNavigate()
     const dispatch = useDispatch()
-    const [Company, setCompany] = useState('')
-    const [Email, setEmail] = useState('')
-    const [Password, setPassword] = useState('')
+    const [company, setCompany] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
     const [passwordShown, setPasswordShown] = useState(false);
     const mystate = useSelector((state) => state.AllUsers)
     console.log('My state Login===>', mystate)
     let IsLoggedIn = mystate.IsLoggedIn
     let UserloginInfo = {
-        Email,
-        Password,
-        Company,
+        email,
+        password,
+        company,
         type: 'user'
     }
     let CompanyloginInfo = {
-        Email,
-        Password,
+        email,
+        password,
         type: 'company'
     }
 
     useEffect(() => {
         if (IsLoggedIn) {
             handleLoginForm === 'Company' ?
-                mystate.Company.map((v, index) => {
-                    if (v.Email === mystate.LoginUser.Email) {
-                        if (!v.isDeleted) {
-                            Swal.fire({
-                                icon: 'success',
-                                text: 'Congratulation You Successfully Logged In!',
-                            })
-                            Navigate('/Home')
-                        }
-                    }
+                <></>
+                // mystate.Company.map((v, index) => {
+                //     if (v.Email === mystate.LoginUser.Email) {
+                //         if (!v.isDeleted) {
+                //             Swal.fire({
+                //                 icon: 'success',
+                //                 text: 'Congratulation You Successfully Logged In!',
+                //             })
+                //             Navigate('/Home')
+                //         }
+                //     }
 
-                }) :
+                // }) 
+                :
                 mystate.Users.map((v, index) => {
                     // console.log('v.CompanyName', v.CompanyName)
                     // console.log('CompanyName', Company)
@@ -67,6 +71,31 @@ function SignInForm({ handleLoginForm, sethandleLoginForm }) {
         }
     }, [IsLoggedIn === true])
 
+    const signin = (mydata) => {
+        console.log('signin running', mydata)
+        dispatch(Sign_In(mydata))
+        axios.post('http://localhost:4000/api/login', mydata)
+            .then((res) => {
+                let { data } = res
+                console.log('data===>', data)
+                if (data?.status === 'success') {
+                    Swal.fire({
+                        icon: res.data.status,
+                        text: res.data.message,
+                    })
+                    Navigate('/home')
+                } else {
+                    console.log('else data', data)
+                }
+                // console.log(res, "=res=")
+            })
+            .catch((error) => {
+                alert('Ohh Error Occured')
+
+                console.log(error, "=error=")
+            })
+
+    }
 
 
     const togglePassword = () => {
@@ -123,13 +152,13 @@ function SignInForm({ handleLoginForm, sethandleLoginForm }) {
                     handleLoginForm === 'Company' ?
                         <tr>
                             <td colSpan={2} style={{ textAlign: 'center', padding: '30px 0px 20px 0px' }}>
-                                <Button variant='contained' className='loginBtn' onClick={() => dispatch(Sign_In(CompanyloginInfo))}>Login</Button>
+                                <Button variant='contained' className='loginBtn' onClick={() => signin(CompanyloginInfo)}>Login</Button>
                             </td>
                         </tr>
                         :
                         <tr>
                             <td colSpan={2} style={{ textAlign: 'center', padding: '30px 0px 20px 0px' }}>
-                                <Button variant='contained' className='loginBtn' onClick={() => dispatch(Sign_In(UserloginInfo))}>Login</Button>
+                                <Button variant='contained' className='loginBtn' onClick={() => signin(UserloginInfo)}>Login</Button>
                             </td>
                         </tr>
                 }

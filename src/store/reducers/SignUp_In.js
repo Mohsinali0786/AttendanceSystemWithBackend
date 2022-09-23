@@ -115,68 +115,73 @@ const AllUsers = (state = initialState, action) => {
         // }
 
         case "LOGININ":
-            var filtereddata = ''
+            // var filtereddata = ''
             const data = action.payload
-            // console.log('data reducer', data)
-            if (data.type === 'company') {
-
-                filtereddata = state.Company.find((i) => i.Email === data.Email && i.Password === data.Password && i.type === data.type)
-                console.log('Companyfiltereddata====>', state)
-
+            return {
+                ...state,
+                LoginUser: data,
+                IsLoggedIn: true
             }
-            else {
+        // console.log('data reducer', data)
+        // if (data.type === 'company') {
 
-                filtereddata = state.Users.find((i) => i.Email === data.Email && i.Password === data.Password && i.type === data.type && data.Company === i.CompanyName)
-                console.log('Userfiltereddata====>', filtereddata)
+        //     filtereddata = state.Company.find((i) => i.Email === data.Email && i.Password === data.Password && i.type === data.type)
+        //     console.log('Companyfiltereddata====>', state)
+
+        // }
+        // else {
+
+        //     filtereddata = state.Users.find((i) => i.Email === data.Email && i.Password === data.Password && i.type === data.type && data.Company === i.CompanyName)
+        //     console.log('Userfiltereddata====>', filtereddata)
 
 
-            }
+        // }
 
-            if (filtereddata) {
-                if (!filtereddata.isDeleted) {
+        // if (filtereddata) {
+        //     if (!filtereddata.isDeleted) {
 
-                    return {
-                        ...state,
-                        LoginUser: action.payload,
-                        IsLoggedIn: true
+        //         return {
+        //             ...state,
+        //             LoginUser: action.payload,
+        //             IsLoggedIn: true
 
-                    }
-                } else {
-                    // console.log('ELse RRRRR')
+        //         }
+        //     } else {
+        //         // console.log('ELse RRRRR')
 
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'This Email is not registered Please SignUp first then try again!',
-                    })
+        //         Swal.fire({
+        //             icon: 'error',
+        //             title: 'Oops...',
+        //             text: 'This Email is not registered Please SignUp first then try again!',
+        //         })
 
-                    return {
-                        ...state,
-                        message: "You Are Not Registered",
-                        IsLoggedIn: false
-                    }
-                }
-            }
-            else {
-                filtereddata = state.Users.find((i) => i.Email === data.Email)
-                // console.log('ELse RRRRR')
-                if (filtereddata) {
+        //         return {
+        //             ...state,
+        //             message: "You Are Not Registered",
+        //             IsLoggedIn: false
+        //         }
+        //     }
+        // }
+        // else {
+        //     filtereddata = state.Users.find((i) => i.Email === data.Email)
+        //     // console.log('ELse RRRRR')
+        //     if (filtereddata) {
 
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Email not found!',
-                    })
-                }
-                else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Email not Found in that company!',
-                    })
-                }
+        //         Swal.fire({
+        //             icon: 'error',
+        //             title: 'Oops...',
+        //             text: 'Email not found!',
+        //         })
+        //     }
+        //     else {
+        //         Swal.fire({
+        //             icon: 'error',
+        //             title: 'Oops...',
+        //             text: 'Email not Found in that company!',
+        //         })
+        //     }
 
-            }
+        // }
         case "LOGOUT": {
             // console.log('state.AllUsers Reducer LogOut', state.Users)
 

@@ -11,31 +11,34 @@ import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2';
 import { EyeInvisibleTwoTone } from '@ant-design/icons'
 import axios from 'axios';
+// import { User } from '../Backend/Model/userModel'
 
 function CompanySignUpForm() {
-    const [CompanyName, setCompanyName] = useState('')
-    const [ContactNo, setContactNo] = useState('')
-    const [Address, setAddress] = useState('')
-    const [Email, setEmail] = useState('')
-    const [Password, setPassword] = useState('')
+    const [companyName, setCompanyName] = useState('')
+    const [contactNo, setContactNo] = useState('')
+    const [address, setAddress] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
     const [passwordShown, setPasswordShown] = useState(false);
     const Navigate = useNavigate()
     const mystate = useSelector((state) => state.AllUsers.Company)
+    console.log('mystate from CompanySignup', mystate)
     const dispatch = useDispatch()
     let data = {
         id: Math.round((Math.random()) * 1000),
-        CompanyName,
-        ContactNo,
-        Address,
-        Email,
-        Password,
+        companyName,
+        contactNo,
+        address,
+        email,
+        password,
         type: 'company',
         userRole: 'admin'
     }
     const checkEmailIsValid = () => {
+        // console.log('User Model===>', User)
         if (localStorage.getItem('Users') !== null) {
             var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            if (mailformat.test(Email)) {
+            if (mailformat.test(email)) {
                 // console.log('mailformat.test(Email)')
                 let IsEmailExist = IsEmailPresent()
                 // console.log('IsEmailExist', IsEmailExist)
@@ -55,26 +58,39 @@ function CompanySignUpForm() {
                 else {
 
                     dispatch(CompanySign_Up(data))
-                    // axios.post('http://localhost:4000/api/user/registration',{
-                    //     "name": "mohsin",
-                    //     "email": "mohsinali@gmail.com",
-                    //     "userName": "mohsin786",
-                    //     "password": "999ggghhh"
-                    // })
-                    // .then((res)=>{
-                    //     console.log(res,"=res=")
-                    // })
-                    // .catch((error)=>{
-                    //     console.log(error,"=error=")
-                    // })
+                    axios.post('http://localhost:4000/api/sigup', data)
+                        .then((res) => {
+                            
+                            console.log(res, "=res=")
+                            alert('sign up successfully')
 
-                    Navigate('/')
+                            // Navigate('/')
+                        })
+                        .catch((error) => {
+                            alert('Ohh Error Occured')
+
+                            console.log(error, "=error=")
+                        })
+
                 }
             }
         }
         else {
             dispatch(CompanySign_Up(data))
-            Navigate('/')
+            axios.post('http://localhost:4000/api/sigup', data)
+                .then((res) => {
+                    console.log(res, "=res=")
+                    alert('sign up successfully')
+
+                    // Navigate('/')
+                })
+                .catch((error) => {
+                    alert('Ohh Error Occured')
+
+                    console.log(error, "=error=")
+                })
+
+            // Navigate('/')
         }
     }
     function IsEmailPresent() {
@@ -84,7 +100,7 @@ function CompanySignUpForm() {
             let UserFromLS = JSON.parse(localStorage.getItem('Users'))
             let MyUserFromLS = UserFromLS.AllUsers.Company
             // console.log('MyUserFromLS', MyUserFromLS)
-            let IsEmailExist = MyUserFromLS.find((email) => email.Email === Email || email.CompanyName === CompanyName)
+            let IsEmailExist = MyUserFromLS.find((email) => email.Email === email || email.companyName === companyName)
             return IsEmailExist
         }
     }
@@ -105,20 +121,20 @@ function CompanySignUpForm() {
                         </div>
                         <table className='tablestyling'>
                             <tr >
-                                <td className='iconswithinputs'><PersonIcon className='icons' /><input name='CompanyName' required value={CompanyName} onChange={(e) => setCompanyName(e.target.value)} placeholder='CompanyName' /></td>
+                                <td className='iconswithinputs'><PersonIcon className='icons' /><input name='CompanyName' required value={companyName} onChange={(e) => setCompanyName(e.target.value)} placeholder='CompanyName' /></td>
                             </tr>
                             <tr>
-                                <td className='iconswithinputs'><PersonIcon className='icons' /><input name='ContactNo' required value={ContactNo} onChange={(e) => setContactNo(e.target.value)} placeholder='ContactNo' /></td>
+                                <td className='iconswithinputs'><PersonIcon className='icons' /><input name='ContactNo' required value={contactNo} onChange={(e) => setContactNo(e.target.value)} placeholder='ContactNo' /></td>
                             </tr>
                             <tr>
-                                <td className='iconswithinputs'><EmailIcon className='icons' /><input name='Address' required value={Address} onChange={(e) => setAddress(e.target.value)} placeholder='Address' /></td>
+                                <td className='iconswithinputs'><EmailIcon className='icons' /><input name='Address' required value={address} onChange={(e) => setAddress(e.target.value)} placeholder='Address' /></td>
                             </tr>
                             <tr>
-                                <td className='iconswithinputs'><EmailIcon className='icons' /><input name='Email' type='email' required value={Email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' /></td>
+                                <td className='iconswithinputs'><EmailIcon className='icons' /><input name='Email' type='email' required value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' /></td>
                             </tr>
                             <tr>
                                 <td className='iconswithinputs'><LockOpenIcon className='icons' />
-                                    <input name='Password' type={passwordShown ? "text" : "password"} value={Password} onChange={(e) => { e.target.value.length > 5 ? setPassword(e.target.value) : setPassword(null) }} placeholder='Passoword' required />
+                                    <input name='Password' type={passwordShown ? "text" : "password"} value={password} onChange={(e) => { e.target.value.length > 5 ? setPassword(e.target.value) : setPassword(null) }} placeholder='Passoword' required />
                                     <EyeInvisibleTwoTone style={{ position: 'relative', left: '-20px' }} onClick={() => { togglePassword() }} className='VisibleIcon' />
                                 </td>
                                 <p style={{ fontSize: '12px' }}>(Password should be greater then 5 digit)</p>
@@ -126,7 +142,7 @@ function CompanySignUpForm() {
                             <tr>
                                 <td colSpan={2} style={{ textAlign: 'center', padding: '30px 0px 20px 0px' }}>
 
-                                    <Button disabled={Password === null ? true : false} variant='contained' className='loginBtn' onClick={() => checkEmailIsValid()}>SignUp</Button>
+                                    <Button disabled={password === null ? true : false} variant='contained' className='loginBtn' onClick={() => checkEmailIsValid()}>SignUp</Button>
 
                                 </td>
                             </tr>

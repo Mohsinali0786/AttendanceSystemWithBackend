@@ -12,9 +12,10 @@ export const CompanySign_Up = (data) => async (dispatch, getState) => {
         type: "REGISTERCOMPANY",
         payload: data
     })
-    localStorage.setItem('Users', JSON.stringify(getState()))
+    // localStorage.setItem('Users', JSON.stringify(getState()))
 }
 export const Sign_In = (LoginInfo) => async (dispatch) => {
+    // console.log('LoginInfo in action', LoginInfo)
     dispatch({
         type: 'LOGININ',
         payload: LoginInfo,
