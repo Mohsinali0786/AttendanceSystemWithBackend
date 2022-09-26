@@ -20,9 +20,14 @@ function SignInForm({ handleLoginForm, sethandleLoginForm }) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [passwordShown, setPasswordShown] = useState(false);
+
+    const [allCompanies, setAllCompanies] = useState()
+    const [allUsers, setAllUsers] = useState()
+
     const mystate = useSelector((state) => state.AllUsers)
-    console.log('My state Login===>', mystate)
-    let IsLoggedIn = mystate.IsLoggedIn
+    console.log('My state Login===>', mystate.LoginUser)
+    let IsLoggedIn = mystate.LoginUser?.IsLoggedIn
+    console.log('IsLoggedIn', IsLoggedIn)
     let UserloginInfo = {
         email,
         password,
@@ -36,9 +41,32 @@ function SignInForm({ handleLoginForm, sethandleLoginForm }) {
     }
 
     useEffect(() => {
+
+        axios.get('http://localhost:4000/api/getcompany')
+            .then((res) => {
+                // console.log(res.data?.status)
+                // console.log(res.data.AllCompanies, "=res=")
+                setAllCompanies(res.data.AllCompanies)
+            }).catch((err) => {
+                console.log('Error====>', err)
+            })
+        axios.get('http://localhost:4000/api/getusers')
+            .then((res) => {
+                // console.log(res.data?.status)
+                // console.log(res.data.AllUsers, "=res=")
+                setAllUsers(res.data.AllUsers)
+            }).catch((err) => {
+                console.log('Error====>', err)
+            })
+
+        // console.log('IsLoggedIn', IsLoggedIn)
+        // console.log('handleLoginForm === "Company"', handleLoginForm)
+
         if (IsLoggedIn) {
             handleLoginForm === 'Company' ?
-                <></>
+                // <></>
+                Navigate('/home')
+
                 // mystate.Company.map((v, index) => {
                 //     if (v.Email === mystate.LoginUser.Email) {
                 //         if (!v.isDeleted) {
@@ -52,39 +80,66 @@ function SignInForm({ handleLoginForm, sethandleLoginForm }) {
 
                 // }) 
                 :
-                mystate.Users.map((v, index) => {
-                    // console.log('v.CompanyName', v.CompanyName)
-                    // console.log('CompanyName', Company)
+                Navigate('/home')
+            // mystate.Users.map((v, index) => {
 
-                    if (v.Email === mystate.LoginUser.Email) {
-                        if (!v.isDeleted) {
-                            Swal.fire({
-                                icon: 'success',
-                                text: 'Congratulation You Successfully Logged In!',
 
-                            })
-                            Navigate('/Home')
-                        }
-                    }
 
-                })
+            //     // if (v.Email === mystate.LoginUser.Email) {
+            //     //     if (!v.isDeleted) {
+            //     //         Swal.fire({
+            //     //             icon: 'success',
+            //     //             text: 'Congratulation You Successfully Logged In!',
+
+            //     //         })
+            //     //         // Navigate('/Home')
+            //     //     }
+            //     // }
+
+            // })
         }
     }, [IsLoggedIn === true])
-
     const signin = (mydata) => {
         console.log('signin running', mydata)
-        dispatch(Sign_In(mydata))
-        axios.post('http://localhost:4000/api/login', mydata)
+        let myapi = ''
+        if (handleLoginForm === 'Company') {
+            myapi = 'http://localhost:4000/api/login'
+        }
+        else {
+            myapi = 'http://localhost:4000/api/authuser'
+        }
+
+        axios.post(myapi, mydata)
             .then((res) => {
                 let { data } = res
-                console.log('data===>', data)
+                // console.log('data===>', data)
                 if (data?.status === 'success') {
                     Swal.fire({
                         icon: res.data.status,
                         text: res.data.message,
                     })
-                    Navigate('/home')
+                    // Navigate('/home')
+                    let obj = {
+                        mydata,
+                        IsLoggedIn: true,
+                        allCompanies,
+                        allUsers
+                    }
+                    dispatch(Sign_In(obj),)
+                    // dispatch({
+                    //     Sign_In(mydata)
+                    //     type: "LOGIN",
+                    //     IsLoggedIn: true
+                    // })
                 } else {
+                    Swal.fire({
+                        icon: res.data.status,
+                        text: res.data.message,
+                    })
+                    // dispatch({
+                    //     type: "LOGIN",
+                    //     IsLoggedIn: false
+                    // })
                     console.log('else data', data)
                 }
                 // console.log(res, "=res=")

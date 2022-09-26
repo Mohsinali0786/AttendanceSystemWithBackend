@@ -16,27 +16,34 @@ function Student() {
     const Navigate = useNavigate()
     const mystate = useSelector((state) => state.AllUsers)
 
-    let IsLoggedIn = mystate.IsLoggedIn
+    // console.log('mystate in Student', mystate)
+
+    let IsLoggedIn = mystate?.LoginUser?.IsLoggedIn
+    // console.log('IsLoggedIn in student', IsLoggedIn)
 
     let filteruser;
     let UserName;
     if (mystate?.LoginUser?.type === 'company') {
 
-        filteruser = mystate.Company.find((v) => v.Email === UserEmail)
-        UserName = filteruser?.CompanyName
+        filteruser = mystate.Company.find((v) => v.email === UserEmail)
+        // console.log('IsLoggedIn in student', filteruser)
+        UserName = filteruser?.companyName
     }
     else {
-        filteruser = mystate.Users.find((v) => v.Email === UserEmail && v.CompanyName === mystate.LoginUser.Company)
-        // console.log('filterUser=====', filteruser)
-        UserName = filteruser?.FirstName + " " + filteruser?.LastName
+        // console.log('mystate.LoginUser=====', mystate.LoginUser.LoginUser.company)
+
+        filteruser = mystate.Users.find((v) => v.email === UserEmail && v.companyName === mystate.LoginUser?.LoginUser?.company)
+        // console.log('filterUser in student=====', filteruser)
+        UserName = filteruser?.firstName + " " + filteruser?.lastName
+        console.log('UserName in UserName=====', UserName)
 
     }
+    // useEffect(() => {
+    //     let DataFromLS = JSON.parse(localStorage.getItem("Attedance"))
+    //     setAllAttendance(DataFromLS)
+    // }, [])
     useEffect(() => {
-        let DataFromLS = JSON.parse(localStorage.getItem("Attedance"))
-        setAllAttendance(DataFromLS)
-    }, [])
-    useEffect(() => {
-        setUserEmail(mystate?.LoginUser?.Email)
+        setUserEmail(mystate?.LoginUser?.LoginUser?.email)
         // UserEmail = mystate.LoginUser.Email
         // console.log('UserEmail Effect', UserEmail)
         CheckAdminOrUser()

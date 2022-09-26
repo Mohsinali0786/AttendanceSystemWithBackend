@@ -4,7 +4,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import formimg from '../Assets/Images/draw1.png'
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from "react-redux"
 import { Sign_Up, CompanySign_Up } from '../store/actions/index'
 import { useNavigate } from 'react-router-dom'
@@ -35,52 +35,46 @@ function CompanySignUpForm() {
         userRole: 'admin'
     }
     const checkEmailIsValid = () => {
-        // console.log('User Model===>', User)
-        if (localStorage.getItem('Users') !== null) {
-            var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            if (mailformat.test(email)) {
-                // console.log('mailformat.test(Email)')
-                let IsEmailExist = IsEmailPresent()
-                // console.log('IsEmailExist', IsEmailExist)
-                if (IsEmailExist) {
-                    if (IsEmailExist.isDeleted) {
-                        dispatch(CompanySign_Up(data))
-                        Navigate('/')
-                    }
-                    else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'This Email address is already Register Try different email ',
-                        })
-                    }
-                }
-                else {
+        // if (localStorage.getItem('Users') !== null) {
+        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (mailformat.test(email)) {
+            // let IsEmailExist = IsEmailPresent()
+            // if (IsEmailExist) {
+            //     if (IsEmailExist.isDeleted) {
+            //         dispatch(CompanySign_Up(data))
+            //         Navigate('/')
+            //     }
+            //     else {
+            //         Swal.fire({
+            //             icon: 'error',
+            //             title: 'Oops...',
+            //             text: 'This Email address is already Register Try different email ',
+            //         })
+            //     }
+            // }
+            // else {
 
-                    dispatch(CompanySign_Up(data))
-                    axios.post('http://localhost:4000/api/sigup', data)
-                        .then((res) => {
-                            
-                            console.log(res, "=res=")
-                            alert('sign up successfully')
-
-                            // Navigate('/')
-                        })
-                        .catch((error) => {
-                            alert('Ohh Error Occured')
-
-                            console.log(error, "=error=")
-                        })
-
-                }
-            }
-        }
-        else {
             dispatch(CompanySign_Up(data))
             axios.post('http://localhost:4000/api/sigup', data)
                 .then((res) => {
+                    console.log(res.data?.status)
+                    if (res.data?.status === 'success') {
+                        Swal.fire({
+                            icon: res.data.status,
+                            text: res.data.message,
+                        })
+
+                    }
+                    else {
+                        Swal.fire({
+                            icon: res.data.status,
+                            text: res.data.message,
+                        })
+
+                    }
+
                     console.log(res, "=res=")
-                    alert('sign up successfully')
+                    // alert('sign up successfully')
 
                     // Navigate('/')
                 })
@@ -90,20 +84,38 @@ function CompanySignUpForm() {
                     console.log(error, "=error=")
                 })
 
-            // Navigate('/')
+            // }
         }
-    }
-    function IsEmailPresent() {
-        if (localStorage.getItem('Users').AllUsers?.Company !== null) {
-            // console.log('localStorage.getItem(Company) !== null')
+        // }
+        // else {
+        //     dispatch(CompanySign_Up(data))
+        //     axios.post('http://localhost:4000/api/sigup', data)
+        //         .then((res) => {
+        //             console.log(res, "=res=")
+        //             alert('sign up successfully')
 
-            let UserFromLS = JSON.parse(localStorage.getItem('Users'))
-            let MyUserFromLS = UserFromLS.AllUsers.Company
-            // console.log('MyUserFromLS', MyUserFromLS)
-            let IsEmailExist = MyUserFromLS.find((email) => email.Email === email || email.companyName === companyName)
-            return IsEmailExist
-        }
+        //             // Navigate('/')
+        //         })
+        //         .catch((error) => {
+        //             alert('Ohh Error Occured')
+
+        //             console.log(error, "=error=")
+        //         })
+
+        //     // Navigate('/')
+        // }
     }
+    // function IsEmailPresent() {
+    //     if (localStorage.getItem('Users').AllUsers?.Company !== null) {
+    //         // console.log('localStorage.getItem(Company) !== null')
+
+    //         let UserFromLS = JSON.parse(localStorage.getItem('Users'))
+    //         let MyUserFromLS = UserFromLS.AllUsers.Company
+    //         // console.log('MyUserFromLS', MyUserFromLS)
+    //         let IsEmailExist = MyUserFromLS.find((email) => email.Email === email || email.companyName === companyName)
+    //         return IsEmailExist
+    //     }
+    // }
     const togglePassword = () => {
         setPasswordShown(!passwordShown);
     }

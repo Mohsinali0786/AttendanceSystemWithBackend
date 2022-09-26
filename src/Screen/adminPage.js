@@ -12,24 +12,24 @@ function AdminPage() {
     const dispatch = useDispatch()
     const Navigate = useNavigate()
     const mystate = useSelector((state) => state.AllUsers)
-    const findUser = mystate.Users.find((v) => v?.Email === mystate.LoginUser?.Email)
+    // console.log('Mystate in admin', mystate.LoginUser)
+    // const findUser = mystate.Users.find((v) => v?.Email === mystate.LoginUser?.Email)
     let filteruser;
-    let CompanyName;
+    // let CompanyName;
     let UserName;
-    if (mystate.LoginUser.type === 'company') {
+    console.log(mystate.LoginUser?.LoginUser?.type === 'company', 'Admin page')
+    if (mystate.LoginUser?.LoginUser?.type === 'company') {
 
-        filteruser = mystate.Company.find((v) => v.Email === mystate.LoginUser.Email)
-        UserName = filteruser.CompanyName
-        console.log('Admin Com Name', UserName)
+        filteruser = mystate.Company.find((v) => v.email === mystate.LoginUser?.LoginUser?.email)
+        UserName = filteruser.companyName
+        // console.log('Admin Com Name', filteruser)
     }
     else {
-        filteruser = mystate.Users.find((v) => v.Email === mystate.LoginUser.Email)
+        filteruser = mystate.Users.find((v) => v.email === mystate.LoginUser?.LoginUser?.email)
         // caches.log('filterusers======>', filteruser)
-        UserName = filteruser?.FirstName + " " + filteruser?.LastName
-
-
+        UserName = filteruser?.firstName + " " + filteruser?.lastName
     }
-    let IsLoggedIn = mystate.IsLoggedIn
+    let IsLoggedIn = mystate.LoginUser?.LoginUser?.email
     useEffect(() => {
         if (!IsLoggedIn) {
             Navigate('/')
@@ -40,7 +40,6 @@ function AdminPage() {
         <div>
             <div className='admin-header'>
                 <SideDrawer UserName={UserName} filteruser={filteruser} />
-
                 <div>
                     <h1 className='Header-heading' >Attendance Management System</h1>
                 </div>
@@ -51,7 +50,6 @@ function AdminPage() {
                 </div>
             </div>
             <div>
-
                 <div className='HomePageBtn-div'>
                     {
                         filteruser?.type !== 'company' ?
@@ -66,7 +64,7 @@ function AdminPage() {
                 <h2>{CompanyName}</h2>
                 <h3>Administrator Dashboard</h3>
 
-                <MyDataGrid />
+                {/* <MyDataGrid /> */}
             </div>
 
 

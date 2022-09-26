@@ -10,6 +10,8 @@ import SideDrawer from '../Componenet/sideDrawer'
 import LogoutIcon from '@mui/icons-material/Logout';
 
 import LottieControl from '../Componenet/lottie'
+// const Company = require('../Backend/Model/companyModel')
+
 
 
 
@@ -19,37 +21,41 @@ function Home() {
     const [adminRole, setAdminRole] = useState(false)
     const dispatch = useDispatch()
     const mystate = useSelector((state) => state.AllUsers)
-    // console.log('mystate Home', mystate)
+    console.log('mystate Home', mystate)
     let filteruser;
     let UserName;
-    if (mystate?.LoginUser?.type === 'company') {
 
-        filteruser = mystate.Company.find((v) => v.Email === UserEmail)
-        UserName = filteruser?.CompanyName
+    console.log('mystate?.LoginUser?.mydata?.type', mystate?.LoginUser)
+    if (mystate?.LoginUser?.LoginUser?.type === 'company') {
+        // console.log('filteruse in home useremail', UserEmail)
+        filteruser = mystate.Company.find((v) => v.email === UserEmail)
+        // console.log('filteruse in home', filteruser)
+        // UserName = mystate?.LoginUser?.mydata?.email
+        UserName = filteruser?.companyName
     }
     else {
-        filteruser = mystate.Users.find((v) => v.Email === UserEmail && v.CompanyName === mystate.LoginUser.Company)
-        // console.log('filterUser=====', filteruser)
-        UserName = filteruser?.FirstName + " " + filteruser?.LastName
+        filteruser = mystate.Users.find((v) => v.email === UserEmail && v.companyName === mystate.LoginUser?.LoginUser?.company)
+        UserName = filteruser?.firstName + " " + filteruser?.lastName
 
     }
     const Navigate = useNavigate()
-    let IsLoggedIn = mystate.IsLoggedIn
+    let IsLoggedIn = mystate.LoginUser?.IsLoggedIn
+    // console.log('IssLogged in Home', IsLoggedIn)
     useEffect(() => {
-        setUserEmail(mystate?.LoginUser?.Email)
+        setUserEmail(mystate?.LoginUser?.LoginUser?.email)
         CheckAdminOrUser()
     })
-    useEffect(() => {
-        let DataFromLS = JSON.parse(localStorage.getItem("Attedance"))
-        setAllAttendance(DataFromLS)
-    }, [])
+    // useEffect(() => {
+    //     let DataFromLS = JSON.parse(localStorage.getItem("Attedance"))
+    //     setAllAttendance(DataFromLS)
+    // }, [])
     useEffect(() => {
         if (!IsLoggedIn) {
             Navigate('/')
         }
     }, [IsLoggedIn === false])
     const CheckAdminOrUser = () => {
-        mystate.Users.map((user, index) => {
+        mystate?.Users?.map((user, index) => {
             if (user.Email === UserEmail) {
 
                 if (filteruser?.userRole === 'admin') {
@@ -61,7 +67,12 @@ function Home() {
             }
         })
     }
-    // console.log('All Attendance====>', AllAttendance)
+    const signout = () => {
+        let logoutInfo = {
+            IsLoggedIn: false,
+        }
+        dispatch(signOut(logoutInfo))
+    }
     return (
         <div>
             <div className='admin-header'>
@@ -70,7 +81,7 @@ function Home() {
                     <h1 className='Header-heading' >Attendance Management System</h1>
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                    <LogoutIcon style={{ cursor: 'pointer', color: 'white', fontSize: '25px', marginRight: '20px' }} onClick={() => dispatch(signOut())} />
+                    <LogoutIcon style={{ cursor: 'pointer', color: 'white', fontSize: '25px', marginRight: '20px' }} onClick={() => signout()} />
                 </div>
             </div>
             <div style={{}}>

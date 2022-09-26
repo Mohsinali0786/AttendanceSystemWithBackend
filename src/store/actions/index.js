@@ -4,10 +4,10 @@ export const Sign_Up = (data) => async (dispatch, getState) => {
         type: "REGISTER",
         payload: data
     })
-    localStorage.setItem('Users', JSON.stringify(getState()))
+    // localStorage.setItem('Users', JSON.stringify(getState()))
 }
 export const CompanySign_Up = (data) => async (dispatch, getState) => {
-    console.log("SignU Data", getState())
+    // console.log("SignU Data", getState())
     dispatch({
         type: "REGISTERCOMPANY",
         payload: data
@@ -15,17 +15,18 @@ export const CompanySign_Up = (data) => async (dispatch, getState) => {
     // localStorage.setItem('Users', JSON.stringify(getState()))
 }
 export const Sign_In = (LoginInfo) => async (dispatch) => {
-    // console.log('LoginInfo in action', LoginInfo)
+    console.log('LoginInfo in action', LoginInfo)
     dispatch({
         type: 'LOGININ',
         payload: LoginInfo,
     })
 }
 
-export const signOut = () => async (dispatch) => {
+export const signOut = (IsLoggedIn) => async (dispatch) => {
     console.log('Run')
     dispatch({
         type: 'LOGOUT',
+        payload: IsLoggedIn,
     })
 }
 

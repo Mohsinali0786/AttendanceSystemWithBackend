@@ -1,28 +1,26 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 
-
-const companySchema = mongoose.Schema(
+const userSchema = mongoose.Schema(
     {
-        companyName: {
+        firstName: {
             type: String,
             required: true
         },
-        contactNo: {
+        lastName: {
             type: String,
-            required: true
-        },
-        address: {
-            type: String,
-            required: true
+            required: true,
         },
         email: {
             type: String,
-            required: true
+            required: true,
         },
         password: {
             type: String,
-            required: true
+            required: true,
+        },
+        companyName: {
+            type: String,
         },
         userRole: {
             type: String
@@ -33,12 +31,13 @@ const companySchema = mongoose.Schema(
     },
 )
 
-companySchema.methods.matchPassword = async function (enteredPassword) {
+
+userSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
 
 //for password encrypt
-companySchema.pre('save', async function (next) {
+userSchema.pre('save', async function (next) {
     if (!this.isModified("password")) {
         next();
     }
@@ -47,6 +46,5 @@ companySchema.pre('save', async function (next) {
 
 })
 
-let Company = mongoose.model("Company", companySchema);
-module.exports = Company;
-
+let User = mongoose.model("User", userSchema);
+module.exports = User;

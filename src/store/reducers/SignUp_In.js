@@ -19,7 +19,6 @@ const AllUsers = (state = initialState, action) => {
             let filteredData = state.Users.find((user) => user.Email === action.payload.Email && user.CompanyName === action.payload.CompanyName)
             console.log('filteredData', filteredData)
             if (filteredData) {
-
                 state.Users.map((v) => {
 
                     if (v.Email === action.payload.Email && v.isDeleted === true) {
@@ -50,13 +49,10 @@ const AllUsers = (state = initialState, action) => {
                 Swal.fire({
                     icon: 'success',
                     text: 'Congratulation You Successfully Added!',
-
                 })
-
                 return {
                     ...state,
                     Users: [...state.Users, action.payload],
-
                 }
             }
             return state
@@ -102,11 +98,6 @@ const AllUsers = (state = initialState, action) => {
             //         text: 'Congratulation You Successfully SignUp Please Login Now !',
 
             //     })
-            Swal.fire({
-                icon: 'success',
-                text: 'Congratulation You Successfully SignUp Please Login Now !',
-
-            })
             return {
                 ...state,
                 Company: [...state.Company, action.payload],
@@ -117,12 +108,19 @@ const AllUsers = (state = initialState, action) => {
         case "LOGININ":
             // var filtereddata = ''
             const data = action.payload
+            console.log('data====>', data)
+            let myLoginUser = {
+                LoginUser: data.mydata,
+                IsLoggedIn: data.IsLoggedIn,
+            }
             return {
                 ...state,
-                LoginUser: data,
-                IsLoggedIn: true
+                LoginUser: myLoginUser,
+                Company: data.allCompanies,
+                Users: data.allUsers
+                // IsLoggedIn: true
             }
-        // console.log('data reducer', data)
+            console.log('data reducer', data)
         // if (data.type === 'company') {
 
         //     filtereddata = state.Company.find((i) => i.Email === data.Email && i.Password === data.Password && i.type === data.type)
@@ -187,8 +185,8 @@ const AllUsers = (state = initialState, action) => {
 
             return {
                 ...state,
-                IsLoggedIn: false,
-                LoginUser: {},
+                // IsLoggedIn: false,
+                LoginUser: action.payload
             }
         }
 
