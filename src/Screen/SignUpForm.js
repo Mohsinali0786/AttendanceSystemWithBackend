@@ -40,78 +40,78 @@ function SignUpForm() {
         type: 'user',
     }
     const checkEmailIsValid = () => {
-        if (localStorage.getItem('Users') !== null) {
-            var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            if (mailformat.test(email)) {
+        // if (localStorage.getItem('Users') !== null) {
+        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (mailformat.test(email)) {
 
-                axios.post('http://localhost:4000/api/registeruser', data)
-                    .then((res) => {
-                        console.log('res.data?.status', res.data?.status)
-                        if (res.data?.status === 'success') {
-                            Swal.fire({
-                                icon: res.data.status,
-                                text: res.data.message,
-                            })
+            axios.post('http://localhost:4000/api/registeruser', data)
+                .then((res) => {
+                    console.log('res.data?.status', res.data?.status)
+                    if (res.data?.status === 'success') {
+                        Swal.fire({
+                            icon: res.data.status,
+                            text: res.data.message,
+                        })
 
-                        }
-                        else {
-                            Swal.fire({
-                                icon: res.data.status,
-                                text: res.data.message,
-                            })
+                    }
+                    else {
+                        Swal.fire({
+                            icon: res.data.status,
+                            text: res.data.message,
+                        })
 
-                        }
+                    }
 
-                        console.log(res, "=res=")
-                        // alert('sign up successfully')
+                    console.log(res, "=res=")
+                    // alert('sign up successfully')
 
-                        // Navigate('/')
-                    })
-                    .catch((error) => {
-                        alert('Ohh Error Occured')
+                    // Navigate('/')
+                })
+                .catch((error) => {
+                    alert('Ohh Error Occured')
 
-                        console.log(error, "=error=")
-                    })
+                    console.log(error, "=error=")
+                })
 
 
-                // let IsEmailExist = IsEmailPresent()
-                // console.log('IsEmailExist', IsEmailExist)
-                // if (IsEmailExist) {
-                //     // console.log('currLoginUser.CompanyName', filterdata)
-                //     const findCompanyExist = mystate.find((data) => data.CompanyName === IsEmailExist.CompanyName && data.Email === IsEmailExist)
-                //     // console.log('findCompanyExist', findCompanyExist)
-                //     if (findCompanyExist) {
+            // let IsEmailExist = IsEmailPresent()
+            // console.log('IsEmailExist', IsEmailExist)
+            // if (IsEmailExist) {
+            //     // console.log('currLoginUser.CompanyName', filterdata)
+            //     const findCompanyExist = mystate.find((data) => data.CompanyName === IsEmailExist.CompanyName && data.Email === IsEmailExist)
+            //     // console.log('findCompanyExist', findCompanyExist)
+            //     if (findCompanyExist) {
 
-                //         if (IsEmailExist.isDeleted) {
-                //             dispatch(Sign_Up(data))
-                //             Navigate('/home')
-                //         }
-                //         else {
-                //             Swal.fire({
-                //                 icon: 'error',
-                //                 title: 'Oops...',
-                //                 text: 'This Email address is already Register Try different email ',
-                //             })
-                //         }
-                //     }
-                //     else {
-                //         dispatch(Sign_Up(data))
-                //         Navigate('/home')
-                //     }
+            //         if (IsEmailExist.isDeleted) {
+            //             dispatch(Sign_Up(data))
+            //             Navigate('/home')
+            //         }
+            //         else {
+            //             Swal.fire({
+            //                 icon: 'error',
+            //                 title: 'Oops...',
+            //                 text: 'This Email address is already Register Try different email ',
+            //             })
+            //         }
+            //     }
+            //     else {
+            //         dispatch(Sign_Up(data))
+            //         Navigate('/home')
+            //     }
 
-                // }
-                // else {
-                //     dispatch(Sign_Up(data))
-                //     Navigate('/home')
+            // }
+            // else {
+            //     dispatch(Sign_Up(data))
+            //     Navigate('/home')
 
-                // }
-            }
+            // }
         }
-        else {
+        // }
+        // else {
 
-            dispatch(Sign_Up(data))
-            Navigate('/home')
-        }
+        //     dispatch(Sign_Up(data))
+        //     Navigate('/home')
+        // }
     }
     // function IsEmailPresent() {
     //     if (localStorage.getItem('Users') !== null) {

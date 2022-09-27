@@ -1,7 +1,4 @@
-
-
-signup form error line 34
-When company signup it goes to company login
+when company signup more then on user it gives error
 
 
 

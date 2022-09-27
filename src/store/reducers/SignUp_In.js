@@ -15,47 +15,51 @@ const AllUsers = (state = initialState, action) => {
     switch (action.type) {
         case "REGISTER":
             console.log('Action .payload====>', action.payload)
-            let updatedArr = []
-            let filteredData = state.Users.find((user) => user.Email === action.payload.Email && user.CompanyName === action.payload.CompanyName)
-            console.log('filteredData', filteredData)
-            if (filteredData) {
-                state.Users.map((v) => {
+            // let updatedArr = []
+            // let filteredData = state.Users.find((user) => user.Email === action.payload.Email && user.CompanyName === action.payload.CompanyName)
+            // console.log('filteredData', filteredData)
+            // if (filteredData) {
+            //     state.Users.map((v) => {
 
-                    if (v.Email === action.payload.Email && v.isDeleted === true) {
-                        console.log('Now If running')
-                        v.id = filteredData.id;
-                        v.FirstName = filteredData.FirstName;
-                        v.LastName = filteredData.LastName;
-                        v.Email = filteredData.Email;
-                        v.Password = filteredData.Password;
-                        v.isDeleted = false
-                        v.userRole = 'user'
+            //         if (v.Email === action.payload.Email && v.isDeleted === true) {
+            //             console.log('Now If running')
+            //             v.id = filteredData.id;
+            //             v.FirstName = filteredData.FirstName;
+            //             v.LastName = filteredData.LastName;
+            //             v.Email = filteredData.Email;
+            //             v.Password = filteredData.Password;
+            //             v.isDeleted = false
+            //             v.userRole = 'user'
 
-                        Swal.fire({
-                            icon: 'success',
-                            text: 'Congratulation You Successfully Added!',
+            //             Swal.fire({
+            //                 icon: 'success',
+            //                 text: 'Congratulation You Successfully Added!',
 
-                        })
-                    }
-                    updatedArr.push(v)
-                    return {
-                        ...state,
-                        Users: updatedArr,
+            //             })
+            //         }
+            //         updatedArr.push(v)
+            //         return {
+            //             ...state,
+            //             Users: updatedArr,
 
-                    }
-                })
+            //         }
+            //     })
+            // }
+            // else {
+            //     Swal.fire({
+            //         icon: 'success',
+            //         text: 'Congratulation You Successfully Added!',
+            //     })
+            //     return {
+            //         ...state,
+            //         Users: [...state.Users, action.payload],
+            //     }
+            // }
+            // return state
+            return {
+                ...state,
+                Users: [...state.Users, action.payload],
             }
-            else {
-                Swal.fire({
-                    icon: 'success',
-                    text: 'Congratulation You Successfully Added!',
-                })
-                return {
-                    ...state,
-                    Users: [...state.Users, action.payload],
-                }
-            }
-            return state
         case "REGISTERCOMPANY":
 
             console.log('REGISTERCOMPANY')
@@ -117,7 +121,8 @@ const AllUsers = (state = initialState, action) => {
                 ...state,
                 LoginUser: myLoginUser,
                 Company: data.allCompanies,
-                Users: data.allUsers
+                Users: data.allUsers,
+                Attendance: data.allAttendance
                 // IsLoggedIn: true
             }
             console.log('data reducer', data)
@@ -321,9 +326,10 @@ const AllUsers = (state = initialState, action) => {
 
 
         case "ADDDATE": {
+            console.log('action.payload in ADDDATE', action.payload)
             return {
                 ...state,
-                Attendance: action.payload
+                Attendance: [...state.Attendance, action.payload]
             }
         }
 

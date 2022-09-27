@@ -41,23 +41,32 @@ export default function CustomizedTables(props) {
     const mydate = new Date()
 
     const mystate = useSelector((state) => state)
-    const filteredData = props.AllStudents?.filter(data => data.Email === props.UserEmail)
-    console.log('My Datataaaa', filteredData)
 
-    const currLoginUser = mystate?.AllUsers.LoginUser
+    const AllAttendance = mystate.AllUsers.Attendance
+    console.log('My Datataaaa AllAttendance', AllAttendance)
+
+    const filteredData = props.AllStudents?.filter(data => data.email === props.UserEmail)
+    // console.log('My Datataaaa', filteredData)
+
+    const currLoginUser = mystate?.AllUsers?.LoginUser?.LoginUser
+    // console.log('currLoginUser=====>', currLoginUser)
     let filteruser;
     let filterCompany
     let CompanyName;
     if (currLoginUser?.type === 'company') {
-        filterCompany = mystate.AllUsers.Company?.find((v) => v.Email === currLoginUser.Email)
-        CompanyName = filterCompany?.CompanyName
+        filterCompany = mystate.AllUsers.Company?.find((v) => v.email === currLoginUser.email)
+        CompanyName = filterCompany?.companyName
         // console.log('CompanyNAme===>', CompanyName)
-        filteruser = mystate.AllUsers.Users?.find((v) => v.CompanyName === CompanyName)
-        // console.log('currLoginUser?.Type', currLoginUser)
+        filteruser = mystate.AllUsers.Users?.find((v) => v.companyName === CompanyName)
+        console.log('filteruser in table', filteruser)
 
     }
     else {
-        filteruser = mystate.AllUsers?.Users?.find((v) => v.Email === currLoginUser?.Email)
+        filteruser = mystate.AllUsers?.Users?.find((v) => v.email === currLoginUser?.email)
+        console.log('filteruser in Table Component', filteruser)
+        console.log('currLoginUser?.Type', currLoginUser)
+
+
 
     }
     return (
@@ -67,10 +76,12 @@ export default function CustomizedTables(props) {
                 currLoginUser?.type === 'company' ?
                     < TableContainer component={Paper}>
                         {
-                            props?.AllStudents !== null && props.AllStudents?.find((v) => v.CompanyName === CompanyName) ?
+                            AllAttendance !== null && AllAttendance?.find((v) => v.companyName === CompanyName) ?
                                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                                     <TableHead>
                                         <TableRow>
+                                            <StyledTableCell >User Id</StyledTableCell>
+
                                             <StyledTableCell >Company</StyledTableCell>
                                             <StyledTableCell>Email</StyledTableCell>
                                             <StyledTableCell >Current Date</StyledTableCell>
@@ -81,18 +92,20 @@ export default function CustomizedTables(props) {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {props?.AllStudents?.map((row, index) => {
-                                            if (CompanyName === row.CompanyName) {
+                                        {AllAttendance?.map((row, index) => {
+                                            if (CompanyName === row.companyName) {
                                                 return (
                                                     <StyledTableRow key={index}>
-                                                        <StyledTableCell >{row.CompanyName}</StyledTableCell>
+                                                        <StyledTableCell >{row._id}</StyledTableCell>
+
+                                                        <StyledTableCell >{row.companyName}</StyledTableCell>
                                                         <StyledTableCell component="th" scope="row">
-                                                            {row.Email}
+                                                            {row.email}
                                                         </StyledTableCell>
-                                                        <StyledTableCell >{row.CurrDate}</StyledTableCell>
-                                                        <StyledTableCell >{row.CurrTime}</StyledTableCell>
-                                                        <StyledTableCell >{row.CurrDay}</StyledTableCell>
-                                                        <StyledTableCell >{row.Status}</StyledTableCell>
+                                                        <StyledTableCell >{row.currDate}</StyledTableCell>
+                                                        <StyledTableCell >{row.currTime}</StyledTableCell>
+                                                        <StyledTableCell >{row.currDay}</StyledTableCell>
+                                                        <StyledTableCell >{row.status}</StyledTableCell>
                                                     </StyledTableRow>
                                                 )
                                             }
@@ -105,17 +118,18 @@ export default function CustomizedTables(props) {
                                     <LottieControl />
                                 </>
                         }
-                    </TableContainer> :
-
-
+                    </TableContainer>
+                    :
                     props.AllStudents && !props.UserEmail ?
                         <TableContainer component={Paper}>
                             {
-                                props.AllStudents !== null && props.AllStudents.find((v) => v.CompanyName === currLoginUser.Company) ?
+                                props.AllStudents !== null && props.AllStudents.find((v) => v.companyName === currLoginUser?.company) ?
 
                                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
                                         <TableHead>
                                             <TableRow>
+                                                <StyledTableCell >User Id</StyledTableCell>
+
                                                 <StyledTableCell >Company</StyledTableCell>
                                                 <StyledTableCell>Email</StyledTableCell>
                                                 <StyledTableCell >Current Date</StyledTableCell>
@@ -130,17 +144,17 @@ export default function CustomizedTables(props) {
                                                 // {
 
                                                 // }
-                                                if (currLoginUser.Company === row?.CompanyName) {
+                                                if (currLoginUser.company === row?.companyName) {
                                                     return (
                                                         <StyledTableRow key={index}>
-                                                            <StyledTableCell >{row.CompanyName}</StyledTableCell>
-                                                            <StyledTableCell component="th" scope="row">
-                                                                {row.Email}
-                                                            </StyledTableCell>
-                                                            <StyledTableCell >{row.CurrDate}</StyledTableCell>
-                                                            <StyledTableCell >{row.CurrTime}</StyledTableCell>
-                                                            <StyledTableCell >{row.CurrDay}</StyledTableCell>
-                                                            <StyledTableCell >{row.Status}</StyledTableCell>
+                                                            <StyledTableCell >{row._id}</StyledTableCell>
+
+                                                            <StyledTableCell >{row.companyName}</StyledTableCell>
+                                                            <StyledTableCell component="th" scope="row">{row.email}</StyledTableCell>
+                                                            <StyledTableCell >{row.currDate}</StyledTableCell>
+                                                            <StyledTableCell >{row.currTime}</StyledTableCell>
+                                                            <StyledTableCell >{row.currDay}</StyledTableCell>
+                                                            <StyledTableCell >{row.status}</StyledTableCell>
                                                         </StyledTableRow>
                                                     )
                                                 }
@@ -148,16 +162,20 @@ export default function CustomizedTables(props) {
                                             })}
                                         </TableBody>
                                     </Table> :
+                                    // ""
                                     <LottieControl />
                             }
-                        </TableContainer> :
+                        </TableContainer>
+                        :
                         props.AllStudents && props.UserEmail ?
-                            <TableContainer component={Paper}>
+                            < TableContainer component={Paper}>
                                 {
-                                    filteredData.length !== 0 && filteredData.find((v) => v.CompanyName === currLoginUser.Company) ?
+                                    props.AllStudents.length !== 0 && props.AllStudents.find((v) => v.companyName === currLoginUser?.company) ?
                                         <Table sx={{ minWidth: 700 }} aria-label="customized table">
                                             <TableHead>
                                                 <TableRow>
+                                                    <StyledTableCell >User Id</StyledTableCell>
+
                                                     <StyledTableCell >Company</StyledTableCell>
                                                     <StyledTableCell>Email</StyledTableCell>
                                                     <StyledTableCell >Current Date</StyledTableCell>
@@ -169,22 +187,24 @@ export default function CustomizedTables(props) {
                                             <TableBody>
                                                 {
                                                     filteredData?.map((row, index) => {
-                                                        // console.log('row====>', row)
+                                                        console.log('row====>', row)
                                                         // console.log('props.UserEmail', props.UserEmail)
                                                         // console.log('currLoginUser.Email', currLoginUser.Company)
-                                                        if (row.CompanyName === currLoginUser.Company) {
+                                                        if (row.companyName === currLoginUser.company) {
                                                             // console.log('ifffffff')
 
                                                             return (
                                                                 <StyledTableRow key={index}>
-                                                                    <StyledTableCell >{row.CompanyName}</StyledTableCell>
+                                                                    <StyledTableCell >{row._id}</StyledTableCell>
+
+                                                                    <StyledTableCell >{row.companyName}</StyledTableCell>
                                                                     <StyledTableCell component="th" scope="row">
-                                                                        {row.Email}
+                                                                        {row.email}
                                                                     </StyledTableCell>
-                                                                    <StyledTableCell >{row.CurrDate}</StyledTableCell>
-                                                                    <StyledTableCell >{row.CurrTime}</StyledTableCell>
-                                                                    <StyledTableCell >{row.CurrDay}</StyledTableCell>
-                                                                    <StyledTableCell >{row.Status}</StyledTableCell>
+                                                                    <StyledTableCell >{row.currDate}</StyledTableCell>
+                                                                    <StyledTableCell >{row.currTime}</StyledTableCell>
+                                                                    <StyledTableCell >{row.currDay}</StyledTableCell>
+                                                                    <StyledTableCell >{row.status}</StyledTableCell>
                                                                 </StyledTableRow>
                                                             )
                                                         }
@@ -193,6 +213,7 @@ export default function CustomizedTables(props) {
                                                 }
                                             </TableBody>
                                         </Table> :
+
                                         <LottieControl />
                                 }
                             </TableContainer>

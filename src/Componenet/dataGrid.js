@@ -15,19 +15,25 @@ export default function MyDataGrid() {
     const [role, setRole] = useState('')
     const dispatch = useDispatch()
     const wholestate = useSelector((state) => state.AllUsers)
+
     const mystate = useSelector((state) => state.AllUsers.Users)
-    const currLoginUser = wholestate.LoginUser
+    // console.log('wholestate in datagrid', mystate)
+    const currLoginUser = wholestate.LoginUser?.LoginUser
+    // console.log('wholestate in datagrid', currLoginUser)
+
+
     let filteruser;
     let filterCompany
     let CompanyName;
     if (currLoginUser?.type !== 'company') {
-        filteruser = wholestate.Users?.find((v) => v.Email === currLoginUser.Email)
+        // console.log('iffffffffffffffffff')
+        filteruser = wholestate.Users?.find((v) => v.email === currLoginUser?.email)
         CompanyName = filteruser?.CompanyName
         filterCompany = wholestate.Company?.find((v) => v.CompanyName === CompanyName)
     }
     else {
-        filterCompany = wholestate?.Company?.find((v) => v.Email === currLoginUser.Email)
-
+        filterCompany = wholestate?.Company?.find((v) => v.email === currLoginUser.email)
+        // console.log('filterCompany in datagrid', filterCompany)
     }
     const columns = [
         { field: 'id', headerName: 'ID', width: 90 },
@@ -59,9 +65,9 @@ export default function MyDataGrid() {
             // flex: 1,
 
             renderCell: (cellValues) => {
-                const filter = mystate.find((v) => v.Email === cellValues.row.email)
+                const filter = mystate.find((v) => v.email === cellValues.row.email)
                 return (
-                    <BasicSelect option={filter.userRole} role={role} changeRole={setRole} />
+                    <BasicSelect option={filter?.userRole} role={role} changeRole={setRole} />
                 );
             }
         },
@@ -120,10 +126,10 @@ export default function MyDataGrid() {
         // console.log('userEmail', user.Email)
         // console.log('currLoginUser.Email', currLoginUser.Email)
         if (user.type !== 'company') {
-            if (user.CompanyName === filterCompany?.CompanyName) {
+            if (user.companyName === filterCompany?.companyName) {
                 if (!user?.isDeleted) {
                     rows.push(
-                        { id: user.id, firstName: user.FirstName, lastName: user.LastName, email: user.Email, key: id }
+                        { id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email, key: id }
 
                     )
                 }
@@ -170,10 +176,11 @@ export default function MyDataGrid() {
     // console.log('Role====>', role)
 
     const handleGetRowId = (e) => {
-        // console.log('handleGetRowId===>', e)
+        console.log('handleGetRowId===>', e)
         return e.id
     }
     return (
+        // <></>
 
         <Box sx={{ height: 400, width: '100%' }}>
             {

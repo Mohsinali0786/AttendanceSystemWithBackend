@@ -2,7 +2,7 @@ const User = require('../Model/userModel')
 
 const registerUser = async (req, res) => {
     try {
-        console.log(req.body)
+        console.log('req.body for users', req.body)
 
         const { firstName, lastName, email, password, companyName, type, userRole, } = req.body
         const UserExist = await User.findOne({ email })
@@ -40,7 +40,7 @@ const registerUser = async (req, res) => {
 }
 
 const authUser = async (req, res) => {
-    console.log('-------------------', req.body)
+    // console.log('-------------------', req.body)
     const { company, email, password } = req.body
 
     const userExist = await User.findOne({ email })
@@ -64,7 +64,7 @@ const authUser = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
     const AllUsers = await User.find({})
-    console.log('AllUser', AllUsers)
+    // console.log('AllUser', AllUsers)
 
     if (AllUsers) {
         // res.json(AllCompanies)

@@ -23,7 +23,7 @@ export const Sign_In = (LoginInfo) => async (dispatch) => {
 }
 
 export const signOut = (IsLoggedIn) => async (dispatch) => {
-    console.log('Run')
+    // console.log('Run', IsLoggedIn)
     dispatch({
         type: 'LOGOUT',
         payload: IsLoggedIn,

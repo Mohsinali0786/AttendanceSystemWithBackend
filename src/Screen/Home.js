@@ -28,7 +28,7 @@ function Home() {
     console.log('mystate?.LoginUser?.mydata?.type', mystate?.LoginUser)
     if (mystate?.LoginUser?.LoginUser?.type === 'company') {
         // console.log('filteruse in home useremail', UserEmail)
-        filteruser = mystate.Company.find((v) => v.email === UserEmail)
+        filteruser = mystate?.Company.find((v) => v.email === UserEmail)
         // console.log('filteruse in home', filteruser)
         // UserName = mystate?.LoginUser?.mydata?.email
         UserName = filteruser?.companyName
@@ -112,7 +112,7 @@ function Home() {
             {
                 // !NavStudent ?
 
-                <AllStudentTable AllStudents={AllAttendance} />
+                <AllStudentTable AllStudents={mystate.Attendance} />
                 // :
                 // <>
                 //     <Students />

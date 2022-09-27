@@ -1,6 +1,8 @@
 const express = require('express')
 const { registerCompany, authCompany, getCompany } = require('../Controllers/companyControllers')
 const { registerUser, authUser, getAllUsers } = require('../Controllers/userController')
+const { addAttendance,getAllAttendance } = require('../Controllers/attendanceController')
+
 
 
 const routes = express.Router()
@@ -14,6 +16,9 @@ routes.post('/authuser', authUser)
 routes.get('/getcompany', getCompany)
 routes.get('/getusers', getAllUsers)
 
+
+routes.post('/addattendance', addAttendance)
+routes.get('/getattendance', getAllAttendance)
 
 
 

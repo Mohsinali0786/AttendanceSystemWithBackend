@@ -29,12 +29,18 @@ function AdminPage() {
         // caches.log('filterusers======>', filteruser)
         UserName = filteruser?.firstName + " " + filteruser?.lastName
     }
-    let IsLoggedIn = mystate.LoginUser?.LoginUser?.email
+    let IsLoggedIn = mystate.LoginUser?.IsLoggedIn
     useEffect(() => {
         if (!IsLoggedIn) {
             Navigate('/')
         }
     }, [IsLoggedIn === false])
+    const signout = () => {
+        let logoutInfo = {
+            IsLoggedIn: false,
+        }
+        dispatch(signOut(logoutInfo))
+    }
 
     return (
         <div>
@@ -46,7 +52,7 @@ function AdminPage() {
                 <div style={{ textAlign: 'center' }}>
                     {/* <Button variant='outlined' className='signout-btn' onClick={() => dispatch(signOut())}>
                     </Button> */}
-                    <LogoutIcon style={{ cursor: 'pointer', color: 'white', fontSize: '25px', marginRight: '20px' }} onClick={() => dispatch(signOut())} />
+                    <LogoutIcon style={{ cursor: 'pointer', color: 'white', fontSize: '25px', marginRight: '20px' }} onClick={() => signout()} />
                 </div>
             </div>
             <div>
@@ -61,10 +67,10 @@ function AdminPage() {
                     <Button onClick={() => { Navigate('/Home') }}>Go to Home</Button>
                     <Button onClick={() => { Navigate('/SignUpForm') }}>Add User</Button>
                 </div>
-                <h2>{CompanyName}</h2>
+                {/* <h2>{CompanyName}</h2> */}
                 <h3>Administrator Dashboard</h3>
 
-                {/* <MyDataGrid /> */}
+                <MyDataGrid />
             </div>
 
 

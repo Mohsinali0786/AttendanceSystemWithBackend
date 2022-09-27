@@ -23,6 +23,8 @@ function SignInForm({ handleLoginForm, sethandleLoginForm }) {
 
     const [allCompanies, setAllCompanies] = useState()
     const [allUsers, setAllUsers] = useState()
+    const [allAttendance, setAllAttendance] = useState()
+
 
     const mystate = useSelector((state) => state.AllUsers)
     console.log('My state Login===>', mystate.LoginUser)
@@ -55,6 +57,14 @@ function SignInForm({ handleLoginForm, sethandleLoginForm }) {
                 // console.log(res.data?.status)
                 // console.log(res.data.AllUsers, "=res=")
                 setAllUsers(res.data.AllUsers)
+            }).catch((err) => {
+                console.log('Error====>', err)
+            })
+        axios.get('http://localhost:4000/api/getattendance')
+            .then((res) => {
+                // console.log(res.data?.status)
+                console.log(res.data.AllAttendance, "=res=")
+                setAllAttendance(res.data.AllAttendance)
             }).catch((err) => {
                 console.log('Error====>', err)
             })
@@ -123,7 +133,8 @@ function SignInForm({ handleLoginForm, sethandleLoginForm }) {
                         mydata,
                         IsLoggedIn: true,
                         allCompanies,
-                        allUsers
+                        allUsers,
+                        allAttendance
                     }
                     dispatch(Sign_In(obj),)
                     // dispatch({
