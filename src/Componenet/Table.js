@@ -34,16 +34,16 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function CustomizedTables(props) {
     // console.log(props?.UserEmail, "=======-----------==>")
-    console.log(props?.AllStudents, "All Students=======-----------==>")
 
     const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const Month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    console.log(props?.AllStudents, "All Students=======-----------==>")
     const mydate = new Date()
 
     const mystate = useSelector((state) => state)
 
     const AllAttendance = mystate.AllUsers.Attendance
-    console.log('My Datataaaa AllAttendance', AllAttendance)
+    // console.log('My Datataaaa AllAttendance', AllAttendance)
 
     const filteredData = props.AllStudents?.filter(data => data.email === props.UserEmail)
     // console.log('My Datataaaa', filteredData)
@@ -70,6 +70,7 @@ export default function CustomizedTables(props) {
 
     }
     return (
+        // <></>
         <>
             {
 
@@ -170,7 +171,7 @@ export default function CustomizedTables(props) {
                         props.AllStudents && props.UserEmail ?
                             < TableContainer component={Paper}>
                                 {
-                                    props.AllStudents.length !== 0 && props.AllStudents.find((v) => v.companyName === currLoginUser?.company) ?
+                                    filteredData.length !== 0 && filteredData.find((v) => v.companyName === currLoginUser?.company) ?
                                         <Table sx={{ minWidth: 700 }} aria-label="customized table">
                                             <TableHead>
                                                 <TableRow>
@@ -188,11 +189,7 @@ export default function CustomizedTables(props) {
                                                 {
                                                     filteredData?.map((row, index) => {
                                                         console.log('row====>', row)
-                                                        // console.log('props.UserEmail', props.UserEmail)
-                                                        // console.log('currLoginUser.Email', currLoginUser.Company)
                                                         if (row.companyName === currLoginUser.company) {
-                                                            // console.log('ifffffff')
-
                                                             return (
                                                                 <StyledTableRow key={index}>
                                                                     <StyledTableCell >{row._id}</StyledTableCell>

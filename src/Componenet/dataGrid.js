@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react';
 import BasicSelect from './basicMenu'
 import { deleteData, editData } from '../store/actions/index'
 import LottieControl from '../Componenet/lottie'
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 
 export default function MyDataGrid() {
@@ -17,7 +19,7 @@ export default function MyDataGrid() {
     const wholestate = useSelector((state) => state.AllUsers)
 
     const mystate = useSelector((state) => state.AllUsers.Users)
-    // console.log('wholestate in datagrid', mystate)
+    console.log('wholestate in datagrid', mystate)
     const currLoginUser = wholestate.LoginUser?.LoginUser
     // console.log('wholestate in datagrid', currLoginUser)
 
@@ -101,7 +103,8 @@ export default function MyDataGrid() {
                         color="primary"
                         className='EditDelBtn'
                         onClick={(event) => {
-                            dispatch(deleteData(cellValues, role));
+                            // dispatch(deleteData(cellValues, role));
+                            deleteUser(cellValues, role)
                         }}
                     >
                         Delete
@@ -114,6 +117,20 @@ export default function MyDataGrid() {
     ];
 
     useEffect(() => {
+        axios.get('http://localhost:4000/api/getusers')
+            .then((res) => {
+                // console.log(res.data?.status)
+                console.log(res.data.AllUsers, "=res=")
+                // setAllUsers(res.data.AllUsers)
+                dispatch({
+                    type: "DELETE",
+                    payload: res.data.AllUsers
+                })
+
+            }).catch((err) => {
+                console.log('Error====>', err)
+            })
+
 
         setDeleteBtnClicked(false)
 
@@ -175,6 +192,31 @@ export default function MyDataGrid() {
 
     // console.log('Role====>', role)
 
+    const deleteUser = (cellValues, role) => {
+        setDeleteBtnClicked(true)
+
+        dispatch(deleteData(cellValues, role));
+
+        axios.delete(`http://localhost:4000/api/deleteusers/${cellValues.id}`).then((res) => {
+            console.log('Delete Res===>', res)
+            if (res.data.status === 'success') {
+                Swal.fire({
+                    icon: res.data.status,
+                    text: res.data.message,
+                })
+            }
+            else {
+                Swal.fire({
+                    icon: res.data.status,
+                    text: res.data.message,
+                })
+            }
+        }).catch((err) => {
+            console.log('err', err)
+        })
+
+
+    }
     const handleGetRowId = (e) => {
         console.log('handleGetRowId===>', e)
         return e.id

@@ -36,6 +36,7 @@ function SignUpForm() {
         email,
         password,
         companyName: filterdata?.companyName,
+        currentLoginCompany: filterdata,
         userRole: 'user',
         type: 'user',
     }
@@ -46,7 +47,7 @@ function SignUpForm() {
 
             axios.post('http://localhost:4000/api/registeruser', data)
                 .then((res) => {
-                    console.log('res.data?.status', res.data?.status)
+                    console.log('res.data?.status', res.data)
                     if (res.data?.status === 'success') {
                         Swal.fire({
                             icon: res.data.status,
@@ -173,7 +174,7 @@ function SignUpForm() {
                                 </td>
                             </tr>
                             <tr>
-                                <td colSpan={10}><p>Already Have Account For Log-In ? <Link to='/'><b>Click Here</b></Link></p></td>
+                                <td colSpan={10}><p>Already Have Account For Log-In ? <Link to='/home'><b>Go To Home</b></Link></p></td>
                             </tr>
                         </table>
                     </form >

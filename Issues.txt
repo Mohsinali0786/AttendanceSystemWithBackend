@@ -1,4 +1,16 @@
-when company signup more then on user it gives error
+Creating Attendance System with Frontend and Backend
+Learning Basic Backend technologies Nodejs Expressjs Mongodb
+
+
+Description
+Firsly Create Attendance System only Frotend with local Storage and 
+then modify it with backend
+
+
+
+
+
+
 
 
 

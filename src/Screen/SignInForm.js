@@ -60,14 +60,7 @@ function SignInForm({ handleLoginForm, sethandleLoginForm }) {
             }).catch((err) => {
                 console.log('Error====>', err)
             })
-        axios.get('http://localhost:4000/api/getattendance')
-            .then((res) => {
-                // console.log(res.data?.status)
-                console.log(res.data.AllAttendance, "=res=")
-                setAllAttendance(res.data.AllAttendance)
-            }).catch((err) => {
-                console.log('Error====>', err)
-            })
+
 
         // console.log('IsLoggedIn', IsLoggedIn)
         // console.log('handleLoginForm === "Company"', handleLoginForm)

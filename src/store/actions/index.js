@@ -31,6 +31,7 @@ export const signOut = (IsLoggedIn) => async (dispatch) => {
 }
 
 export const deleteData = (cell, role) => async (dispatch, getState) => {
+    console.log('cell in deletedata function', cell)
     dispatch({
         type: 'DELETE',
         payload: { userRole: role, id: cell.row.id, isDeleted: true },

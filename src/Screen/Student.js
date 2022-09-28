@@ -77,14 +77,16 @@ function Student() {
 
 
     const [data, setData] = useState([])
-    const [addDateClicked, setAddDateClicked] = useState(false);
-    const mystate1 = useSelector((state) => state)
+    const [addDateClicked, setAddDateClicked] = useState(true);
+    // const mystate1 = useSelector((state) => state)
     const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const Month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const mydate = new Date()
     // let DataFromLS = []
-    let C_Date = useSelector((state) => state.AllUsers.Attendance)
-    console.log('C-Date===>', C_Date)
+    let sttate = useSelector((state) => state.AllUsers)
+
+    let C_Date = sttate?.Attendance
+    console.log('C-Date after===>', C_Date)
 
 
     let C_User = useSelector((state) => state.AllUsers.Users)
@@ -101,20 +103,41 @@ function Student() {
         }
         dispatch(signOut(logoutInfo))
     }
+    // useEffect(() => {
+
+    //     axios.get('http://localhost:4000/api/getattendance')
+    //         .then((res) => {
+    //             // console.log(res.data?.status)
+    //             console.log(res.data.AllAttendance, "=res=")
+    //             setAllAttendance(res.data.AllAttendance)
+    //             dispatch({
+    //                 type: "ADDDATE",
+    //                 payload: res.data.AllAttendance,
+    //             })
+
+    //         }).catch((err) => {
+    //             console.log('Error====>', err)
+    //         })
+    //     setAddDateClicked(false)
+
+    // }, [addDateClicked === true])
     const AddDate = () => {
-        // console.log('C_User', C_User.Users)
         const currDate = mydate.getDate() + "-" + Month[(mydate.getMonth())] + "-" + mydate.getFullYear()
         const currTime = mydate.getHours() + ":" + mydate.getMinutes() + ":" + mydate.getSeconds()
         // console.log('C_DATEEEEEEEE', C_Date)
+        let icon = ''
+        let text = ''
         if (C_Date !== null) {
             let filterEmail = C_Date?.filter((mydata) => mydata.email === currentUser.email && mydata.companyName === currentUser.company)
-            // console.log('filterEmailfilterEmail', filterEmail)
+            console.log('filterEmailfilterEmail', filterEmail)
             let findCurrDate = filterEmail.find((isCurrDate) => isCurrDate.currDate === currDate)
             // console.log('findCurrDate', findCurrDate)
             if (filterEmail.length !== 0) {
+                console.log('IF')
                 if (!findCurrDate) {
                     setAddDateClicked(true)
                     let currDay = mydate.getDay()
+                    currDay = weekday[currDay]
                     let newObj = {
                         currDate: currDate,
                         currTime: currTime,
@@ -122,32 +145,30 @@ function Student() {
                         status: 'Present',
                         email: UserEmail,
                         companyName: filteruser.companyName
-
                     }
-                    currDay = weekday[currDay]
                     setData([...data, newObj])
-                    dispatch({
-                        type: "ADDDATE",
-                        payload: newObj
-                    })
+                    // dispatch({
+                    //     type: "ADDDATE",
+                    //     payload: newObj
+                    // })
                     axios.post('http://localhost:4000/api/addattendance', newObj)
                         .then((res) => {
                             // console.log('res.data?.status', res.data.status)
                             console.log(res.data, "=res= in sudent")
 
                             if (res.data?.status === 'success') {
+
+
                                 Swal.fire({
                                     icon: res.data.status,
                                     text: res.data.message,
                                 })
-
                             }
                             else {
                                 Swal.fire({
                                     icon: res.data.status,
                                     text: res.data.message,
                                 })
-
                             }
 
 
@@ -155,7 +176,15 @@ function Student() {
                             console.log('Error====>', err)
                         })
                     // localStorage.setItem('Attedance', JSON.stringify(data))
+                    // const AllAttendance = useSelector((state) => state.AllUsers.Attendance)
+                    // console.log('AllAttendance', AllAttendance)
 
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        text: 'Your attendance is already in our database please try tomorrow',
+                    })
                 }
             }
             else {
@@ -173,10 +202,10 @@ function Student() {
 
                 }
                 setData([...data, { currDate: currDate, currTime: currTime, currDay: currDay, status: 'Present', email: UserEmail, companyName: filteruser.companyName }])
-                dispatch({
-                    type: "ADDDATE",
-                    payload: { currDate: currDate, currTime: currTime, currDay: currDay, status: 'Present', email: UserEmail, companyName: filteruser.companyName }
-                })
+                // dispatch({
+                //     type: "ADDDATE",
+                //     payload: { currDate: currDate, currTime: currTime, currDay: currDay, status: 'Present', email: UserEmail, companyName: filteruser.companyName }
+                // })
 
                 axios.post('http://localhost:4000/api/addattendance', newObj)
                     .then((res) => {
@@ -205,8 +234,11 @@ function Student() {
                     })
                 // localStorage.setItem('Attedance', JSON.stringify(data))
             }
+
         }
         else {
+            console.log('ELSE')
+
             setAddDateClicked(true)
             let currDay = mydate.getDay()
             currDay = weekday[currDay]
@@ -221,10 +253,10 @@ function Student() {
 
             }
             setData([...data, { currDate: currDate, currTime: currTime, currDay: currDay, status: 'Present', email: UserEmail, companyName: filteruser.companyName }])
-            dispatch({
-                type: "ADDDATE",
-                payload: { currDate: currDate, currTime: currTime, currDay: currDay, status: 'Present', email: UserEmail, companyName: filteruser.companyName }
-            })
+            // dispatch({
+            //     type: "ADDDATE",
+            //     payload: { currDate: currDate, currTime: currTime, currDay: currDay, status: 'Present', email: UserEmail, companyName: filteruser.companyName }
+            // })
             axios.post('http://localhost:4000/api/addattendance', newObj)
                 .then((res) => {
                     // console.log('running', res)
@@ -248,6 +280,7 @@ function Student() {
                     console.log('Error====>', err)
                 })
         }
+
     }
 
 
@@ -273,7 +306,6 @@ function Student() {
             </div>
             <div>
                 <div className='StudentName-div'>
-                    <p>Attendance</p>
                     <p><i>{UserEmail}</i> (you-logged-in)</p>
                 </div>
                 <div className='StudentPageBtn-div'>
@@ -295,6 +327,8 @@ function Student() {
                 <div className='addAttBtn-div'>
                     <Button onClick={() => { AddDate() }}>Add Attendance</Button>
                 </div>
+                <h3 className='homeheading'>Your Attendance</h3>
+
                 <AllStudentTable AllStudents={C_Date} UserEmail={UserEmail} />
             </div>
         </div>

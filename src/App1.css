@@ -287,6 +287,11 @@ td>input {
 }
 
 /* Home */
+.homeheading {
+  text-align: center;
+  font-weight: normal;
+}
+
 .HomePageBtn-div {
   display: flex;
   justify-content: right;

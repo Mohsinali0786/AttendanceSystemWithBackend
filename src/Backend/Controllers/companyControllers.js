@@ -2,7 +2,7 @@ const Company = require('../Model/companyModel')
 
 const registerCompany = async (req, res) => {
     try {
-        console.log(req.body)
+        // console.log(req.body)
 
         const { companyName, contactNo, address, email, password, type, userRole } = req.body
 
@@ -61,7 +61,7 @@ const registerCompany = async (req, res) => {
 
 }
 const authCompany = async (req, res) => {
-    console.log(req.body)
+    // console.log(req.body)
     const { email, password } = req.body
 
     // const EmailExist=await Company.findOne({email})
@@ -84,7 +84,7 @@ const authCompany = async (req, res) => {
 
 const getCompany = async (req, res) => {
     const AllCompanies = await Company.find({})
-    console.log('AllComapnies', AllCompanies)
+    // console.log('AllComapnies', AllCompanies)
 
     if (AllCompanies) {
         // res.json(AllCompanies)

@@ -8,13 +8,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import SideDrawer from '../Componenet/sideDrawer'
 import LogoutIcon from '@mui/icons-material/Logout';
-
-import LottieControl from '../Componenet/lottie'
-// const Company = require('../Backend/Model/companyModel')
-
-
-
-
+import axios from 'axios';
 function Home() {
     const [AllAttendance, setAllAttendance] = useState()
     const [UserEmail, setUserEmail] = useState()
@@ -45,10 +39,22 @@ function Home() {
         setUserEmail(mystate?.LoginUser?.LoginUser?.email)
         CheckAdminOrUser()
     })
-    // useEffect(() => {
-    //     let DataFromLS = JSON.parse(localStorage.getItem("Attedance"))
-    //     setAllAttendance(DataFromLS)
-    // }, [])
+    useEffect(() => {
+        axios.get('http://localhost:4000/api/getattendance')
+            .then((res) => {
+                // console.log(res.data?.status)
+                console.log(res.data.AllAttendance, "=res=")
+                setAllAttendance(res.data.AllAttendance)
+                dispatch({
+                    type: "ADDDATE",
+                    payload: res.data.AllAttendance,
+                })
+
+            }).catch((err) => {
+                console.log('Error====>', err)
+            })
+
+    }, [])
     useEffect(() => {
         if (!IsLoggedIn) {
             Navigate('/')
@@ -108,11 +114,13 @@ function Home() {
                             :
                             ""
                 }
+
             </div>
+            <h3 class='homeheading'>All User Attendance</h3>
+            <AllStudentTable AllStudents={mystate.Attendance} />
             {
                 // !NavStudent ?
 
-                <AllStudentTable AllStudents={mystate.Attendance} />
                 // :
                 // <>
                 //     <Students />

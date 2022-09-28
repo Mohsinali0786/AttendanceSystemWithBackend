@@ -1,13 +1,15 @@
 const Attendance = require('../Model/attendanceModel')
 
 const addAttendance = async (req, res) => {
-    console.log('req.body in attendance', req.body)
+    // console.log('req.body in attendance', req.body)
     try {
         const { currDate, currTime, currDay, status, email, companyName } = req.body
-        const IsAttendanceExist = await Attendance.findOne({ email })
+        const IsAttendanceExist = await Attendance.findOne({ email, companyName })
+        console.log('req.body in attendance', IsAttendanceExist)
+
         if (IsAttendanceExist) {
             // res.status(400)
-            res.send({ status: 'error', message: 'Your attendance is already in our database please try tomorrow' })
+            res.send({ status: 'error', message: 'Sorry you already marked your attendance for today please try tomorrow' })
             // throw new Error('Company Already Exist')
         }
         else {
@@ -43,7 +45,7 @@ const addAttendance = async (req, res) => {
 const getAllAttendance = async (req, res) => {
 
     const AllAttendance = await Attendance.find({})
-    console.log('AllAttendance', AllAttendance)
+    // console.log('AllAttendance', AllAttendance)
     if (AllAttendance) {
         res.send({ status: 'Success', AllAttendance })
     }
