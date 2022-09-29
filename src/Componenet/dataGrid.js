@@ -6,17 +6,37 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import BasicSelect from './basicMenu'
 import { deleteData, editData } from '../store/actions/index'
-
+import LottieControl from '../Componenet/lottie'
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 
 export default function MyDataGrid() {
-
     const [deleteBtnClicked, setDeleteBtnClicked] = useState(false)
     const [editBtnClicked, setEditBtnClicked] = useState(false)
     const [role, setRole] = useState('')
     const dispatch = useDispatch()
+    const wholestate = useSelector((state) => state.AllUsers)
+
+    const mystate = useSelector((state) => state.AllUsers.Users)
+    console.log('wholestate in datagrid', mystate)
+    const currLoginUser = wholestate.LoginUser?.LoginUser
+    // console.log('wholestate in datagrid', currLoginUser)
 
 
+    let filteruser;
+    let filterCompany
+    let CompanyName;
+    if (currLoginUser?.type !== 'company') {
+        // console.log('iffffffffffffffffff')
+        filteruser = wholestate.Users?.find((v) => v.email === currLoginUser?.email)
+        CompanyName = filteruser?.CompanyName
+        filterCompany = wholestate.Company?.find((v) => v.CompanyName === CompanyName)
+    }
+    else {
+        filterCompany = wholestate?.Company?.find((v) => v.email === currLoginUser.email)
+        // console.log('filterCompany in datagrid', filterCompany)
+    }
     const columns = [
         { field: 'id', headerName: 'ID', width: 90 },
         {
@@ -37,7 +57,6 @@ export default function MyDataGrid() {
             type: 'email',
             width: 170,
             editable: true,
-            // flex: 1,
         },
         {
             field: "role",
@@ -46,9 +65,11 @@ export default function MyDataGrid() {
             type: 'role',
             editable: true,
             // flex: 1,
+
             renderCell: (cellValues) => {
+                const filter = mystate.find((v) => v.email === cellValues.row.email)
                 return (
-                    <BasicSelect role={role} changeRole={setRole} />
+                    <BasicSelect option={filter?.userRole} role={role} changeRole={setRole} />
                 );
             }
         },
@@ -56,6 +77,8 @@ export default function MyDataGrid() {
             field: "Edit",
             width: 120,
             // flex: 1,
+            editable: true,
+
             renderCell: (cellValues) => {
                 return (
                     <Button
@@ -80,7 +103,8 @@ export default function MyDataGrid() {
                         color="primary"
                         className='EditDelBtn'
                         onClick={(event) => {
-                            dispatch(deleteData(event, cellValues));
+                            // dispatch(deleteData(cellValues, role));
+                            deleteUser(cellValues, role)
                         }}
                     >
                         Delete
@@ -93,25 +117,42 @@ export default function MyDataGrid() {
     ];
 
     useEffect(() => {
+        axios.get('http://localhost:4000/api/getusers')
+            .then((res) => {
+                // console.log(res.data?.status)
+                console.log(res.data.AllUsers, "=res=")
+                // setAllUsers(res.data.AllUsers)
+                dispatch({
+                    type: "DELETE",
+                    payload: res.data.AllUsers
+                })
+
+            }).catch((err) => {
+                console.log('Error====>', err)
+            })
+
 
         setDeleteBtnClicked(false)
 
 
     }, [deleteBtnClicked === true])
 
-
-
-
     let rows = [];
 
-    const mystate = useSelector((state) => state.AllUsers.Users)
-    console.log('State UPDATED====>', mystate)
-
     mystate.map((user, id) => {
-        rows.push(
-            { id: user.id, firstName: user.FirstName, lastName: user.LastName, email: user.Email, key: id }
+        // console.log('userEmail', user.Email)
+        // console.log('currLoginUser.Email', currLoginUser.Email)
+        if (user.type !== 'company') {
+            if (user.companyName === filterCompany?.companyName) {
+                if (!user?.isDeleted) {
+                    rows.push(
+                        { id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email, key: id }
 
-        )
+                    )
+                }
+            }
+
+        }
     })
     // const deleteData = (v) => {
     // setDeleteBtnClicked(true)
@@ -149,24 +190,59 @@ export default function MyDataGrid() {
     //     console.log('Updated State ', mystate)
     // }
 
-    console.log('Role====>', role)
+    // console.log('Role====>', role)
 
+    const deleteUser = (cellValues, role) => {
+        setDeleteBtnClicked(true)
+
+        // dispatch(deleteData(cellValues, role));
+
+        axios.delete(`http://localhost:4000/api/deleteusers/${cellValues.id}`).then((res) => {
+            console.log('Delete Res===>', res)
+            if (res.data.status === 'success') {
+                dispatch({
+                    type: "DELETE",
+                    payload: res.data.AllUsers
+                })
+                Swal.fire({
+                    icon: res.data.status,
+                    text: res.data.message,
+                })
+            }
+            else {
+                Swal.fire({
+                    icon: res.data.status,
+                    text: res.data.message,
+                })
+            }
+        }).catch((err) => {
+            console.log('err', err)
+        })
+
+
+    }
     const handleGetRowId = (e) => {
-        // console.log('handleGetRowId===>', e)
+        console.log('handleGetRowId===>', e)
         return e.id
     }
     return (
+        // <></>
+
         <Box sx={{ height: 400, width: '100%' }}>
-            <DataGrid
-                rows={rows}
-                getRowId={handleGetRowId}
-                columns={columns}
-                pageSize={5}
-                rowsPerPageOptions={[5]}
-                checkboxSelection
-                disableSelectionOnClick
-                experimentalFeatures={{ newEditingApi: true }}
-            />
+            {
+                rows.length !== 0 ?
+                    <DataGrid
+                        rows={rows}
+                        getRowId={handleGetRowId}
+                        columns={columns}
+                        pageSize={5}
+                        rowsPerPageOptions={[5]}
+                        checkboxSelection
+                        disableSelectionOnClick
+                        experimentalFeatures={{ newEditingApi: true }}
+                    /> :
+                    <LottieControl />
+            }
         </Box>
     );
 }

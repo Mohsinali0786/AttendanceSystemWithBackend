@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import './App.css';
+import './App1.css';
 import  AppRouter from './config/route'
 
 // import MainPage from './Componenet/MainPage';

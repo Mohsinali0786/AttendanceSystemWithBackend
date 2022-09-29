@@ -1,9 +1,14 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import MainPage from '../Componenet/MainPage'
-import SignUpForm from '../Componenet/SignUpForm'
-import AdminPage from '../Componenet/adminPage'
-import Student from '../Componenet/Student'
-import Home from '../Componenet/Home'
+import MainPage from '../Componenet/SignInComponent'
+import SignUpForm from '../Screen/SignUpForm'
+import AdminPage from '../Screen/adminPage'
+import Student from '../Screen/Student'
+import Home from '../Screen/Home'
+import CompanySignUpForm from '../Screen/CompanySignUp'
+import CompanyProfile from '../Screen/companyProfile'
+import UserProfile from '../Screen/userProfile'
+
+
 // import {
 //     SignInForm,
 //     SignUpForm,
@@ -37,6 +42,12 @@ function AppRouter() {
                 <Route path='/adminPage' element={<AdminPage />} />
                 <Route path='/student' element={<Student />} />
                 <Route path='/home' element={<Home />} />
+                <Route path='/comapanysignup' element={<CompanySignUpForm />} />
+                <Route path='/profile' element={<CompanyProfile />} />
+                <Route path='/userprofile' element={<UserProfile />} />
+
+
+
 
 
             </Routes>

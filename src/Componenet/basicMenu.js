@@ -3,19 +3,17 @@ import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
-// import { useCallback } from 'react'
+import { useSelector } from 'react-redux';
+export default function NativeSelectDemo({ role, changeRole, option }) {
 
-export default function NativeSelectDemo({ role, changeRole }) {
-
+    console.log('Options')
+    const mystate = useSelector((state) => state.AllUsers)
     const handleInputChange = (event) => {
-        // console.log('running')
         changeRole(event.target.value)
     }
-    // console.log('changeRole', changeRole.)
     return (
         <Box sx={{ minWidth: 20 }}>
             <FormControl >
-
                 <NativeSelect
                     defaultValue={role}
                     inputProps={{
@@ -24,8 +22,13 @@ export default function NativeSelectDemo({ role, changeRole }) {
                     }}
                     onChange={handleInputChange}
                 >
-                    <option value='admin'>Admin</option>
-                    <option value='user'>User</option>
+                    <option value={option}>{option}</option>
+                    {
+                        option !== 'admin' ?
+                            <option value='admin'>admin</option>
+                            :
+                            <option value='user'>user</option>
+                    }
                 </NativeSelect>
             </FormControl>
         </Box>

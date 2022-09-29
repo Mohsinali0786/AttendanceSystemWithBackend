@@ -70,6 +70,31 @@
   color: black;
 }
 
+.sideGradient p {
+  padding: 20px;
+}
+
+.CompanyLogin-btn,
+.UserLogin-btn {
+  border: 1px solid white !important;
+  /* background-color: white !important; */
+  color: white !important;
+  border-radius: 4px;
+  width: 25% !important;
+
+}
+
+.User-Company-btn-div {
+  background: #3aaca4;
+  background: linear-gradient(270deg, rgba(57, 168, 171, 1) 0%, rgba(57, 177, 155, 1), rgba(72, 179, 168, 1));
+  display: flex;
+  justify-content: space-evenly;
+  padding: 15px;
+  width: 100%;
+  margin-top: -5px;
+
+}
+
 
 @media screen and (max-width: 1300px) {
   #signUp-mobile {
@@ -262,6 +287,11 @@ td>input {
 }
 
 /* Home */
+.homeheading {
+  text-align: center;
+  font-weight: normal;
+}
+
 .HomePageBtn-div {
   display: flex;
   justify-content: right;
@@ -272,4 +302,22 @@ td>input {
   border: 1px solid black !important;
   color: rgb(131 181 166) !important;
   margin: 20px 10px;
+}
+
+
+
+/* # Company Profile */
+
+
+.Editform-company-prof {
+  width: 100%;
+  /* margin-left: 15%; */
+  border: 3px solid rgb(131 181 166);
+  border-radius: 25px;
+  margin: 30px;
+  text-align: center;
+}
+
+.UserProfile {
+  text-align: center;
 }
