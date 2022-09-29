@@ -30,14 +30,14 @@ export const signOut = (IsLoggedIn) => async (dispatch) => {
     })
 }
 
-export const deleteData = (cell, role) => async (dispatch, getState) => {
-    console.log('cell in deletedata function', cell)
-    dispatch({
-        type: 'DELETE',
-        payload: { userRole: role, id: cell.row.id, isDeleted: true },
-    })
-    localStorage.setItem('Users', JSON.stringify(getState()))
-}
+// export const deleteData = (cell, role) => async (dispatch, getState) => {
+//     console.log('cell in deletedata function', cell)
+//     dispatch({
+//         type: 'DELETE',
+//         payload: { userRole: role, id: cell.row.id, isDeleted: true },
+//     })
+//     // localStorage.setItem('Users', JSON.stringify(getState()))
+// }
 export const editData = (cell, role) => async (dispatch, getState) => {
     console.log('Cell=====>', role)
     dispatch({
@@ -45,7 +45,7 @@ export const editData = (cell, role) => async (dispatch, getState) => {
         payload: { userRole: role, id: cell.row.id, Email: cell.row.email },
 
     })
-    localStorage.setItem('Users', JSON.stringify(getState()))
+    //     localStorage.setItem('Users', JSON.stringify(getState()))
 }
 export const editCompanyData = (data) => async (dispatch, getState) => {
     console.log('Updated Data=====>', data)

@@ -13,13 +13,13 @@ const initialState = {
 }
 const AllUsers = (state = initialState, action) => {
     switch (action.type) {
-        case "REGISTER":
-            console.log('Action .payload====>', action.payload)
+        // case "REGISTER":
+        //     console.log('Action .payload====>', action.payload)
 
-            return {
-                ...state,
-                Users: [...state.Users, action.payload],
-            }
+        //     return {
+        //         ...state,
+        //         Users: [...state.Users, action.payload],
+        //     }
         case "REGISTERCOMPANY":
 
             console.log('REGISTERCOMPANY')

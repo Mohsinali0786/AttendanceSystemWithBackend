@@ -1,15 +1,38 @@
 const User = require('../Model/userModel')
+const bcrypt = require('bcryptjs')
+
 
 const registerUser = async (req, res) => {
     try {
         console.log('req.body for users', req.body)
 
-        const { firstName, lastName, email, password, companyName, type, userRole, } = req.body
+        const { firstName, lastName, email, password, companyName, type, userRole, isDeleted } = req.body
+        
         const UserExist = await User.findOne({ email, companyName })
         console.log('UserExist=====>', UserExist)
 
         if (UserExist) {
-            res.send({ status: 'error', message: 'This User is already registered' })
+            if (UserExist.isDeleted === false) {
+                res.send({ status: 'error', message: 'This User is already registered' })
+            }
+            else {
+                console.log('UserExist.id', UserExist.id)
+                await User.deleteOne(UserExist)
+                await User.create({
+                    firstName,
+                    lastName,
+                    email,
+                    password,
+                    companyName,
+                    type,
+                    userRole,
+                    isDeleted: false
+                }).then(() => {
+                    res.send({ status: 'success', message: 'Congratulations You added your user successfully' })
+                }).catch((err) => {
+
+                })
+            }
         }
         else {
             res.send({ status: 'success', message: 'Congratulations You added your user successfully' })
@@ -22,6 +45,7 @@ const registerUser = async (req, res) => {
                 companyName,
                 type,
                 userRole,
+                isDeleted,
             });
 
             if (myUser) {
@@ -44,7 +68,7 @@ const authUser = async (req, res) => {
     // console.log('-------------------', req.body)
     const { company, email, password } = req.body
 
-    const userExist = await User.findOne({ email, company })
+    const userExist = await User.findOne({ email, company, isDeleted: false })
     console.log('UserExist=====>', userExist)
 
 
@@ -82,16 +106,16 @@ const getAllUsers = async (req, res) => {
 }
 
 const deleteUser = async (req, res) => {
-
-    console.log('deleted inn', req.params)
-
     try {
-        const deleted = await User.findById(req.params.id)
-        console.log('===>', deleted)
-
+        const AllUsers = await User.find({})
+        await User.findByIdAndUpdate(req.params.id, {
+            isDeleted: true
+        })
         res.send({
             status: 'success',
-            message: 'Your data deleted successfully'
+            message: 'Your data deleted successfully',
+            AllUsers,
+
         })
     }
     catch (err) {
@@ -104,4 +128,35 @@ const deleteUser = async (req, res) => {
     }
 
 }
-module.exports = { registerUser, authUser, getAllUsers, deleteUser }
+
+const updateUser = async (req, res) => {
+
+    console.log('Updated Data', req.body)
+    const { firstName, lastName, email, password } = req.body
+
+    console.log('Updated Id ', req.params.id)
+    try {
+        const AllUsers = await User.find({})
+        await User.findByIdAndUpdate(req.params.id, {
+            firstName,
+            lastName,
+            email,
+            password,
+        })
+        res.send({
+            status: 'success',
+            message: 'Your data Updated successfully',
+            AllUsers,
+        })
+
+    }
+    catch (err) {
+        console.log('errr===>', err)
+        res.send({
+            status: 'error',
+            message: 'Error found'
+        })
+    }
+
+}
+module.exports = { registerUser, authUser, getAllUsers, deleteUser, updateUser }

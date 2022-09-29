@@ -195,11 +195,15 @@ export default function MyDataGrid() {
     const deleteUser = (cellValues, role) => {
         setDeleteBtnClicked(true)
 
-        dispatch(deleteData(cellValues, role));
+        // dispatch(deleteData(cellValues, role));
 
         axios.delete(`http://localhost:4000/api/deleteusers/${cellValues.id}`).then((res) => {
             console.log('Delete Res===>', res)
             if (res.data.status === 'success') {
+                dispatch({
+                    type: "DELETE",
+                    payload: res.data.AllUsers
+                })
                 Swal.fire({
                     icon: res.data.status,
                     text: res.data.message,

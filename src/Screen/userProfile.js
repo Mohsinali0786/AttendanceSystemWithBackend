@@ -9,32 +9,37 @@ import { Sign_Up, editUserData } from '../store/actions/index'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2';
 import { EyeInvisibleTwoTone } from '@ant-design/icons'
+import axios from 'axios';
 function UserProfile() {
 
-    let dataFromLS = JSON.parse(localStorage.getItem('Users'))
-    dataFromLS = dataFromLS.AllUsers.Company
-    const [FirstName, setFirstName] = useState('')
-    const [LastName, setLastName] = useState('')
-    const [Address, setAddress] = useState('')
-    const [Email, setEmail] = useState('')
-    const [Password, setPassword] = useState('')
+    // let dataFromLS = JSON.parse(localStorage.getItem('Users'))
+    // dataFromLS = dataFromLS.AllUsers.Company
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [address, setAddress] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
     const [passwordShown, setPasswordShown] = useState(false);
     const [isEdit, setIsEdit] = useState(false)
     const [isUpdate, setIsUpdate] = useState(false)
     const Navigate = useNavigate()
     const mystate = useSelector((state) => state)
-    const currLoginUser = mystate?.AllUsers.LoginUser?.Email
-    const filterdata = mystate?.AllUsers?.Users.find((v) => v.Email === currLoginUser)
+    const currLoginUser = mystate?.AllUsers.LoginUser?.LoginUser?.email
+    console.log('currLoginUser in UserProf===>', currLoginUser)
+    const filterdata = mystate?.AllUsers?.Users.find((v) => v.email === currLoginUser)
+    console.log('filterdata in UserProf===>', filterdata._id)
+
     const dispatch = useDispatch()
     let data = {
-        id: filterdata?.id,
-        FirstName,
-        LastName,
-        Address,
-        Email,
-        Password,
+        id: filterdata?._id,
+        firstName,
+        lastName,
+        address,
+        email,
+        password,
         type: 'user',
-        userRole: filterdata?.userRole
+        userRole: filterdata?.userRole,
+        isDeleted: false
 
     }
 
@@ -48,32 +53,42 @@ function UserProfile() {
     }
 
     const checkEmailIsValid = () => {
-        if (localStorage.getItem('Users') !== null) {
+        console.log('updated running', email)
 
-            var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2, 3})+$/;
-            if (mailformat.test(Email)) {
-                let IsEmailExist = IsEmailPresent()
-                if (IsEmailExist) {
 
+        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        console.log('updated running', mailformat.test(email))
+        if (mailformat.test(email)) {
+            axios.put(`http://localhost:4000/api/editusers/${filterdata._id}`, data).then((res) => {
+                console.log('Edit Res===>', res)
+                if (res.data.status === 'success') {
+                    // dispatch({
+                    //     type: "EDIT",
+                    //     payload: res.data.AllUsers
+                    // })
+                    Swal.fire({
+                        icon: res.data.status,
+                        text: res.data.message,
+                    })
                 }
                 else {
-                    dispatch(editUserData(data))
-
+                    Swal.fire({
+                        icon: res.data.status,
+                        text: res.data.message,
+                    })
                 }
-            }
+            }).catch((err) => {
+                console.log('err', err)
+            })
+
+
+
         }
-        dispatch(editUserData(data))
+
+        // dispatch(editUserData(data))
 
     }
-    function IsEmailPresent() {
-        if (localStorage.getItem('Users') !== null) {
 
-            let UserFromLS = JSON.parse(localStorage.getItem('Users'))
-            let MyUserFromLS = UserFromLS.AllUsers.Users
-            let IsEmailExist = MyUserFromLS.find((email) => email.Email === Email)
-            return IsEmailExist
-        }
-    }
     const togglePassword = () => {
         setPasswordShown(!passwordShown);
     }
@@ -97,15 +112,15 @@ function UserProfile() {
                                         {
                                             !isEdit && isUpdate ?
                                                 <>
-                                                    <input name='FirstName' required value={FirstName} placeholder='FirstName' />
+                                                    <input name='firstName' required value={firstName} placeholder='FirstName' />
                                                 </> :
 
                                                 !isEdit ?
                                                     <>
-                                                        <input name='FirstName' required value={filterdata?.FirstName} placeholder='FirstName' />
+                                                        <input name='firstName' required value={filterdata?.firstName} placeholder='FirstName' />
                                                     </> :
                                                     <>
-                                                        <input name='FirstName' required value={FirstName} onChange={(e) => setFirstName(e.target.value)} placeholder='FirstName' />
+                                                        <input name='firstName' required value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder='FirstName' />
                                                     </>
                                         }
                                     </td>
@@ -118,36 +133,36 @@ function UserProfile() {
                                         {
                                             !isEdit && isUpdate ?
                                                 <>
-                                                    <input name='LastName' required value={LastName} placeholder='LastName' />
+                                                    <input name='lastName' required value={lastName} placeholder='LastName' />
                                                 </> :
 
                                                 !isEdit ?
                                                     <>
-                                                        <input name='LastName' required value={filterdata?.LastName} placeholder='LastName' />
+                                                        <input name='lastName' required value={filterdata?.lastName} placeholder='LastName' />
                                                     </> :
                                                     <>
-                                                        <input name='LastName' required value={LastName} onChange={(e) => setLastName(e.target.value)} placeholder='LastName' />
+                                                        <input name='lastName' required value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder='LastName' />
                                                     </>
                                         }
                                     </td>
                                 </tr>
                                 <tr>
-                                    <p style={{ textAlign: 'left' }}>Address</p>
+                                    <p style={{ textAlign: 'left' }}>Email</p>
 
                                     <td className='iconswithinputs'>
                                         <EmailIcon className='icons' />
                                         {
                                             !isEdit && isUpdate ?
                                                 <>
-                                                    <input name='Email' required value={Email} placeholder='Email' />
+                                                    <input name='email' required value={email} placeholder='Email' />
                                                 </> :
 
                                                 !isEdit ?
                                                     <>
-                                                        <input name='Email' required value={filterdata?.Email} placeholder='Email' />
+                                                        <input name='email' required value={filterdata?.email} placeholder='Email' />
                                                     </> :
                                                     <>
-                                                        <input name='Email' required value={Email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
+                                                        <input name='email' required value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
                                                     </>
                                         }
                                     </td>
@@ -160,18 +175,18 @@ function UserProfile() {
                                         {
                                             !isEdit && isUpdate ?
                                                 <>
-                                                    <input name='Password' type={passwordShown ? "text" : "password"} value={Password} onChange={(e) => { setPassword(e.target.value) }} placeholder='Passoword' required />
+                                                    <input name='password' type={passwordShown ? "text" : "password"} value={password} onChange={(e) => { setPassword(e.target.value) }} placeholder='Passoword' required />
                                                     <EyeInvisibleTwoTone style={{ position: 'relative', left: '-20px' }} onClick={() => { togglePassword() }} className='VisibleIcon' />
 
                                                 </> :
 
                                                 !isEdit ?
                                                     <>
-                                                        <input name='Password' type={passwordShown ? "text" : "password"} required value={filterdata?.Password} onChange={(e) => { setPassword(e.target.value) }} placeholder='Password' />
+                                                        <input name='password' type={passwordShown ? "text" : "password"} required value={filterdata?.password} onChange={(e) => { setPassword(e.target.value) }} placeholder='Password' />
                                                         <EyeInvisibleTwoTone style={{ position: 'relative', left: '-20px' }} onClick={() => { togglePassword() }} className='VisibleIcon' />
                                                     </> :
                                                     <>
-                                                        <input name='Password' required value={Password} type={passwordShown ? "text" : "password"} onChange={(e) => setPassword(e.target.value)} placeholder='Address' />
+                                                        <input name='password' required value={password} type={passwordShown ? "text" : "password"} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
                                                         <EyeInvisibleTwoTone style={{ position: 'relative', left: '-20px' }} onClick={() => { togglePassword() }} className='VisibleIcon' />
                                                     </>
                                         }

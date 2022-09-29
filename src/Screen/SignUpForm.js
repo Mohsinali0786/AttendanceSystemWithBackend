@@ -4,7 +4,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import formimg from '../Assets/Images/draw1.png'
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from "react-redux"
 import { Sign_Up } from '../store/actions/index'
 import { useNavigate } from 'react-router-dom'
@@ -39,7 +39,10 @@ function SignUpForm() {
         currentLoginCompany: filterdata,
         userRole: 'user',
         type: 'user',
+        isDeleted: false
     }
+
+   
     const checkEmailIsValid = () => {
         // if (localStorage.getItem('Users') !== null) {
         var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
